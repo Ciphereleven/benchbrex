@@ -2107,43 +2107,46 @@ async function formSubmit(){
     extra:document.getElementById('f-extra').value.trim(),
   };
   btn.style.display='none';loading.style.display='block';err.style.display='none';
+
+  // 1. Try Supabase — but don't stop if it fails
   try{
-    // 1. Save to Supabase
-    if(CFG.SUPABASE_URL!=='YOUR_SUPABASE_PROJECT_URL'){
-      const res=await fetch(`${CFG.SUPABASE_URL}/rest/v1/leads`,{
-        method:'POST',
-        headers:{'apikey':CFG.SUPABASE_KEY,'Authorization':`Bearer ${CFG.SUPABASE_KEY}`,'Content-Type':'application/json','Prefer':'return=minimal'},
-        body:JSON.stringify(data)
-      });
-      if(!res.ok)throw new Error(`Supabase HTTP ${res.status}`);
-    }
-    // 2. Send email notification via EmailJS
-    if(CFG.EMAILJS_SERVICE_ID!=='YOUR_SERVICE_ID'){
-      await emailjs.send(CFG.EMAILJS_SERVICE_ID, CFG.EMAILJS_TEMPLATE_ID, {
-        to_email:      'contact@benchbrex.com',
-        from_name:     `${data.first_name} ${data.last_name}`,
-        from_email:    data.email,
-        company:       data.company,
-        job_title:     data.job_title,
-        company_size:  data.company_size,
-        service:       data.service,
-        jurisdiction:  data.jurisdiction,
-        timeline:      data.timeline,
-        budget:        data.budget,
-        source:        data.source,
-        nda_required:  data.nda_required ? 'Yes' : 'No',
-        notes:         data.notes || '—',
-        extra:         data.extra || '—',
-        submitted_at:  new Date().toLocaleString('en-GB',{timeZone:'UTC'}) + ' UTC',
-      }, CFG.EMAILJS_PUBLIC_KEY);
-    }
+    await fetch(`${CFG.SUPABASE_URL}/rest/v1/leads`,{
+      method:'POST',
+      headers:{'apikey':CFG.SUPABASE_KEY,'Authorization':`Bearer ${CFG.SUPABASE_KEY}`,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify(data)
+    });
+  }catch(e){
+    console.warn('Supabase save failed (non-fatal):', e);
+  }
+
+  // 2. Send email via EmailJS — this is the critical one
+  try{
+    await emailjs.send(CFG.EMAILJS_SERVICE_ID, CFG.EMAILJS_TEMPLATE_ID, {
+      to_email:      'contact@benchbrex.com',
+      from_name:     `${data.first_name} ${data.last_name}`,
+      from_email:    data.email,
+      company:       data.company,
+      job_title:     data.job_title,
+      company_size:  data.company_size,
+      service:       data.service,
+      jurisdiction:  data.jurisdiction,
+      timeline:      data.timeline,
+      budget:        data.budget,
+      source:        data.source,
+      nda_required:  data.nda_required ? 'Yes' : 'No',
+      notes:         data.notes || '—',
+      extra:         data.extra || '—',
+      submitted_at:  new Date().toLocaleString('en-GB',{timeZone:'UTC'}) + ' UTC',
+    }, CFG.EMAILJS_PUBLIC_KEY);
+
     // 3. Show success
     document.querySelectorAll('.fstep').forEach(s=>s.classList.remove('active'));
     document.getElementById('fstep-success').classList.add('active');
+
   }catch(e){
     loading.style.display='none';btn.style.display='block';
-    err.style.display='block';err.textContent='Submission failed. Please email us directly at contact@benchbrex.com';
-    console.error('Submission error:',e);
+    err.style.display='block';err.textContent='Email delivery failed. Please contact us directly at contact@benchbrex.com';
+    console.error('EmailJS error:', e);
   }
 }
 </script>
