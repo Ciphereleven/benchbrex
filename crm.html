@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benchbrex CRM — Internal</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080808;--bg2:#0d0d0d;--bg3:#111;--bg4:#161616;
+  --fg:#f0f0f0;--fg2:#aaa;--fg3:#666;--fg4:#333;
+  --rule:#222;--accent:#f0f0f0;
+  --green:#2ecc71;--yellow:#f1c40f;--red:#e74c3c;--blue:#3498db;
+}
+body{font-family:'IBM Plex Mono',monospace;background:var(--bg);color:var(--fg);min-height:100vh;font-size:13px}
+
+/* ── LOGIN ── */
+#login-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000}
+.login-box{width:360px;border:1px solid var(--rule);background:var(--bg2);padding:40px}
+.login-logo{font-size:16px;font-weight:700;letter-spacing:.14em;margin-bottom:4px}
+.login-sub{font-size:10px;color:var(--fg3);letter-spacing:.1em;margin-bottom:32px}
+.login-label{font-size:9px;letter-spacing:.16em;color:var(--fg3);text-transform:uppercase;margin-bottom:8px}
+.login-input{width:100%;background:var(--bg3);border:1px solid var(--rule);color:var(--fg);font-family:inherit;font-size:13px;padding:10px 12px;margin-bottom:16px;outline:none}
+.login-input:focus{border-color:var(--fg4)}
+.login-btn{width:100%;background:var(--fg);color:var(--bg);font-family:inherit;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:12px;border:none;cursor:pointer;margin-top:8px}
+.login-btn:hover{opacity:.88}
+.login-err{color:var(--red);font-size:11px;margin-top:12px;display:none}
+
+/* ── LAYOUT ── */
+#app{display:none;min-height:100vh}
+.topbar{border-bottom:1px solid var(--rule);padding:0 32px;height:52px;display:flex;align-items:center;justify-content:space-between;background:var(--bg2);position:sticky;top:0;z-index:100}
+.topbar-logo{font-size:13px;font-weight:700;letter-spacing:.12em}
+.topbar-right{display:flex;align-items:center;gap:20px}
+.topbar-user{font-size:10px;color:var(--fg3);letter-spacing:.08em}
+.logout-btn{font-size:9px;letter-spacing:.1em;color:var(--fg3);cursor:pointer;text-transform:uppercase;border:1px solid var(--rule);padding:4px 10px;background:none;font-family:inherit;color:var(--fg2)}
+.logout-btn:hover{border-color:var(--fg3)}
+
+/* ── STATS BAR ── */
+.stats-bar{padding:20px 32px;border-bottom:1px solid var(--rule);display:flex;gap:0;background:var(--bg2)}
+.stat{padding:0 28px 0 0;margin-right:28px;border-right:1px solid var(--rule)}
+.stat:last-child{border-right:none}
+.stat-val{font-size:28px;font-weight:700;letter-spacing:-0.03em;line-height:1}
+.stat-label{font-size:9px;letter-spacing:.14em;color:var(--fg3);text-transform:uppercase;margin-top:4px}
+.stat-val.green{color:var(--green)}
+.stat-val.yellow{color:var(--yellow)}
+.stat-val.red{color:var(--red)}
+
+/* ── CONTROLS ── */
+.controls{padding:16px 32px;border-bottom:1px solid var(--rule);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.search-box{flex:1;min-width:200px;background:var(--bg3);border:1px solid var(--rule);color:var(--fg);font-family:inherit;font-size:12px;padding:8px 12px;outline:none}
+.search-box:focus{border-color:var(--fg4)}
+.filter-select{background:var(--bg3);border:1px solid var(--rule);color:var(--fg2);font-family:inherit;font-size:11px;padding:8px 12px;outline:none;cursor:pointer}
+.refresh-btn{background:none;border:1px solid var(--rule);color:var(--fg2);font-family:inherit;font-size:10px;letter-spacing:.1em;padding:8px 16px;cursor:pointer;text-transform:uppercase}
+.refresh-btn:hover{border-color:var(--fg3);color:var(--fg)}
+.export-btn{background:var(--fg);color:var(--bg);font-family:inherit;font-size:10px;letter-spacing:.1em;padding:8px 16px;cursor:pointer;text-transform:uppercase;border:none;font-weight:700}
+
+/* ── TABLE ── */
+.table-wrap{padding:0 32px 32px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;margin-top:20px}
+th{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);padding:10px 12px;text-align:left;border-bottom:1px solid var(--rule);white-space:nowrap;cursor:pointer;user-select:none}
+th:hover{color:var(--fg2)}
+th.sort-asc::after{content:' ↑'}
+th.sort-desc::after{content:' ↓'}
+td{padding:12px 12px;border-bottom:1px solid var(--rule);vertical-align:top;font-size:12px;color:var(--fg2)}
+tr{cursor:pointer;transition:background .1s}
+tr:hover td{background:var(--bg3)}
+.td-name{font-weight:600;color:var(--fg);white-space:nowrap}
+.td-company{color:var(--fg)}
+.td-service{font-size:11px;color:var(--fg2)}
+.td-budget{font-weight:600;color:var(--fg);white-space:nowrap}
+.td-date{font-size:10px;color:var(--fg3);white-space:nowrap}
+.status-badge{display:inline-block;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;font-weight:600;border:1px solid}
+.status-new{color:var(--blue);border-color:var(--blue);background:rgba(52,152,219,.08)}
+.status-contacted{color:var(--yellow);border-color:var(--yellow);background:rgba(241,196,15,.08)}
+.status-in_progress{color:#e67e22;border-color:#e67e22;background:rgba(230,126,34,.08)}
+.status-closed_won{color:var(--green);border-color:var(--green);background:rgba(46,204,113,.08)}
+.status-closed_lost{color:var(--red);border-color:var(--red);background:rgba(231,76,60,.08)}
+.empty-state{padding:60px 32px;text-align:center;color:var(--fg3)}
+.empty-state-icon{font-size:32px;margin-bottom:16px}
+.loading-state{padding:60px 32px;text-align:center;color:var(--fg3)}
+
+/* ── LEAD DETAIL MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:500;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--rule);width:100%;max-width:720px;margin:auto}
+.modal-header{padding:20px 24px;border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3)}
+.modal-name{font-size:18px;font-weight:700;margin-top:3px}
+.modal-close{background:none;border:none;color:var(--fg3);font-size:20px;cursor:pointer;padding:4px;font-family:inherit}
+.modal-close:hover{color:var(--fg)}
+.modal-body{padding:24px}
+.modal-section{margin-bottom:24px}
+.modal-section-title{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--fg3);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal-field{padding:10px 0;border-bottom:1px solid var(--rule)}
+.modal-field-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg3);margin-bottom:4px}
+.modal-field-value{font-size:13px;color:var(--fg)}
+.modal-field-value.highlight{font-weight:700;color:var(--fg);font-size:15px}
+.status-select{background:var(--bg3);border:1px solid var(--rule);color:var(--fg);font-family:inherit;font-size:12px;padding:8px 12px;width:100%;outline:none;cursor:pointer;margin-bottom:12px}
+.notes-area{width:100%;background:var(--bg3);border:1px solid var(--rule);color:var(--fg);font-family:inherit;font-size:12px;padding:10px 12px;resize:vertical;min-height:80px;outline:none;margin-bottom:12px}
+.save-btn{background:var(--fg);color:var(--bg);font-family:inherit;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:10px 20px;border:none;cursor:pointer;width:100%}
+.save-btn:hover{opacity:.88}
+.save-btn:disabled{opacity:.4;cursor:not-allowed}
+.save-success{color:var(--green);font-size:11px;text-align:center;margin-top:8px;display:none}
+
+/* Quote block in modal */
+.quote-block{background:var(--bg3);border:1px solid var(--rule);padding:16px}
+.quote-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--rule);font-size:12px}
+.quote-row:last-child{border-bottom:none;padding-top:12px;font-size:14px;font-weight:700;color:var(--fg)}
+.quote-row span:last-child{color:var(--fg)}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">BENCHBREX LLC</div>
+    <div class="login-sub">// INTERNAL CRM · EMPLOYEES ONLY</div>
+    <div class="login-label">Password</div>
+    <input type="password" class="login-input" id="pwd-input" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">ACCESS CRM →</button>
+    <div class="login-err" id="login-err">Incorrect password. Try again.</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-logo">BENCHBREX LLC // CRM</div>
+    <div class="topbar-right">
+      <div class="topbar-user" id="session-time"></div>
+      <button class="logout-btn" onclick="doLogout()">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="stats-bar" id="stats-bar">
+    <div class="stat"><div class="stat-val" id="stat-total">—</div><div class="stat-label">Total Leads</div></div>
+    <div class="stat"><div class="stat-val green" id="stat-new">—</div><div class="stat-label">New</div></div>
+    <div class="stat"><div class="stat-val yellow" id="stat-active">—</div><div class="stat-label">In Progress</div></div>
+    <div class="stat"><div class="stat-val green" id="stat-won">—</div><div class="stat-label">Closed Won</div></div>
+    <div class="stat"><div class="stat-val red" id="stat-lost">—</div><div class="stat-label">Closed Lost</div></div>
+  </div>
+
+  <div class="controls">
+    <input class="search-box" id="search" placeholder="Search by name, company, email, service..." oninput="filterLeads()">
+    <select class="filter-select" id="status-filter" onchange="filterLeads()">
+      <option value="">All Statuses</option>
+      <option value="new">New</option>
+      <option value="contacted">Contacted</option>
+      <option value="in_progress">In Progress</option>
+      <option value="closed_won">Closed Won</option>
+      <option value="closed_lost">Closed Lost</option>
+    </select>
+    <select class="filter-select" id="service-filter" onchange="filterLeads()">
+      <option value="">All Services</option>
+    </select>
+    <button class="refresh-btn" onclick="loadLeads()">↻ Refresh</button>
+    <button class="export-btn" onclick="exportCSV()">↓ Export CSV</button>
+  </div>
+
+  <div class="table-wrap">
+    <div class="loading-state" id="loading-state">Loading leads...</div>
+    <div class="empty-state" id="empty-state" style="display:none">
+      <div class="empty-state-icon">◻</div>
+      <div>No leads found</div>
+    </div>
+    <table id="leads-table" style="display:none">
+      <thead>
+        <tr>
+          <th onclick="sortBy('created_at')">Date</th>
+          <th onclick="sortBy('first_name')">Name</th>
+          <th onclick="sortBy('company')">Company</th>
+          <th onclick="sortBy('service')">Service</th>
+          <th onclick="sortBy('budget')">Budget</th>
+          <th onclick="sortBy('jurisdiction')">Jurisdiction</th>
+          <th onclick="sortBy('status')">Status</th>
+        </tr>
+      </thead>
+      <tbody id="leads-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- LEAD DETAIL MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">// LEAD_DETAIL</div>
+        <div class="modal-name" id="modal-name">—</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Status & Notes -->
+      <div class="modal-section">
+        <div class="modal-section-title">Update Status</div>
+        <select class="status-select" id="modal-status">
+          <option value="new">New</option>
+          <option value="contacted">Contacted</option>
+          <option value="in_progress">In Progress</option>
+          <option value="closed_won">Closed Won ✓</option>
+          <option value="closed_lost">Closed Lost ✗</option>
+        </select>
+        <div class="modal-field-label" style="margin-bottom:6px">Internal Notes</div>
+        <textarea class="notes-area" id="modal-notes" placeholder="Add notes about this lead..."></textarea>
+        <button class="save-btn" id="save-btn" onclick="saveLead()">SAVE CHANGES</button>
+        <div class="save-success" id="save-success">✓ Saved successfully</div>
+      </div>
+
+      <!-- Contact -->
+      <div class="modal-section">
+        <div class="modal-section-title">Contact Details</div>
+        <div class="modal-grid">
+          <div class="modal-field"><div class="modal-field-label">Name</div><div class="modal-field-value" id="m-name">—</div></div>
+          <div class="modal-field"><div class="modal-field-label">Email</div><div class="modal-field-value" id="m-email">—</div></div>
+          <div class="modal-field"><div class="modal-field-label">Company</div><div class="modal-field-value" id="m-company">—</div></div>
+          <div class="modal-field"><div class="modal-field-label">Job Title</div><div class="modal-field-value" id="m-title">—</div></div>
+          <div class="modal-field"><div class="modal-field-label">Company Size</div><div class="modal-field-value" id="m-size">—</div></div>
+          <div class="modal-field"><div class="modal-field-label">Source</div><div class="modal-field-value" id="m-source">—</div></div>
+        </div>
+      </div>
+
+      <!-- Project -->
+      <div class="modal-section">
+        <div class="modal-section-title">Project Details</div>
+        <div class="modal-grid">
+          <div class="modal-field"><div class="modal-field-label">Service</div><div class="modal-field-value highlight" id="m-service">—</div></div>
+          <div class="modal-field"><div class="modal-field-label">Jurisdiction</div><div class="modal-field-value" id="m-jurisdiction">—</div></div>
+          <div class="modal-field"><div class="modal-field-label">Timeline</div><div class="modal-field-value" id="m-timeline">—</div></div>
+          <div class="modal-field"><div class="modal-field-label">Budget</div><div class="modal-field-value highlight" id="m-budget">—</div></div>
+          <div class="modal-field"><div class="modal-field-label">NDA Required</div><div class="modal-field-value" id="m-nda">—</div></div>
+          <div class="modal-field"><div class="modal-field-label">Submitted</div><div class="modal-field-value" id="m-date">—</div></div>
+        </div>
+      </div>
+
+      <!-- Quote -->
+      <div class="modal-section" id="m-quote-section" style="display:none">
+        <div class="modal-section-title">Pricing Calculator Quote</div>
+        <div class="quote-block" id="m-quote-rows"></div>
+      </div>
+
+      <!-- Notes -->
+      <div class="modal-section" id="m-notes-section" style="display:none">
+        <div class="modal-section-title">Client Notes</div>
+        <div class="modal-field-value" id="m-client-notes" style="line-height:1.8;color:var(--fg2)"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://zowbwgzslqxrqdpoimac.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_I7_Xi25VO1-xaDjpi7VDsA_l5938yBC';
+const PASSWORD = 'Parth@9712296210';
+
+let allLeads = [];
+let filteredLeads = [];
+let currentLead = null;
+let sortCol = 'created_at';
+let sortDir = 'desc';
+
+// ── AUTH ─────────────────────────────────────────────
+function doLogin() {
+  const val = document.getElementById('pwd-input').value;
+  if (val === PASSWORD) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    sessionStorage.setItem('crm_auth', '1');
+    loadLeads();
+    startSessionTimer();
+  } else {
+    document.getElementById('login-err').style.display = 'block';
+    document.getElementById('pwd-input').value = '';
+  }
+}
+
+function doLogout() {
+  sessionStorage.removeItem('crm_auth');
+  location.reload();
+}
+
+let sessionStart = Date.now();
+function startSessionTimer() {
+  setInterval(() => {
+    const mins = Math.floor((Date.now() - sessionStart) / 60000);
+    document.getElementById('session-time').textContent = `Session: ${mins}m`;
+  }, 30000);
+}
+
+// Auto-login if session exists
+if (sessionStorage.getItem('crm_auth')) {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  loadLeads();
+  startSessionTimer();
+}
+
+// ── DATA ─────────────────────────────────────────────
+async function loadLeads() {
+  document.getElementById('loading-state').style.display = 'block';
+  document.getElementById('leads-table').style.display = 'none';
+  document.getElementById('empty-state').style.display = 'none';
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/leads?select=*&order=created_at.desc&limit=500`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    });
+    const data = await res.json();
+    allLeads = Array.isArray(data) ? data : [];
+    updateStats();
+    updateServiceFilter();
+    filterLeads();
+  } catch(e) {
+    document.getElementById('loading-state').textContent = 'Error loading leads. Check Supabase connection.';
+  }
+}
+
+function updateStats() {
+  document.getElementById('stat-total').textContent = allLeads.length;
+  document.getElementById('stat-new').textContent = allLeads.filter(l => !l.status || l.status === 'new').length;
+  document.getElementById('stat-active').textContent = allLeads.filter(l => l.status === 'in_progress' || l.status === 'contacted').length;
+  document.getElementById('stat-won').textContent = allLeads.filter(l => l.status === 'closed_won').length;
+  document.getElementById('stat-lost').textContent = allLeads.filter(l => l.status === 'closed_lost').length;
+}
+
+function updateServiceFilter() {
+  const services = [...new Set(allLeads.map(l => l.service).filter(Boolean))].sort();
+  const sel = document.getElementById('service-filter');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">All Services</option>' + services.map(s => `<option value="${s}"${s===cur?' selected':''}>${s}</option>`).join('');
+}
+
+function filterLeads() {
+  const q = document.getElementById('search').value.toLowerCase();
+  const sf = document.getElementById('status-filter').value;
+  const svc = document.getElementById('service-filter').value;
+
+  filteredLeads = allLeads.filter(l => {
+    const matchQ = !q || [l.first_name,l.last_name,l.email,l.company,l.service,l.jurisdiction].some(v => v && v.toLowerCase().includes(q));
+    const matchS = !sf || (l.status || 'new') === sf;
+    const matchSvc = !svc || l.service === svc;
+    return matchQ && matchS && matchSvc;
+  });
+
+  sortLeads();
+  renderTable();
+}
+
+function sortBy(col) {
+  if (sortCol === col) sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+  else { sortCol = col; sortDir = 'asc'; }
+  sortLeads();
+  renderTable();
+}
+
+function sortLeads() {
+  filteredLeads.sort((a, b) => {
+    let va = a[sortCol] || '', vb = b[sortCol] || '';
+    if (sortDir === 'desc') [va, vb] = [vb, va];
+    return va < vb ? -1 : va > vb ? 1 : 0;
+  });
+}
+
+function renderTable() {
+  document.getElementById('loading-state').style.display = 'none';
+
+  if (!filteredLeads.length) {
+    document.getElementById('leads-table').style.display = 'none';
+    document.getElementById('empty-state').style.display = 'block';
+    return;
+  }
+
+  document.getElementById('empty-state').style.display = 'none';
+  document.getElementById('leads-table').style.display = 'table';
+
+  const status_label = { new:'New', contacted:'Contacted', in_progress:'In Progress', closed_won:'Closed Won', closed_lost:'Closed Lost' };
+
+  document.getElementById('leads-body').innerHTML = filteredLeads.map(l => {
+    const st = l.status || 'new';
+    const date = l.created_at ? new Date(l.created_at).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit'}) : '—';
+    return `<tr onclick="openLead('${l.id}')">
+      <td class="td-date">${date}</td>
+      <td class="td-name">${l.first_name||''} ${l.last_name||''}</td>
+      <td class="td-company">${l.company||'—'}</td>
+      <td class="td-service">${l.service||'—'}</td>
+      <td class="td-budget">${l.budget||'—'}</td>
+      <td style="font-size:11px">${l.jurisdiction||'—'}</td>
+      <td><span class="status-badge status-${st}">${status_label[st]||st}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// ── MODAL ─────────────────────────────────────────────
+function openLead(id) {
+  currentLead = allLeads.find(l => l.id === id);
+  if (!currentLead) return;
+  const l = currentLead;
+
+  document.getElementById('modal-name').textContent = `${l.first_name||''} ${l.last_name||''}`;
+  document.getElementById('modal-status').value = l.status || 'new';
+  document.getElementById('modal-notes').value = l.internal_notes || '';
+  document.getElementById('m-name').textContent = `${l.first_name||''} ${l.last_name||''}`;
+  document.getElementById('m-email').innerHTML = l.email ? `<a href="mailto:${l.email}" style="color:var(--fg)">${l.email}</a>` : '—';
+  document.getElementById('m-company').textContent = l.company || '—';
+  document.getElementById('m-title').textContent = l.job_title || '—';
+  document.getElementById('m-size').textContent = l.company_size || '—';
+  document.getElementById('m-source').textContent = l.source || '—';
+  document.getElementById('m-service').textContent = l.service || '—';
+  document.getElementById('m-jurisdiction').textContent = l.jurisdiction || '—';
+  document.getElementById('m-timeline').textContent = l.timeline || '—';
+  document.getElementById('m-budget').textContent = l.budget || '—';
+  document.getElementById('m-nda').textContent = l.nda_required ? '✓ Yes' : 'No';
+  document.getElementById('m-date').textContent = l.created_at ? new Date(l.created_at).toLocaleString('en-GB') : '—';
+
+  // Quote
+  let extra = {};
+  try { extra = typeof l.extra === 'string' ? JSON.parse(l.extra) : {}; } catch(e){}
+  const qSec = document.getElementById('m-quote-section');
+  if (l.quote_total && l.quote_total !== 'No services selected in calculator') {
+    qSec.style.display = 'block';
+    const rows = (l.quote_services || []).map(s => `<div class="quote-row"><span>${s.name}</span><span>${s.range}</span></div>`).join('');
+    document.getElementById('m-quote-rows').innerHTML = rows + `<div class="quote-row"><span>ESTIMATED TOTAL</span><span>${l.quote_total}</span></div>`;
+  } else {
+    qSec.style.display = 'none';
+  }
+
+  // Client notes
+  const noteSec = document.getElementById('m-notes-section');
+  if (l.notes) {
+    noteSec.style.display = 'block';
+    document.getElementById('m-client-notes').textContent = l.notes;
+  } else { noteSec.style.display = 'none'; }
+
+  document.getElementById('save-success').style.display = 'none';
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  currentLead = null;
+}
+
+async function saveLead() {
+  if (!currentLead) return;
+  const btn = document.getElementById('save-btn');
+  btn.disabled = true; btn.textContent = 'SAVING...';
+
+  const updates = {
+    status: document.getElementById('modal-status').value,
+    internal_notes: document.getElementById('modal-notes').value,
+  };
+
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/leads?id=eq.${currentLead.id}`, {
+      method: 'PATCH',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(updates)
+    });
+
+    // Update local data
+    Object.assign(currentLead, updates);
+    const idx = allLeads.findIndex(l => l.id === currentLead.id);
+    if (idx >= 0) allLeads[idx] = {...allLeads[idx], ...updates};
+    updateStats();
+    filterLeads();
+
+    document.getElementById('save-success').style.display = 'block';
+    btn.textContent = 'SAVE CHANGES';
+    btn.disabled = false;
+  } catch(e) {
+    btn.textContent = 'SAVE CHANGES';
+    btn.disabled = false;
+    alert('Save failed. Check connection.');
+  }
+}
+
+// ── EXPORT ─────────────────────────────────────────────
+function exportCSV() {
+  const headers = ['Date','First Name','Last Name','Email','Company','Job Title','Company Size','Service','Jurisdiction','Timeline','Budget','NDA','Source','Status','Notes'];
+  const rows = filteredLeads.map(l => [
+    l.created_at ? new Date(l.created_at).toLocaleDateString() : '',
+    l.first_name||'', l.last_name||'', l.email||'', l.company||'',
+    l.job_title||'', l.company_size||'', l.service||'', l.jurisdiction||'',
+    l.timeline||'', l.budget||'', l.nda_required?'Yes':'No', l.source||'',
+    l.status||'new', l.notes||''
+  ].map(v => `"${String(v).replace(/"/g,'""')}"`));
+
+  const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `benchbrex-leads-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+}
+
+// keyboard shortcuts
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+  if (e.key === '/' && !e.target.matches('input,textarea,select')) {
+    e.preventDefault();
+    document.getElementById('search').focus();
+  }
+});
+</script>
+</body>
+</html>
