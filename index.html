@@ -2133,28 +2133,25 @@ async function formSubmit(){
   };
   btn.style.display='none';loading.style.display='block';err.style.display='none';
 
-  // Fire Supabase in background — don't await, don't block
+  // Fire Supabase in background — never blocks
   fetch(`${CFG.SUPABASE_URL}/rest/v1/leads`,{
     method:'POST',
     headers:{'apikey':CFG.SUPABASE_KEY,'Authorization':`Bearer ${CFG.SUPABASE_KEY}`,'Content-Type':'application/json','Prefer':'return=minimal'},
     body:JSON.stringify(data)
-  }).catch(e=>console.warn('Supabase (background):', e));
+  }).catch(e=>console.warn('Supabase:', e));
 
-  // Send email via Resend — only awaited call
-  try{
-    const res = await fetch('/api/send-email', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-    if(!res.ok) throw new Error(`Email API ${res.status}`);
+  // Fire email in background — never blocks, never shows error to user
+  fetch('/api/send-email',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(data)
+  }).catch(e=>console.warn('Email:', e));
+
+  // Always show success immediately — no waiting
+  setTimeout(()=>{
     document.querySelectorAll('.fstep').forEach(s=>s.classList.remove('active'));
     document.getElementById('fstep-success').classList.add('active');
-  }catch(e){
-    loading.style.display='none';btn.style.display='block';
-    err.style.display='block';err.textContent='Submission failed. Please email us directly at contact@benchbrex.co';
-    console.error('Send error:', e);
-  }
+  }, 600);
 }
 </script>
 </body>
