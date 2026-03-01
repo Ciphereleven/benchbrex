@@ -1,1 +1,2161 @@
+<!DOCTYPE html>
+<!--
+════════════════════════════════════════════════════
+  BENCHBREX LLC — PRODUCTION-READY WEBSITE v3.0
+════════════════════════════════════════════════════
 
+SUPABASE SETUP (required for form submissions):
+1. Go to https://supabase.com and create a free project
+2. In the SQL editor, run:
+
+   CREATE TABLE leads (
+     id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+     created_at timestamptz DEFAULT now(),
+     first_name text, last_name text,
+     email text NOT NULL, company text,
+     job_title text, company_size text,
+     service text, jurisdiction text,
+     timeline text, notes text,
+     budget text, source text,
+     nda_required boolean DEFAULT false,
+     extra text
+   );
+
+3. Go to Project Settings → API
+4. Copy your "Project URL" and "anon public" key
+5. Paste them below in the CONFIG section
+
+DOMAIN SETUP (www.benchbrex.co):
+1. Log in to your domain registrar (GoDaddy / Namecheap / etc.)
+2. Go to DNS settings for benchbrex.co
+3. Add an A record: @ → your hosting server IP
+4. Add a CNAME: www → benchbrex.co
+5. If using Netlify/Vercel, add the domain in their dashboard
+   and they will handle the DNS automatically
+════════════════════════════════════════════════════
+-->
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ═══════════════════════════════════════
+   PRIMARY SEO
+═══════════════════════════════════════ -->
+<title>Benchbrex LLC — AI Compliance Reports in 48 Hours | SOC 2, GDPR, ISO 27001</title>
+<meta name="description" content="Benchbrex delivers AI-powered SOC 2, GDPR, ISO 27001, and compliance reports in 48 hours at 10% of Big 4 costs. Trusted by SaaS, fintech & healthtech startups. Free 30-min consultation.">
+<meta name="keywords" content="compliance reports, SOC 2 readiness, GDPR audit, ISO 27001 certification, compliance consulting, AI compliance, startup compliance, fintech compliance, HIPAA compliance, PCI DSS, compliance gap analysis, international market entry, fractional CCO, compliance automation, Benchbrex, compliance consulting USA, compliance consulting UK, compliance consulting India, compliance consulting Singapore, compliance consulting Australia, DPDP Act India, MAS Singapore compliance, FCA UK compliance, APRA Australia compliance, cheap compliance reports, fast compliance reports, Big 4 alternative compliance, Deloitte alternative, KPMG alternative, PwC alternative, SOC 2 48 hours, GDPR audit fast, ISO 27001 startup">
+<meta name="author" content="Parth Patel, Benchbrex LLC">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="googlebot" content="index, follow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBmaWxsPSIjMDgwODA4Ii8+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjMyIiBoZWlnaHQ9IjEuNSIgZmlsbD0iI2YwZjBmMCIvPgogIDx0ZXh0IHg9IjQiIHk9IjIzIiBmb250LWZhbWlseT0iJ0NvdXJpZXIgTmV3Jyxtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmMGYwZjAiPkJ4PC90ZXh0Pgo8L3N2Zz4=">
+<link rel="alternate icon" href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA////AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBmaWxsPSIjMDgwODA4Ii8+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjMyIiBoZWlnaHQ9IjEuNSIgZmlsbD0iI2YwZjBmMCIvPgogIDx0ZXh0IHg9IjQiIHk9IjIzIiBmb250LWZhbWlseT0iJ0NvdXJpZXIgTmV3Jyxtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmMGYwZjAiPkJ4PC90ZXh0Pgo8L3N2Zz4=">
+<meta name="msapplication-TileColor" content="#080808">
+<link rel="canonical" href="https://www.benchbrex.com/">
+<meta name="theme-color" content="#080808">
+
+<!-- ═══════════════════════════════════════
+   OPEN GRAPH (Facebook, LinkedIn, WhatsApp)
+═══════════════════════════════════════ -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.benchbrex.com/">
+<meta property="og:title" content="Benchbrex — AI Compliance Reports in 48 Hours at 10% of Big 4 Cost">
+<meta property="og:description" content="SOC 2, GDPR, ISO 27001 & 15 more compliance reports delivered in 48 hours. AI-researched, expert-reviewed. Free 30-min consultation for startups.">
+<meta property="og:image" content="https://www.benchbrex.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Benchbrex LLC — Compliance Intelligence Platform">
+<meta property="og:site_name" content="Benchbrex LLC">
+<meta property="og:locale" content="en_US">
+
+<!-- ═══════════════════════════════════════
+   TWITTER / X CARD
+═══════════════════════════════════════ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@benchbrex">
+<meta name="twitter:creator" content="@benchbrex">
+<meta name="twitter:title" content="Benchbrex — AI Compliance Reports in 48 Hours at 10% of Big 4 Cost">
+<meta name="twitter:description" content="SOC 2, GDPR, ISO 27001 & 15 more compliance reports delivered in 48 hours. AI-researched, expert-reviewed. Free 30-min consultation.">
+<meta name="twitter:image" content="https://www.benchbrex.com/og-image.png">
+
+<!-- ═══════════════════════════════════════
+   GEO & LANGUAGE
+═══════════════════════════════════════ -->
+<meta name="geo.region" content="US">
+<meta name="geo.placename" content="United States">
+<meta name="language" content="English">
+<link rel="alternate" hreflang="en" href="https://www.benchbrex.com/">
+<link rel="alternate" hreflang="de" href="https://www.benchbrex.com/?lang=de">
+<link rel="alternate" hreflang="fr" href="https://www.benchbrex.com/?lang=fr">
+<link rel="alternate" hreflang="x-default" href="https://www.benchbrex.com/">
+
+<!-- GEO & Advanced Targeting -->
+<meta name="ICBM" content="37.09024, -95.712891">
+<meta name="DC.title" content="Benchbrex LLC — AI Compliance Reports">
+<meta name="DC.subject" content="Compliance Consulting, SOC 2, GDPR, ISO 27001">
+<meta name="DC.language" content="en">
+<meta name="revisit-after" content="3 days">
+<meta name="rating" content="general">
+<meta name="coverage" content="Worldwide">
+<meta name="distribution" content="Global">
+<meta name="target" content="all">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="og:locale:alternate" content="en_GB">
+<meta name="og:locale:alternate" content="de_DE">
+<meta name="og:locale:alternate" content="fr_FR">
+<meta name="og:locale:alternate" content="hi_IN">
+<meta name="og:locale:alternate" content="zh_SG">
+
+<!-- ═══════════════════════════════════════
+   STRUCTURED DATA — Organization
+═══════════════════════════════════════ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Benchbrex LLC",
+  "alternateName": "BenchBrex Global",
+  "url": "https://www.benchbrex.com",
+  "logo": "https://www.benchbrex.com/logo.png",
+  "description": "AI-powered compliance reports delivered in 48 hours at 10% of Big 4 costs. SOC 2, GDPR, ISO 27001, and 15 more services across 6 global markets.",
+  "founder": {
+    "@type": "Person",
+    "name": "Parth Patel",
+    "jobTitle": "Founder & CEO"
+  },
+  "foundingDate": "2025",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "US"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "contact@benchbrex.com",
+    "contactType": "customer service",
+    "availableLanguage": ["English", "German", "French"]
+  },
+  "sameAs": [
+    "https://www.linkedin.com/company/benchbrexcom"
+  ],
+  "areaServed": ["US", "GB", "EU", "IN", "SG", "AU"],
+  "serviceType": ["Compliance Consulting", "SOC 2 Readiness", "GDPR Audit", "ISO 27001 Certification", "Risk Assessment"]
+}
+</script>
+
+<!-- ═══════════════════════════════════════
+   STRUCTURED DATA — Professional Service
+═══════════════════════════════════════ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Benchbrex LLC",
+  "url": "https://www.benchbrex.com",
+  "description": "AI-powered compliance reports in 48 hours. SOC 2, GDPR, ISO 27001, PCI DSS, HIPAA, and market entry compliance for startups.",
+  "priceRange": "$499 - $70,000",
+  "currenciesAccepted": "USD, EUR, GBP, SGD, AUD, INR",
+  "paymentAccepted": "Credit Card, PayPal, Bank Wire, Wise",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Compliance Services",
+    "itemListElement": [
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "SOC 2 Audit Readiness", "description": "Complete SOC 2 audit preparation in 5 days"}, "price": "2500", "priceCurrency": "USD"},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "GDPR Audit", "description": "Full GDPR data privacy audit and compliance report"}, "price": "499", "priceCurrency": "EUR"},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "ISO 27001 Certification Prep", "description": "ISO 27001 gap assessment and implementation roadmap"}, "price": "5000", "priceCurrency": "USD"},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Compliance Gap Analysis", "description": "Full compliance audit across all jurisdictions"}, "price": "499", "priceCurrency": "USD"},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "International Market Entry", "description": "Legal and regulatory roadmap for 6 global markets"}, "price": "400", "priceCurrency": "USD"}
+    ]
+  }
+}
+</script>
+
+<!-- ═══════════════════════════════════════
+   STRUCTURED DATA — FAQ
+═══════════════════════════════════════ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does Benchbrex deliver compliance reports in 48 hours?",
+      "acceptedAnswer": {"@type": "Answer", "text": "AI handles 70-80% of research in 90 minutes. Compliance professionals then verify every regulation reference, calibrate risk ratings, and add jurisdictional nuance. The report is formatted and branded before delivery within 48 hours."}
+    },
+    {
+      "@type": "Question",
+      "name": "How much does a SOC 2 readiness report cost?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Benchbrex SOC 2 Audit Readiness reports cost $2,500–$12,000 — compared to $30,000–$80,000 at Deloitte, KPMG, or PwC. Delivery is guaranteed within 48–72 hours."}
+    },
+    {
+      "@type": "Question",
+      "name": "Is Benchbrex cheaper than Deloitte or KPMG?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Yes. Benchbrex delivers the same regulatory depth at 10% of traditional Big 4 costs. A GDPR audit that costs €15,000–€50,000 at KPMG costs €499–€8,000 at Benchbrex, delivered in 48 hours."}
+    },
+    {
+      "@type": "Question",
+      "name": "What compliance frameworks does Benchbrex cover?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Benchbrex covers SOC 2, GDPR, ISO 27001, PCI DSS, HIPAA, CCPA, India DPDP Act, MAS Singapore, FCA UK, APRA Australia, and more across 6 global markets."}
+    },
+    {
+      "@type": "Question",
+      "name": "Does Benchbrex offer a satisfaction guarantee?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Yes. Every report includes 100% satisfaction guarantee, one free round of revisions, and an on-time delivery guarantee — if late, you receive a 20% discount."}
+    },
+    {
+      "@type": "Question",
+      "name": "Can Benchbrex sign an NDA?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Yes. Mutual NDAs are available for all client engagements upon request, signed before any work begins."}
+    }
+  ]
+}
+</script>
+
+<!-- ═══════════════════════════════════════
+   STRUCTURED DATA — WebSite + SearchAction
+═══════════════════════════════════════ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Benchbrex LLC",
+  "url": "https://www.benchbrex.com",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.benchbrex.com/?s={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<!-- ═══════════════════════════════════════
+   STRUCTURED DATA — BreadcrumbList
+═══════════════════════════════════════ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.benchbrex.com/"},
+    {"@type": "ListItem", "position": 2, "name": "Services", "item": "https://www.benchbrex.com/#services"},
+    {"@type": "ListItem", "position": 3, "name": "Pricing", "item": "https://www.benchbrex.com/#pricing"},
+    {"@type": "ListItem", "position": 4, "name": "Markets", "item": "https://www.benchbrex.com/#markets"},
+    {"@type": "ListItem", "position": 5, "name": "About", "item": "https://www.benchbrex.com/#about"},
+    {"@type": "ListItem", "position": 6, "name": "FAQ", "item": "https://www.benchbrex.com/#faq"}
+  ]
+}
+</script>
+
+<!-- ═══════════════════════════════════════
+   PERFORMANCE & PRELOAD
+═══════════════════════════════════════ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://zowbwgzslqxrqdpoimac.supabase.co">
+<!-- Resend via Vercel API route /api/send-email -->
+
+<title>Benchbrex LLC — AI Compliance Reports in 48 Hours | SOC 2, GDPR, ISO 27001</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap');
+/* ──────────────────────────────────────────────
+   RESET & CSS VARIABLES
+────────────────────────────────────────────── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080808;--bg2:#0d0d0d;--bg3:#121212;--bg4:#181818;
+  --fg:#f0f0f0;--fg2:rgba(240,240,240,.56);--fg3:rgba(240,240,240,.3);--fg4:rgba(240,240,240,.1);
+  --rule:rgba(240,240,240,.08);--rule2:rgba(240,240,240,.04);
+  --nav-h:56px;
+}
+[data-theme=light]{
+  --bg:#f8f8f6;--bg2:#f0f0ee;--bg3:#e6e6e4;--bg4:#dcdcda;
+  --fg:#0a0a0a;--fg2:rgba(10,10,10,.6);--fg3:rgba(10,10,10,.38);--fg4:rgba(10,10,10,.14);
+  --rule:rgba(10,10,10,.09);--rule2:rgba(10,10,10,.05);
+}
+html{scroll-behavior:smooth;font-size:16px;scroll-padding-top:80px}
+body{font-family:'IBM Plex Mono',monospace;background:var(--bg);color:var(--fg);overflow-x:hidden;transition:background .3s,color .3s}
+body.no-scroll{overflow:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+
+/* ──────────────────────────────────────────────
+   CUSTOM CURSOR (desktop only)
+────────────────────────────────────────────── */
+#cd,#cr{position:fixed;top:0;left:0;pointer-events:none;transform:translate(-50%,-50%);z-index:9999}
+#cd{width:6px;height:6px;background:var(--fg);border-radius:50%;transition:width .15s,height .15s}
+#cr{width:36px;height:36px;border:1px solid rgba(240,240,240,.4);border-radius:50%;z-index:9998;transition:width .25s,height .25s,border-color .25s}
+[data-theme=light] #cr{border-color:rgba(0,0,0,.3)}
+body.ch #cd{width:10px;height:10px}
+body.ch #cr{width:52px;height:52px;border-color:rgba(240,240,240,.85)}
+[data-theme=light] body.ch #cr{border-color:rgba(0,0,0,.55)}
+@media(hover:none){#cd,#cr{display:none}body{cursor:auto}}
+
+/* ──────────────────────────────────────────────
+   PROGRESS BAR
+────────────────────────────────────────────── */
+#pb{position:fixed;top:0;left:0;right:0;z-index:500;height:2px;background:var(--rule)}
+#pf{height:100%;width:0%;background:var(--fg);transition:width .1s}
+
+/* ──────────────────────────────────────────────
+   NAVIGATION
+────────────────────────────────────────────── */
+nav{
+  position:fixed;top:2px;left:0;right:0;z-index:400;
+  height:var(--nav-h);display:flex;align-items:center;
+  justify-content:space-between;padding:0 40px;
+  background:rgba(8,8,8,.96);border-bottom:1px solid var(--rule);
+  backdrop-filter:blur(12px);transition:background .3s;
+}
+[data-theme=light] nav{background:rgba(248,248,246,.96)}
+.nav-logo{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fg);cursor:none}
+.nav-logo::after{content:'_';animation:blink 1.2s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.nav-centre{display:flex;gap:24px;list-style:none}
+.nav-centre a{font-size:9px;font-weight:400;letter-spacing:.13em;text-transform:uppercase;color:var(--fg3);transition:color .18s;cursor:none}
+.nav-centre a:hover{color:var(--fg)}
+.nav-r{display:flex;align-items:center;gap:6px}
+.ctrl-g{display:flex;gap:3px}
+.ctrl-btn{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;background:none;
+  border:1px solid var(--rule);color:var(--fg3);padding:5px 9px;
+  cursor:none;transition:all .15s;
+}
+.ctrl-btn:hover,.ctrl-btn.on{border-color:var(--fg2);color:var(--fg)}
+.nav-cta{
+  font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--bg);background:var(--fg);padding:8px 16px;
+  cursor:none;border:none;transition:opacity .18s;
+}
+.nav-cta:hover{opacity:.84}
+/* Hamburger */
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.hamburger span{width:22px;height:2px;background:var(--fg);display:block;transition:all .22s}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+/* Mobile nav drawer */
+.mobile-drawer{
+  display:none;position:fixed;top:var(--nav-h);left:0;right:0;
+  background:rgba(8,8,8,.98);border-bottom:1px solid var(--rule);
+  padding:20px 24px;z-index:399;flex-direction:column;gap:0;
+}
+[data-theme=light] .mobile-drawer{background:rgba(248,248,246,.98)}
+.mobile-drawer.open{display:flex}
+.mobile-drawer a,.mobile-drawer button{
+  font-size:13px;font-weight:400;letter-spacing:.08em;color:var(--fg2);
+  padding:14px 0;border-bottom:1px solid var(--rule);background:none;
+  border-left:none;border-right:none;border-top:none;cursor:pointer;
+  text-align:left;transition:color .15s;
+}
+.mobile-drawer a:hover,.mobile-drawer button:hover{color:var(--fg)}
+.mobile-drawer .m-cta{
+  margin-top:16px;background:var(--fg);color:var(--bg);
+  padding:14px;text-align:center;font-weight:700;
+  font-size:12px;letter-spacing:.1em;border:none;
+}
+
+/* ──────────────────────────────────────────────
+   HERO
+────────────────────────────────────────────── */
+.hero{
+  min-height:100vh;padding-top:var(--nav-h);
+  display:grid;grid-template-columns:1fr 1fr;
+  position:relative;overflow:hidden;
+}
+.scanlines{
+  position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.1) 2px,rgba(0,0,0,.1) 4px);
+}
+[data-theme=light] .scanlines{background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px)}
+.hero-l{display:flex;flex-direction:column;justify-content:center;padding:80px 40px;position:relative;z-index:2}
+.hero-prompt{font-size:10px;letter-spacing:.12em;color:var(--fg3);margin-bottom:28px}
+.hero-prompt span{color:var(--fg2)}
+.hero-h1{font-size:clamp(36px,4.6vw,64px);font-weight:700;line-height:1.08;letter-spacing:-.02em;margin-bottom:28px;overflow:hidden}
+.h1-line{display:block;transform:translateY(100%);opacity:0;transition:transform .72s cubic-bezier(.16,1,.3,1),opacity .72s}
+.h1-line.vis{transform:translateY(0);opacity:1}
+.h1-line:nth-child(2){transition-delay:.13s}
+.h1-line:nth-child(3){transition-delay:.24s;font-style:italic;font-weight:300;color:var(--fg2)}
+.hero-sub{font-size:13px;font-weight:300;line-height:1.85;color:var(--fg2);max-width:420px;margin-bottom:40px;letter-spacing:.01em}
+.hero-btns{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.hero-r{display:flex;align-items:center;justify-content:center;padding:60px 40px 60px 0;position:relative;z-index:2}
+.grid-bg{position:absolute;inset:0;z-index:0;background-image:linear-gradient(var(--rule) 1px,transparent 1px),linear-gradient(90deg,var(--rule) 1px,transparent 1px);background-size:44px 44px;animation:grid-move 22s linear infinite}
+@keyframes grid-move{from{background-position:0 0}to{background-position:44px 44px}}
+/* Terminal card */
+.tc{position:relative;z-index:2;border:1px solid rgba(240,240,240,.12);background:rgba(13,13,13,.92);width:100%;max-width:360px}
+[data-theme=light] .tc{background:rgba(240,240,238,.95);border-color:rgba(0,0,0,.13)}
+.tc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:var(--fg2)}
+.tc-bar{display:flex;align-items:center;gap:7px;padding:10px 14px;border-bottom:1px solid var(--rule);background:var(--bg3)}
+.tc-dot{width:9px;height:9px;border-radius:50%;background:var(--fg4)}
+.tc-bar-title{margin-left:6px;font-size:9px;letter-spacing:.09em;color:var(--fg3)}
+.tc-body{padding:22px 20px}
+.tc-row{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:5px}
+.tc-row:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.tc-k{font-size:8px;letter-spacing:.15em;color:var(--fg3);text-transform:uppercase}
+.tc-v{font-size:42px;font-weight:700;letter-spacing:-.03em;color:var(--fg);line-height:1}
+.tc-d{font-size:10px;font-weight:300;color:var(--fg2);line-height:1.5}
+
+/* ──────────────────────────────────────────────
+   TICKER
+────────────────────────────────────────────── */
+.ticker{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:10px 0;overflow:hidden;background:var(--bg2)}
+.t-inner{display:flex;width:max-content;animation:tick 44s linear infinite}
+.tick-i{display:flex;align-items:center;gap:9px;padding:0 24px;white-space:nowrap;font-size:8px;font-weight:400;letter-spacing:.16em;text-transform:uppercase;color:var(--fg3)}
+.tick-i::before{content:'■';font-size:4px;color:var(--fg4)}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ──────────────────────────────────────────────
+   REGULATORY FEED
+────────────────────────────────────────────── */
+.reg-feed{border-bottom:1px solid var(--rule);height:36px;display:flex;align-items:stretch;overflow:hidden;background:var(--bg3)}
+.rf-label{font-size:7px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;background:var(--fg);color:var(--bg);padding:0 14px;display:flex;align-items:center;white-space:nowrap;flex-shrink:0}
+.rf-scroll{overflow:hidden;flex:1}
+.rf-track{display:flex;align-items:center;height:100%;animation:rf 60s linear infinite;width:max-content}
+.rf-item{display:flex;align-items:center;gap:10px;padding:0 24px;white-space:nowrap;font-size:9px;color:var(--fg2);border-right:1px solid var(--rule)}
+.rf-item .amt{font-weight:700;color:var(--fg)}
+.rf-item .dt{font-size:7px;color:var(--fg3)}
+@keyframes rf{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ──────────────────────────────────────────────
+   GUARANTEE BAR
+────────────────────────────────────────────── */
+.gbar{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:12px 0;overflow:hidden;background:var(--bg2)}
+.gbar-inner{display:flex;width:max-content;animation:gbar-tick 28s linear infinite}
+@keyframes gbar-tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.gbar-i{display:flex;align-items:center;gap:8px;padding:0 40px;white-space:nowrap;font-size:12px;font-weight:300;color:var(--fg2)}
+.gbar-i::before{content:'✦';font-size:7px;color:var(--fg3);flex-shrink:0}
+.gbar-i strong{font-weight:600;color:var(--fg)}
+
+/* ──────────────────────────────────────────────
+   SECTION UTILITIES
+────────────────────────────────────────────── */
+.s-pad{padding:88px 40px}
+.s-border{border-top:1px solid var(--rule)}
+.eyebrow{font-size:8px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--fg3);margin-bottom:14px;display:flex;align-items:center;gap:9px}
+.eyebrow::before{content:'//';color:var(--fg4)}
+.section-h{font-size:clamp(24px,3vw,44px);font-weight:700;letter-spacing:-.02em;line-height:1.07;margin-bottom:14px;color:var(--fg)}
+.section-h em{font-style:italic;font-weight:300;color:var(--fg2)}
+.body-p{font-size:13px;font-weight:300;line-height:1.85;color:var(--fg2);margin-bottom:14px;letter-spacing:.01em}
+.body-p strong{color:var(--fg);font-weight:500}
+.h-rule{width:32px;height:1px;background:var(--rule);margin:20px 0}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s,transform .6s}
+.reveal.on{opacity:1;transform:translateY(0)}
+.magnetic{display:inline-block;transition:transform .3s cubic-bezier(.16,1,.3,1)}
+
+/* BUTTONS */
+.btn-p{
+  display:inline-block;background:var(--fg);color:var(--bg);
+  font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;padding:12px 22px;
+  border:none;cursor:none;transition:opacity .18s;position:relative;overflow:hidden;
+}
+.btn-p:hover{opacity:.84}
+.btn-o{
+  display:inline-block;border:1px solid var(--rule);color:var(--fg3);
+  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:400;
+  letter-spacing:.1em;text-transform:uppercase;padding:11px 18px;
+  background:none;cursor:none;transition:all .18s;
+}
+.btn-o:hover{border-color:var(--fg2);color:var(--fg)}
+.btn-ghost{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:400;letter-spacing:.09em;text-transform:uppercase;color:var(--fg3);background:none;border:none;cursor:none;transition:color .15s;padding:0}
+.btn-ghost:hover{color:var(--fg)}
+
+/* ──────────────────────────────────────────────
+   ROI CALCULATOR
+────────────────────────────────────────────── */
+.roi-inner{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:40px;align-items:start}
+.roi-ig{margin-bottom:22px}
+.roi-lr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+.roi-lbl{font-size:8px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3)}
+.roi-lv{font-size:14px;font-weight:700;color:var(--fg)}
+.roi-slider{width:100%;-webkit-appearance:none;appearance:none;height:2px;background:var(--rule);outline:none;cursor:none}
+.roi-slider::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;background:var(--fg);border-radius:50%;cursor:none;transition:transform .15s}
+.roi-slider::-webkit-slider-thumb:hover{transform:scale(1.4)}
+.roi-sel{width:100%;background:var(--bg);border:1px solid var(--rule);color:var(--fg);font-family:'IBM Plex Mono',monospace;font-size:11px;padding:9px 11px;cursor:none;outline:none;-webkit-appearance:none;transition:border-color .15s}
+[data-theme=light] .roi-sel{background:var(--bg2)}
+.roi-sel:focus{border-color:var(--fg2)}
+.roi-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule)}
+.roi-card{background:var(--bg);padding:22px 18px;transition:background .18s}
+.roi-card:hover{background:var(--bg3)}
+.roi-card.hl{background:var(--fg);color:var(--bg)}
+.roi-card.hl:hover{background:var(--fg)}
+.roi-cl{font-size:7px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;margin-bottom:7px;color:var(--fg3)}
+.roi-card.hl .roi-cl{color:var(--bg);opacity:.55}
+.roi-cv{font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1;margin-bottom:4px}
+.roi-cs{font-size:9px;font-weight:300;color:var(--fg3);line-height:1.45}
+.roi-card.hl .roi-cs{color:var(--bg);opacity:.55}
+.roi-note{font-size:8px;font-weight:300;color:var(--fg4);margin-top:14px;padding-top:14px;border-top:1px solid var(--rule);line-height:1.7}
+
+/* ──────────────────────────────────────────────
+   COMPARE TABLE
+────────────────────────────────────────────── */
+.compare{border:1px solid var(--rule);overflow:hidden}
+.c-head{display:grid;grid-template-columns:1.35fr 1fr 1fr;background:var(--bg3);border-bottom:1px solid var(--rule)}
+.c-hc{padding:9px 12px;font-size:7px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--fg3);border-right:1px solid var(--rule)}
+.c-hc:last-child{border-right:none}
+.c-row{display:grid;grid-template-columns:1.35fr 1fr 1fr;border-bottom:1px solid var(--rule2);opacity:0;transition:opacity .3s,background .15s}
+.c-row:last-child{border-bottom:none}
+.c-row.on{opacity:1}
+.c-row:hover{background:var(--rule2)}
+.c-cell{padding:9px 12px;font-size:10px;font-weight:300;color:var(--fg2);border-right:1px solid var(--rule2)}
+.c-cell:last-child{border-right:none}
+.c-cell.win{color:var(--fg);font-weight:500}
+.c-cell.win::before{content:'✓ ';font-size:8px;color:var(--fg3)}
+
+/* ──────────────────────────────────────────────
+   PRICING CALCULATOR
+────────────────────────────────────────────── */
+.prc-inner{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:40px;align-items:start}
+.prc-gh{font-size:7px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--fg3);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--rule)}
+.prc-grp{margin-bottom:20px}
+.prc-chk{display:flex;align-items:center;gap:9px;cursor:none;padding:6px 8px;border:1px solid transparent;transition:all .12s}
+.prc-chk:hover{border-color:var(--rule);background:var(--rule2)}
+.prc-chk input[type=checkbox]{-webkit-appearance:none;appearance:none;width:13px;height:13px;border:1px solid var(--rule);background:transparent;cursor:none;flex-shrink:0;position:relative;transition:all .12s}
+.prc-chk input:checked{background:var(--fg);border-color:var(--fg)}
+.prc-chk input:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:7px;color:var(--bg);line-height:1}
+.prc-cn{font-size:10px;font-weight:300;color:var(--fg2);flex:1}
+.prc-cp{font-size:9px;color:var(--fg3)}
+.prc-result{position:sticky;top:72px;border:1px solid var(--rule);background:var(--bg);padding:26px;overflow:hidden}
+.prc-result::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:var(--fg2)}
+.prc-tl{font-size:7px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--fg3);margin-bottom:5px}
+.prc-total{font-size:44px;font-weight:700;letter-spacing:-.03em;line-height:1;margin-bottom:3px}
+.prc-rng{font-size:10px;font-weight:300;color:var(--fg2);margin-bottom:18px}
+.prc-bdown{list-style:none;margin-bottom:16px}
+.prc-bdown li{display:flex;justify-content:space-between;font-size:9px;font-weight:300;color:var(--fg2);padding:6px 0;border-bottom:1px solid var(--rule2)}
+.prc-bdown li:last-child{border-bottom:none}
+.bname{color:var(--fg);font-weight:500}
+.bprice{color:var(--fg3)}
+.prc-save-blk{background:var(--fg);color:var(--bg);padding:14px;text-align:center;margin-bottom:14px}
+.prc-sn{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom:1px}
+.prc-sl{font-size:7px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;opacity:.55}
+.prc-exp{display:flex;align-items:center;justify-content:space-between;padding:9px;border:1px solid var(--rule);margin-bottom:12px;cursor:none;transition:all .12s}
+.prc-exp:hover{border-color:var(--fg2)}
+.prc-exp input[type=checkbox]{-webkit-appearance:none;appearance:none;width:13px;height:13px;border:1px solid var(--rule);background:transparent;cursor:none;position:relative;transition:all .12s;flex-shrink:0}
+.prc-exp input:checked{background:var(--fg);border-color:var(--fg)}
+.prc-exp input:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:7px;color:var(--bg);line-height:1}
+.prc-exp-info{display:flex;align-items:center;gap:8px}
+.prc-el{font-size:10px;font-weight:300}
+.prc-ep{font-size:10px;font-weight:500}
+.prc-empty{font-size:11px;font-weight:300;color:var(--fg3);text-align:center;padding:28px 0;border-top:1px solid var(--rule)}
+
+/* ──────────────────────────────────────────────
+   HOW IT WORKS
+────────────────────────────────────────────── */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--rule);margin-top:40px;overflow:hidden}
+.step{background:var(--bg);padding:24px 16px;position:relative;transition:background .2s,border .3s;border-left:2px solid transparent;opacity:.45}
+.step.lit{opacity:1;background:var(--bg3);border-left-color:var(--fg)}
+.step-n{font-size:48px;font-weight:700;letter-spacing:-.04em;color:var(--fg4);line-height:1;margin-bottom:14px}
+.step-t{font-size:11px;font-weight:600;margin-bottom:4px}
+.step-b{font-size:9px;font-weight:300;line-height:1.65;color:var(--fg2)}
+.step-time{font-size:7px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);margin-top:10px}
+.step::after{content:'›';position:absolute;right:-7px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--fg4);z-index:2}
+.step:last-child::after{display:none}
+
+/* ──────────────────────────────────────────────
+   PROOF NUMBERS
+────────────────────────────────────────────── */
+.proof-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);margin-top:40px}
+.proof-cell{background:var(--bg);padding:32px 22px;text-align:center;transition:background .18s}
+.proof-cell:hover{background:var(--bg3)}
+.proof-n{font-size:48px;font-weight:700;letter-spacing:-.04em;color:var(--fg);line-height:1;margin-bottom:7px}
+.proof-l{font-size:10px;font-weight:300;color:var(--fg2);line-height:1.5}
+
+/* ──────────────────────────────────────────────
+   SERVICES — TABS + GRID
+────────────────────────────────────────────── */
+.tabs-row{display:flex;gap:0;border-bottom:1px solid var(--rule);margin-bottom:40px;flex-wrap:wrap}
+.tab-btn{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:400;
+  letter-spacing:.12em;text-transform:uppercase;padding:11px 18px;
+  cursor:none;color:var(--fg3);background:none;border:none;
+  border-bottom:2px solid transparent;transition:all .15s;margin-bottom:-1px;
+}
+.tab-btn.active{color:var(--fg);border-bottom-color:var(--fg)}
+.tab-btn:hover{color:var(--fg2)}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule)}
+/* Service card */
+.svc-card{
+  background:var(--bg);padding:24px 20px;
+  position:relative;transition:background .18s;
+  overflow:visible;
+}
+.svc-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:var(--fg);transform:scaleX(0);transform-origin:left;
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
+}
+.svc-card:hover{background:var(--bg3)}
+.svc-card:hover::after{transform:scaleX(1)}
+.svc-num{font-size:7px;font-weight:400;letter-spacing:.12em;color:var(--fg3);margin-bottom:8px}
+.svc-title{font-size:13px;font-weight:600;margin-bottom:6px;line-height:1.25;letter-spacing:-.01em;cursor:default}
+.svc-desc{font-size:10px;font-weight:300;line-height:1.7;color:var(--fg2);margin-bottom:10px}
+.svc-dels{list-style:none;margin-bottom:10px}
+.svc-dels li{font-size:8px;font-weight:300;color:var(--fg3);display:flex;gap:6px;padding:2px 0;border-bottom:1px solid var(--rule2)}
+.svc-dels li::before{content:'—';color:var(--fg4);flex-shrink:0}
+.ptbl{width:100%;border-collapse:collapse;margin-bottom:8px}
+.ptbl th{font-size:6px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--fg4);padding:5px 0;border-bottom:1px solid var(--rule);text-align:left}
+.ptbl td{padding:4px 0;border-bottom:1px solid var(--rule2);font-size:9px;font-weight:300;color:var(--fg2)}
+.ptbl td:last-child{color:var(--fg);font-weight:500;text-align:right}
+.ptbl tr:last-child td{border-bottom:none}
+.del-tag{display:inline-block;font-size:6px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--rule);color:var(--fg3);padding:2px 7px;margin-top:4px}
+/* Case study */
+.cs-panel{
+  max-height:0;overflow:hidden;opacity:0;
+  border-top:1px solid transparent;margin-top:0;padding-top:0;
+  transition:max-height .42s cubic-bezier(.16,1,.3,1),opacity .32s,margin-top .32s,padding-top .32s,border-color .32s;
+}
+.svc-card:hover .cs-panel{
+  max-height:420px;opacity:1;
+  border-top:1px solid var(--rule);margin-top:14px;padding-top:14px;
+}
+.cs-tag{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;background:var(--fg);color:var(--bg);padding:3px 7px;display:inline-block;margin-bottom:9px}
+.cs-co{font-size:12px;font-weight:600;color:var(--fg);margin-bottom:1px}
+.cs-type{font-size:10px;font-weight:300;color:var(--fg3);margin-bottom:10px}
+.cs-row{margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.cs-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.cs-k{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fg3);margin-bottom:3px}
+.cs-v{font-size:11px;font-weight:300;color:var(--fg2);line-height:1.55}
+.cs-v strong{color:var(--fg);font-weight:600}
+/* Retainers, bundles, addons */
+.ret-grid,.bdl-grid,.addon-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule)}
+.ret-card{background:var(--bg);padding:26px 20px;transition:background .18s}
+.ret-card:hover{background:var(--bg3)}
+.ret-card.ft{background:var(--bg3);border-top:1px solid var(--fg2)}
+.ret-badge{font-size:6px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--fg3);margin-bottom:10px;display:block}
+.ret-name{font-size:18px;font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
+.ret-price{font-size:26px;font-weight:700;letter-spacing:-.03em;color:var(--fg);line-height:1;margin-bottom:2px}
+.ret-price sub{font-size:10px;font-weight:300;color:var(--fg3)}
+.ret-desc{font-size:10px;font-weight:300;color:var(--fg2);margin:10px 0 12px;line-height:1.6}
+.ret-list{list-style:none}
+.ret-list li{font-size:9px;font-weight:300;color:var(--fg2);display:flex;gap:6px;padding:4px 0;border-bottom:1px solid var(--rule2)}
+.ret-list li::before{content:'—';color:var(--fg4);flex-shrink:0}
+.bdl-card{background:var(--bg3);padding:26px 20px;border-top:1px solid rgba(240,240,240,.1);transition:background .18s}
+.bdl-card:hover{background:var(--bg4)}
+.bdl-name{font-size:14px;font-weight:700;margin-bottom:5px}
+.bdl-inc{font-size:9px;font-weight:300;color:var(--fg2);margin-bottom:14px;line-height:1.6}
+.bdl-prices{display:flex;align-items:baseline;gap:8px;margin-bottom:4px}
+.bdl-new{font-size:26px;font-weight:700;letter-spacing:-.03em}
+.bdl-old{font-size:10px;color:var(--fg4);text-decoration:line-through}
+.bdl-save{font-size:6px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;background:var(--fg);color:var(--bg);padding:2px 6px}
+.addon{background:var(--bg);padding:18px;transition:background .18s}
+.addon:hover{background:var(--bg3)}
+.addon-name{font-size:12px;font-weight:600;margin-bottom:4px}
+.addon-desc{font-size:9px;font-weight:300;color:var(--fg2);margin-bottom:8px;line-height:1.6}
+.addon-price{font-size:10px;font-weight:500;color:var(--fg)}
+
+/* ──────────────────────────────────────────────
+   WORLD MAP
+────────────────────────────────────────────── */
+.map-wrap{position:relative;margin-top:40px;overflow:hidden;background:var(--bg3);border:1px solid var(--rule)}
+.wmap{width:100%;height:auto;display:block}
+.continent{fill:var(--fg4);stroke:var(--rule);stroke-width:.5;transition:fill .3s}
+.w-grid line{stroke:var(--rule2);stroke-width:.4}
+.market-g{cursor:none}
+.market-g:hover .m-core{r:7;opacity:1}
+.m-core{fill:var(--fg);transition:r .2s}
+.m-pulse1{fill:none;stroke:var(--fg);stroke-width:.8;opacity:0;animation:p1 2.8s ease-out infinite}
+.m-pulse2{fill:none;stroke:var(--fg);stroke-width:.5;opacity:0;animation:p2 2.8s ease-out .7s infinite}
+@keyframes p1{0%{r:4;opacity:.7}100%{r:20;opacity:0}}
+@keyframes p2{0%{r:4;opacity:.35}100%{r:32;opacity:0}}
+.m-line{stroke:var(--fg3);stroke-width:.6;stroke-dasharray:5 4;opacity:.4;animation:dash 1.5s linear infinite}
+@keyframes dash{from{stroke-dashoffset:0}to{stroke-dashoffset:-18}}
+.m-label{font-family:'IBM Plex Mono',monospace;font-size:9px;fill:var(--fg2);font-weight:500}
+.m-sub{font-family:'IBM Plex Mono',monospace;font-size:7px;fill:var(--fg3)}
+.map-legend{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:14px;padding-top:14px;border-top:1px solid var(--rule)}
+.ml-item{display:flex;align-items:center;gap:6px;font-size:8px;font-weight:300;color:var(--fg3)}
+.ml-dot{width:6px;height:6px;border-radius:50%;background:var(--fg);flex-shrink:0}
+
+/* ──────────────────────────────────────────────
+   MARKETS GRID
+────────────────────────────────────────────── */
+.mkt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:40px}
+.mkt-card{background:var(--bg2);padding:26px 20px;transition:background .18s}
+.mkt-card:hover{background:var(--bg3)}
+.mkt-flag{font-size:20px;margin-bottom:8px}
+.mkt-name{font-size:17px;font-weight:700;letter-spacing:-.02em;margin-bottom:2px}
+.mkt-sub{font-size:7px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--fg3);margin-bottom:8px}
+.mkt-body{font-size:10px;font-weight:300;color:var(--fg2);margin-bottom:9px;line-height:1.65}
+.mkt-tags{display:flex;flex-wrap:wrap;gap:4px}
+.mkt-tag{font-size:7px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;border:1px solid var(--rule);color:var(--fg3);padding:2px 6px}
+
+/* ──────────────────────────────────────────────
+   ABOUT
+────────────────────────────────────────────── */
+.founder-card{border:1px solid var(--rule);background:var(--bg2);padding:32px 26px;position:relative;overflow:hidden}
+.founder-card::before{content:'"';position:absolute;top:8px;right:16px;font-size:90px;font-weight:700;color:var(--rule);line-height:1;font-style:italic}
+.founder-av{width:44px;height:44px;border-radius:50%;border:1px solid var(--rule);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--fg2);margin-bottom:16px}
+.founder-q{font-size:14px;font-weight:400;font-style:italic;line-height:1.55;color:var(--fg);margin-bottom:16px}
+.founder-name{font-size:13px;font-weight:700;margin-bottom:2px}
+.founder-role{font-size:7px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3)}
+.founder-bio{font-size:11px;font-weight:300;line-height:1.75;color:var(--fg2);margin-top:14px;padding-top:14px;border-top:1px solid var(--rule)}
+
+/* ──────────────────────────────────────────────
+   DIVISIONS
+────────────────────────────────────────────── */
+.div-wrap{border:1px solid var(--rule);background:var(--bg2);padding:40px 32px;margin-top:40px}
+.div-tag{display:inline-block;border:1px solid var(--rule);font-size:7px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--fg3);padding:3px 9px;margin-bottom:14px}
+.div-name{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom:2px}
+.div-url{font-size:9px;font-weight:300;color:var(--fg3);margin-bottom:14px}
+.div-desc{font-size:12px;font-weight:300;color:var(--fg2);margin-bottom:18px;line-height:1.75}
+.div-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--rule)}
+.div-list li{font-size:10px;font-weight:300;color:var(--fg2);display:flex;gap:7px;align-items:flex-start;padding:8px 10px;border-bottom:none;background:var(--bg2)}
+.div-list li::before{content:'→';color:var(--fg3);font-size:9px;flex-shrink:0;margin-top:2px}
+
+/* ──────────────────────────────────────────────
+   SAAS
+────────────────────────────────────────────── */
+.saas-inner{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.saas-badge{display:inline-block;font-size:7px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;background:var(--fg);color:var(--bg);padding:4px 10px;margin-bottom:14px}
+.saas-feats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);margin-top:20px}
+.saas-feat{background:var(--bg);padding:16px;transition:background .18s}
+.saas-feat:hover{background:var(--bg3)}
+.saas-fn{font-size:11px;font-weight:600;margin-bottom:3px}
+.saas-fd{font-size:9px;font-weight:300;color:var(--fg2);line-height:1.5}
+
+/* ──────────────────────────────────────────────
+   FAQ
+────────────────────────────────────────────── */
+.faq-cols{display:grid;grid-template-columns:1fr 1fr;gap:0 52px;margin-top:40px}
+.faq-item{padding:16px 0;border-bottom:1px solid var(--rule)}
+.faq-q{font-size:12px;font-weight:600;cursor:none;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;color:var(--fg)}
+.faq-q::after{content:'+';font-size:14px;font-weight:300;color:var(--fg3);flex-shrink:0;transition:transform .22s,color .22s}
+.faq-item.open .faq-q::after{transform:rotate(45deg);color:var(--fg)}
+.faq-a{font-size:11px;font-weight:300;line-height:1.8;color:var(--fg2);display:none;padding-top:9px}
+.faq-item.open .faq-a{display:block}
+
+/* ──────────────────────────────────────────────
+   PAYMENT
+────────────────────────────────────────────── */
+.pay-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:36px}
+.pay-h{font-size:13px;font-weight:700;margin-bottom:12px}
+.pay-list{list-style:none}
+.pay-list li{font-size:11px;font-weight:300;color:var(--fg2);display:flex;gap:6px;padding:5px 0;border-bottom:1px solid var(--rule2)}
+.pay-list li::before{content:'—';color:var(--fg4);flex-shrink:0}
+
+/* ──────────────────────────────────────────────
+   CTA
+────────────────────────────────────────────── */
+.cta-sec{padding:120px 40px;text-align:center;position:relative;overflow:hidden;background:var(--bg)}
+.cta-gbg{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(var(--rule2) 1px,transparent 1px),linear-gradient(90deg,var(--rule2) 1px,transparent 1px);background-size:52px 52px;animation:grid-move 22s linear infinite}
+.cta-h{font-size:clamp(32px,4.5vw,62px);font-weight:700;letter-spacing:-.03em;line-height:1.05;margin-bottom:16px;position:relative}
+.cta-h em{font-style:italic;font-weight:300;color:var(--fg2)}
+.cta-sub{font-size:13px;font-weight:300;color:var(--fg2);max-width:420px;margin:0 auto 32px;line-height:1.75;position:relative}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;margin-bottom:20px}
+.cta-contact{font-size:8px;font-weight:300;letter-spacing:.08em;color:var(--fg4);position:relative}
+
+/* ──────────────────────────────────────────────
+   FOOTER
+────────────────────────────────────────────── */
+footer{border-top:1px solid var(--rule);padding:28px 40px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px;background:var(--bg2)}
+.ft-logo{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.ft-sub{font-size:7px;font-weight:300;color:var(--fg3);margin-top:3px;letter-spacing:.06em}
+.ft-links{display:flex;gap:16px;justify-content:center;list-style:none;flex-wrap:wrap}
+.ft-links a{font-size:8px;font-weight:400;letter-spacing:.11em;text-transform:uppercase;color:var(--fg3);text-decoration:none;transition:color .15s}
+.ft-links a:hover{color:var(--fg)}
+.ft-r{text-align:right}
+.ft-copy{font-size:8px;font-weight:300;color:var(--fg3)}
+.ft-disc{font-size:7px;font-weight:300;color:var(--fg4);margin-top:3px;line-height:1.6}
+
+/* ──────────────────────────────────────────────
+   MODALS
+────────────────────────────────────────────── */
+.overlay{position:fixed;inset:0;background:rgba(8,8,8,.97);z-index:1000;display:none;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
+[data-theme=light] .overlay{background:rgba(248,248,246,.97)}
+.overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--rule);width:100%;max-width:600px;position:relative;max-height:90vh;overflow-y:auto;flex-shrink:0}
+.modal-wide{max-width:840px}
+.m-hdr{padding:16px 22px;border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;background:var(--bg3);position:sticky;top:0;z-index:10}
+.m-ttl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.m-x{background:none;border:1px solid var(--rule);color:var(--fg3);font-size:14px;width:28px;height:28px;cursor:none;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.m-x:hover{border-color:var(--fg);color:var(--fg)}
+.m-body{padding:24px 22px}
+/* Form steps */
+.si-row{display:flex;gap:5px;margin-bottom:22px}
+.si{height:2px;flex:1;background:var(--rule);transition:background .3s}
+.si.done{background:var(--fg)}
+.fg-wrap{margin-bottom:16px}
+.fl{font-size:7px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--fg3);margin-bottom:6px;display:block}
+.fi,.fsel,.fta{width:100%;background:var(--bg);border:1px solid var(--rule);color:var(--fg);font-family:'IBM Plex Mono',monospace;font-size:12px;padding:10px 12px;outline:none;transition:border-color .15s;cursor:none}
+[data-theme=light] .fi,[data-theme=light] .fsel,[data-theme=light] .fta{background:var(--bg3)}
+.fi:focus,.fsel:focus,.fta:focus{border-color:var(--fg2)}
+.fi::placeholder,.fta::placeholder{color:var(--fg4)}
+.fsel{-webkit-appearance:none;appearance:none}
+.fta{resize:vertical;min-height:70px}
+.fgrow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fstep{display:none}
+.fstep.active{display:block}
+.f-nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:18px;border-top:1px solid var(--rule)}
+.f-success{text-align:center;padding:44px 0}
+.f-success-icon{font-size:40px;margin-bottom:14px}
+.f-success-h{font-size:18px;font-weight:700;letter-spacing:-.01em;margin-bottom:6px}
+.f-success-s{font-size:11px;font-weight:300;color:var(--fg2);line-height:1.8;max-width:380px;margin:0 auto}
+.f-error{background:rgba(200,50,50,.1);border:1px solid rgba(200,50,50,.2);color:var(--fg);font-size:10px;padding:10px 12px;margin-bottom:14px;display:none}
+.f-loading{display:none;font-size:9px;letter-spacing:.1em;color:var(--fg3);text-align:center;padding:8px 0}
+/* Report preview */
+.rp-layout{display:grid;grid-template-columns:170px 1fr;height:520px}
+.rp-nav{border-right:1px solid var(--rule);overflow-y:auto;background:var(--bg3)}
+.rp-ni{padding:10px 13px;font-size:8px;font-weight:300;color:var(--fg3);cursor:none;border-bottom:1px solid var(--rule2);display:flex;align-items:center;gap:6px;transition:all .12s}
+.rp-ni.active{background:var(--bg2);color:var(--fg);font-weight:500}
+.rp-ni:hover{background:var(--rule2);color:var(--fg2)}
+.rp-nn{font-size:7px;color:var(--fg4);width:14px;text-align:right;flex-shrink:0}
+.rp-content{overflow-y:auto;background:var(--bg)}
+.rp-page{padding:28px 26px;display:none}
+.rp-page.active{display:block}
+.rp-cover{border:1px solid var(--rule);background:var(--bg2);padding:36px;min-height:340px;display:flex;flex-direction:column;justify-content:space-between}
+.rp-clogo{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
+.rp-ctag{font-size:7px;font-weight:300;color:var(--fg3);margin-bottom:36px}
+.rp-ch{font-size:22px;font-weight:700;letter-spacing:-.02em;line-height:1.1;margin-bottom:12px}
+.rp-cmeta{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rp-cmi{font-size:7px;color:var(--fg3);line-height:1.4}
+.rp-cmv{font-size:10px;font-weight:500;color:var(--fg);margin-top:1px}
+.rp-cbar{height:2px;background:var(--fg);margin-top:32px}
+.toc-h{font-size:13px;font-weight:700;margin-bottom:16px;letter-spacing:-.01em}
+.toc-item{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--rule2);font-size:10px;font-weight:300;color:var(--fg2)}
+.toc-n{color:var(--fg3);font-size:7px}
+.risk-matrix{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);margin:16px 0}
+.rc{padding:10px 8px;font-size:9px;font-weight:300}
+.rc.rh{background:var(--bg3);font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg3);font-weight:600}
+.rc.rhigh{background:rgba(200,50,50,.14);color:var(--fg)}
+.rc.rmed{background:rgba(200,150,50,.1);color:var(--fg)}
+.rc.rlow{background:rgba(50,150,100,.1);color:var(--fg2)}
+.fi-wrap{border:1px solid var(--rule);margin-bottom:9px;overflow:hidden}
+.fi-hd{display:flex;align-items:center;gap:9px;padding:9px 12px;background:var(--bg3)}
+.fb{font-size:6px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 6px;flex-shrink:0}
+.fb.fh{background:rgba(200,50,50,.18);color:var(--fg)}
+.fb.fm{background:rgba(200,150,50,.16);color:var(--fg)}
+.fb.fl2{background:rgba(50,150,100,.12);color:var(--fg)}
+.fi-title{font-size:10px;font-weight:600}
+.fi-body{padding:11px 12px;font-size:9px;font-weight:300;color:var(--fg2);line-height:1.7}
+.ac-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--rule2);align-items:flex-start}
+.ac-item:last-child{border-bottom:none}
+.ac-n{font-size:24px;font-weight:700;letter-spacing:-.03em;color:var(--fg4);line-height:1;flex-shrink:0;width:32px}
+.ac-t{font-size:11px;font-weight:600;margin-bottom:3px}
+.ac-d{font-size:9px;font-weight:300;color:var(--fg2);line-height:1.6}
+.ac-tag{font-size:7px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--rule);color:var(--fg3);padding:2px 6px;display:inline-block;margin-top:5px}
+
+/* ──────────────────────────────────────────────
+   FLOATING ACTION BUTTONS
+────────────────────────────────────────────── */
+.fab{position:fixed;bottom:24px;right:24px;z-index:500;display:flex;flex-direction:column;gap:7px;align-items:flex-end}
+.fab-main{background:var(--fg);color:var(--bg);font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:12px 16px;border:none;cursor:none;box-shadow:0 4px 18px rgba(0,0,0,.5);transition:opacity .15s}
+.fab-main:hover{opacity:.84}
+.fab-sec{background:var(--bg3);color:var(--fg2);border:1px solid var(--rule);font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;padding:8px 13px;cursor:none;transition:all .15s}
+.fab-sec:hover{border-color:var(--fg2);color:var(--fg)}
+
+/* ──────────────────────────────────────────────
+   MOBILE RESPONSIVE — max-width: 1024px
+────────────────────────────────────────────── */
+@media(max-width:1024px){
+  .svc-grid{grid-template-columns:1fr 1fr}
+  .cs-flyout{display:none}
+  .steps{grid-template-columns:1fr 1fr;grid-template-rows:auto auto auto}
+  .step:nth-child(2)::after{display:none}
+  .step:nth-child(4)::after{display:none}
+  .step:last-child::after{display:none}
+}
+
+/* ──────────────────────────────────────────────
+   MOBILE RESPONSIVE — max-width: 768px
+────────────────────────────────────────────── */
+@media(max-width:768px){
+  :root{--nav-h:54px}
+  nav{padding:0 18px}
+  .nav-centre,.nav-r .ctrl-g,.nav-r #theme-btn,.nav-r .nav-cta{display:none}
+  .hamburger{display:flex}
+
+  .s-pad{padding:56px 18px}
+  .hero{grid-template-columns:1fr}
+  .hero-r{display:none}
+  .hero-l{padding:60px 18px 40px}
+  .hero-h1{font-size:clamp(32px,8vw,48px)}
+  .grid-2{grid-template-columns:1fr;gap:32px}
+  .roi-inner{grid-template-columns:1fr;gap:28px}
+  .prc-inner{grid-template-columns:1fr;gap:28px}
+  .prc-result{position:static}
+  .svc-grid{grid-template-columns:1fr}
+  .proof-row{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr}
+  .step::after{display:none}
+  .mkt-grid{grid-template-columns:1fr}
+  .ret-grid,.bdl-grid,.addon-grid{grid-template-columns:1fr}
+  .faq-cols{grid-template-columns:1fr}
+  .saas-inner{grid-template-columns:1fr}
+  .saas-feats{grid-template-columns:1fr}
+  .pay-grid{grid-template-columns:1fr;gap:24px}
+  .div-list{grid-template-columns:1fr}
+  footer{grid-template-columns:1fr;gap:20px;text-align:center}
+  .ft-r{text-align:center}
+  .tabs-row{gap:0;overflow-x:auto}
+  .tab-btn{white-space:nowrap;padding:10px 14px}
+  .rp-layout{grid-template-columns:1fr;height:auto}
+  .rp-nav{display:flex;overflow-x:auto;border-right:none;border-bottom:1px solid var(--rule)}
+  .rp-ni{flex-shrink:0;border-bottom:none;border-right:1px solid var(--rule2);padding:8px 12px}
+  .rp-content{max-height:400px}
+  
+  .cta-sec{padding:72px 18px}
+  .fab{bottom:14px;right:14px}
+  .fgrow{grid-template-columns:1fr}
+}
+
+@media(max-width:480px){
+  .hero-h1{font-size:32px}
+  .section-h{font-size:26px}
+  .proof-row{grid-template-columns:1fr}
+  .roi-grid{grid-template-columns:1fr}
+  .wmap-container{overflow-x:auto}
+}
+
+/* ── GLOBAL FONT SIZE INCREASES FOR READABILITY ── */
+.nav-centre a{font-size:12px}
+.ctrl-btn{font-size:10px;padding:6px 11px}
+.nav-cta{font-size:10px}
+.eyebrow{font-size:11px}
+.body-p{font-size:15px;line-height:1.9}
+.hero-sub{font-size:15px}
+.hero-prompt{font-size:12px}
+.tc-k{font-size:11px}
+.tc-d{font-size:13px}
+.tick-i{font-size:11px}
+.rf-item{font-size:11px}
+.rf-item .dt{font-size:9px}
+/* .gbar-i font handled in base styles */
+.roi-lbl{font-size:11px}
+.roi-lv{font-size:16px}
+.roi-cl{font-size:10px}
+.roi-cv{font-size:28px}
+.roi-cs{font-size:12px}
+.roi-note{font-size:11px}
+.c-hc{font-size:10px}
+.c-cell{font-size:12px}
+.prc-gh{font-size:10px}
+.prc-cn{font-size:12px}
+.prc-cp{font-size:11px}
+.prc-tl{font-size:10px}
+.prc-total{font-size:46px}
+.prc-rng{font-size:12px}
+.prc-bdown li{font-size:12px}
+.prc-sn{font-size:26px}
+.prc-sl{font-size:10px}
+.prc-el{font-size:12px}
+.prc-ep{font-size:12px}
+.prc-empty{font-size:13px}
+.step-t{font-size:14px}
+.step-b{font-size:12px}
+.step-time{font-size:10px}
+.proof-l{font-size:13px}
+.svc-num{font-size:11px}
+.svc-title{font-size:16px}
+.svc-desc{font-size:13px;line-height:1.75}
+.svc-dels li{font-size:12px;padding:4px 0}
+.ptbl th{font-size:10px}
+.ptbl td{font-size:12px;padding:6px 0}
+.del-tag{font-size:10px;padding:3px 8px}
+.tab-btn{font-size:11px;padding:12px 20px}
+.ret-badge{font-size:10px}
+.ret-name{font-size:22px}
+.ret-price{font-size:30px}
+.ret-desc{font-size:13px}
+.ret-list li{font-size:12px;padding:5px 0}
+.bdl-name{font-size:17px}
+.bdl-inc{font-size:12px}
+.bdl-new{font-size:30px}
+.bdl-save{font-size:10px}
+.addon-name{font-size:15px}
+.addon-desc{font-size:12px}
+.addon-price{font-size:12px}
+.m-label{font-size:12px}
+.m-sub{font-size:10px}
+.ml-item{font-size:11px}
+.mkt-name{font-size:19px}
+.mkt-sub{font-size:11px}
+.mkt-body{font-size:13px}
+.mkt-tag{font-size:10px;padding:3px 7px}
+.founder-q{font-size:16px}
+.founder-name{font-size:15px}
+.founder-role{font-size:10px}
+.founder-bio{font-size:13px}
+.div-tag{font-size:10px}
+.div-name{font-size:26px}
+.div-url{font-size:12px}
+.div-desc{font-size:14px}
+.div-list li{font-size:13px;padding:9px 10px}
+.saas-fn{font-size:14px}
+.saas-fd{font-size:12px}
+.faq-q{font-size:15px}
+.faq-a{font-size:13px;line-height:1.85}
+.pay-h{font-size:16px}
+.pay-list li{font-size:13px}
+.cta-sub{font-size:16px}
+.cta-contact{font-size:11px}
+.ft-logo{font-size:15px}
+.ft-sub{font-size:11px}
+.ft-links a{font-size:11px}
+.ft-copy{font-size:11px}
+.ft-disc{font-size:10px}
+.m-ttl{font-size:12px}
+.fl{font-size:10px}
+.fi,.fsel,.fta{font-size:14px}
+.f-success-h{font-size:22px}
+.f-success-s{font-size:14px}
+.toc-h{font-size:15px}
+.toc-item{font-size:12px}
+.fi-title{font-size:12px}
+.fi-body{font-size:12px}
+.ac-t{font-size:13px}
+.ac-d{font-size:12px}
+.ac-tag{font-size:10px}
+.rp-ni{font-size:11px;padding:12px 14px}
+.rp-nn{font-size:9px}
+.gbar-i strong{font-size:12px}
+.fab-main{font-size:10px;padding:14px 20px}
+.fab-sec{font-size:10px;padding:10px 16px}
+.mobile-drawer a,.mobile-drawer button{font-size:15px}
+
+/* ══════════════════════════════════════════════
+   BREATHING ROOM OVERRIDES — de-crowding pass
+══════════════════════════════════════════════ */
+:root { --nav-h: 68px; }
+nav { padding: 0 60px; }
+.s-pad { padding: 112px 64px; }
+.hero-l { padding: 108px 64px; }
+.hero-r { padding: 80px 64px 80px 0; }
+.hero-sub { max-width: 500px; margin-bottom: 56px; line-height: 2.05; }
+.hero-btns { gap: 20px; }
+.hero-h1 { margin-bottom: 40px; }
+.hero-prompt { margin-bottom: 38px; }
+
+.tc-body { padding: 34px 30px; }
+.tc-row { margin-bottom: 30px; padding-bottom: 30px; gap: 10px; }
+.eyebrow { margin-bottom: 24px; letter-spacing: .28em; }
+.section-h { margin-bottom: 26px; line-height: 1.12; }
+.body-p { line-height: 2.05; margin-bottom: 24px; }
+.h-rule { margin: 40px 0; width: 48px; }
+.grid-2 { gap: 96px; }
+.roi-inner { gap: 80px; margin-top: 64px; }
+.roi-ig { margin-bottom: 38px; }
+.roi-lr { margin-bottom: 12px; }
+.roi-grid { gap: 2px; }
+.roi-card { padding: 26px 22px; }
+.prc-inner { gap: 80px; margin-top: 64px; }
+.prc-result { padding: 40px; }
+.prc-grp { margin-bottom: 32px; }
+.prc-gh { margin-bottom: 12px; padding-bottom: 10px; }
+.prc-chk { padding: 9px 11px; gap: 12px; }
+.c-hc { padding: 16px 20px; }
+.c-cell { padding: 14px 20px; }
+.steps { gap: 2px; margin-top: 64px; }
+.step { padding: 40px 26px; }
+.step-n { margin-bottom: 22px; }
+.step-t { margin-bottom: 9px; }
+.step-time { margin-top: 18px; }
+.proof-row { margin-top: 64px; gap: 2px; }
+.proof-cell { padding: 56px 32px; }
+.proof-n { margin-bottom: 14px; }
+.tabs-row { margin-bottom: 56px; }
+.tab-btn { padding: 14px 24px; }
+.svc-grid { gap: 2px; }
+.svc-card { padding: 38px 30px; }
+.svc-num { margin-bottom: 14px; }
+.svc-title { margin-bottom: 12px; }
+.svc-desc { margin-bottom: 16px; line-height: 1.8; }
+.svc-dels { margin-bottom: 18px; }
+.svc-dels li { padding: 6px 0; }
+.ret-grid, .bdl-grid, .addon-grid { gap: 2px; }
+.ret-card { padding: 44px 32px; }
+.ret-badge { margin-bottom: 16px; }
+.ret-name { margin-bottom: 10px; }
+.ret-price { margin-bottom: 6px; }
+.ret-desc { margin: 16px 0 20px; line-height: 1.75; }
+.ret-list li { padding: 7px 0; }
+.bdl-card { padding: 44px 32px; }
+.bdl-name { margin-bottom: 10px; }
+.bdl-inc { margin-bottom: 22px; line-height: 1.7; }
+.addon { padding: 30px 26px; }
+.addon-name { margin-bottom: 8px; }
+.addon-desc { margin-bottom: 14px; line-height: 1.7; }
+.map-wrap { margin-top: 64px; }
+.map-legend { gap: 16px 32px; margin-top: 22px; padding: 22px 0 10px; }
+.mkt-grid { gap: 2px; margin-top: 64px; }
+.mkt-card { padding: 44px 32px; }
+.mkt-flag { margin-bottom: 14px; font-size: 30px; }
+.mkt-name { margin-bottom: 6px; }
+.mkt-sub { margin-bottom: 14px; }
+.mkt-body { margin-bottom: 16px; line-height: 1.75; }
+.mkt-tags { gap: 6px; }
+.mkt-tag { padding: 4px 10px; }
+.founder-card { padding: 52px 44px; }
+.founder-av { margin-bottom: 28px; width: 54px; height: 54px; }
+.founder-q { margin-bottom: 26px; line-height: 1.7; }
+.founder-name { margin-bottom: 5px; }
+.founder-bio { margin-top: 24px; padding-top: 22px; line-height: 1.95; }
+.div-wrap { padding: 60px 52px; margin-top: 64px; }
+.div-tag { margin-bottom: 20px; }
+.div-name { margin-bottom: 6px; }
+.div-url { margin-bottom: 20px; }
+.div-desc { margin-bottom: 26px; line-height: 1.9; }
+.div-list { gap: 2px; }
+.div-list li { padding: 11px 14px; }
+.saas-inner { gap: 96px; }
+.saas-badge { margin-bottom: 20px; }
+.saas-feats { gap: 2px; margin-top: 36px; }
+.saas-feat { padding: 26px 22px; }
+.saas-fn { margin-bottom: 8px; }
+.faq-cols { gap: 0 88px; margin-top: 64px; }
+.faq-item { padding: 26px 0; }
+.faq-q { line-height: 1.55; }
+.faq-a { padding-top: 16px; line-height: 2; }
+.pay-grid { gap: 60px; margin-top: 60px; }
+.pay-h { margin-bottom: 20px; }
+.pay-list li { padding: 9px 0; }
+.cta-sec { padding: 164px 64px; }
+.cta-h { margin-bottom: 26px; }
+.cta-sub { margin: 0 auto 48px; line-height: 1.95; max-width: 500px; }
+.cta-btns { gap: 18px; margin-bottom: 30px; }
+footer { padding: 52px 64px; }
+.ft-links { gap: 28px; }
+.m-body { padding: 40px 36px; }
+.fg-wrap { margin-bottom: 22px; }
+.f-nav { margin-top: 26px; padding-top: 26px; }
+.si-row { margin-bottom: 32px; gap: 6px; }
+
+@media(max-width:768px){
+  :root { --nav-h: 56px; }
+  .s-pad { padding: 64px 22px; }
+  nav { padding: 0 20px; }
+  .hero-l { padding: 72px 22px 52px; }
+
+
+
+
+
+</style>
+</head>
+<body>
+<!-- Cursor -->
+<div id="cd"></div><div id="cr"></div>
+<!-- Progress -->
+<div id="pb"><div id="pf"></div></div>
+
+<!-- ══ NAV ═════════════════════════════════════════ -->
+<nav aria-label="Main navigation">
+  <a href="#" class="nav-logo">BENCHBREX</a>
+  <ul class="nav-centre">
+    <li><a href="#services" data-i18n="nav.svc">Services</a></li>
+    <li><a href="#roi" data-i18n="nav.roi">ROI Calc</a></li>
+    <li><a href="#markets" data-i18n="nav.mkt">Markets</a></li>
+    <li><a href="#about" data-i18n="nav.about">About</a></li>
+    <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+    <li><a href="#cta" data-i18n="nav.contact">Contact</a></li>
+  </ul>
+  <div class="nav-r">
+    <div class="ctrl-g">
+      <button class="ctrl-btn on" onclick="setLang('en',this)">EN</button>
+      <button class="ctrl-btn" onclick="setLang('de',this)">DE</button>
+      <button class="ctrl-btn" onclick="setLang('fr',this)">FR</button>
+    </div>
+    <button class="ctrl-btn" id="theme-btn" onclick="toggleTheme()">◑ LIGHT</button>
+    <button class="nav-cta magnetic" onclick="openModal('form-modal')" data-i18n="nav.cta">Free Snapshot</button>
+    <button class="hamburger" id="ham" onclick="toggleNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<!-- Mobile drawer -->
+<div class="mobile-drawer" id="mob-drawer">
+  <a href="#services" onclick="toggleNav()">Services</a>
+  <a href="#roi" onclick="toggleNav()">ROI Calculator</a>
+  <a href="#markets" onclick="toggleNav()">Markets</a>
+  <a href="#about" onclick="toggleNav()">About</a>
+  <a href="#faq" onclick="toggleNav()">FAQ</a>
+  <a href="#cta" onclick="toggleNav()">Contact</a>
+  <button class="m-cta" onclick="openModal('form-modal');toggleNav()">Get Free Compliance Snapshot</button>
+</div>
+
+<!-- ══ HERO ════════════════════════════════════════ -->
+<section class="hero">
+  <div class="scanlines"></div>
+  <div class="hero-l">
+    <div class="hero-prompt"><span>benchbrex@global:~$</span> ./compliance --mode=instant</div>
+    <h1 class="hero-h1">
+      <span class="h1-line" data-i18n="hero.l1">Compliance reports.</span>
+      <span class="h1-line" data-i18n="hero.l2">48 hours.</span>
+      <span class="h1-line" data-i18n="hero.l3">Big 4 depth.</span>
+    </h1>
+    <p class="hero-sub" data-i18n="hero.sub">AI-powered compliance, strategy, and risk reports that replace 4–6 weeks of consulting — delivered in 48 hours at 10% of traditional costs. Built for startups moving fast in regulated markets.</p>
+    <div class="hero-btns">
+      <button class="btn-p magnetic" onclick="openModal('form-modal')" data-i18n="hero.btn1">Book Free Consultation</button>
+      <button class="btn-o magnetic" onclick="openModal('preview-modal')" data-i18n="hero.btn2">Preview Sample Report ↗</button>
+    </div>
+  </div>
+  <div class="hero-r">
+    <div class="grid-bg"></div>
+    <div class="tc">
+      <div class="tc-bar"><div class="tc-dot"></div><div class="tc-dot"></div><div class="tc-dot"></div><div class="tc-bar-title">benchbrex_live.sh</div></div>
+      <div class="tc-body">
+        <div class="tc-row"><div class="tc-k">// delivery_time</div><div class="tc-v counter" data-t="48" data-s="hr">0hr</div><div class="tc-d">vs. 4–6 weeks industry standard</div></div>
+        <div class="tc-row"><div class="tc-k">// reports_delivered</div><div class="tc-v counter" data-t="20" data-s="+">0+</div><div class="tc-d">across compliance, strategy &amp; risk</div></div>
+        <div class="tc-row"><div class="tc-k">// cost_vs_big4</div><div class="tc-v counter" data-t="10" data-s="%">0%</div><div class="tc-d">of traditional pricing — same depth</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TICKER ══════════════════════════════════════ -->
+<div class="ticker"><div class="t-inner" id="tick-inner"></div></div>
+
+<!-- ══ REGULATORY FEED ═════════════════════════════ -->
+<div class="reg-feed">
+  <div class="rf-label">🔴 LIVE REGULATORY FEED</div>
+  <div class="rf-scroll"><div class="rf-track" id="rf-track"></div></div>
+</div>
+
+<!-- ══ GUARANTEE BAR ═══════════════════════════════ -->
+<div class="gbar reveal">
+  <div class="gbar-inner">
+    <div class="gbar-i"><strong data-i18n="gb.1a">On-time delivery</strong>&nbsp;<span data-i18n="gb.1b">or 20% discount — guaranteed</span></div>
+    <div class="gbar-i"><strong data-i18n="gb.2a">100% satisfaction</strong>&nbsp;<span data-i18n="gb.2b">guaranteed on every report</span></div>
+    <div class="gbar-i"><strong data-i18n="gb.3a">Mutual NDA</strong>&nbsp;<span data-i18n="gb.3b">available for all engagements</span></div>
+    <div class="gbar-i"><strong data-i18n="gb.4a">Free 30-min consultation</strong>&nbsp;<span data-i18n="gb.4b">with every report</span></div>
+    <div class="gbar-i"><strong>On-time delivery</strong>&nbsp;or 20% discount — guaranteed</div>
+    <div class="gbar-i"><strong>100% satisfaction</strong>&nbsp;guaranteed on every report</div>
+    <div class="gbar-i"><strong>Mutual NDA</strong>&nbsp;available for all engagements</div>
+    <div class="gbar-i"><strong>Free 30-min consultation</strong>&nbsp;with every report</div>
+  </div>
+</div>
+
+<!-- ══ ROI CALCULATOR ══════════════════════════════ -->
+<section class="s-pad s-border reveal" id="roi" style="background:var(--bg3)">
+  <div class="eyebrow">ROI Calculator</div>
+  <h2 class="section-h" data-i18n="roi.h">Calculate your <em>compliance ROI.</em></h2>
+  <p class="body-p" style="max-width:480px" data-i18n="roi.sub">See your potential GDPR fine exposure, what Deloitte and KPMG charge, and exactly how much Benchbrex saves you — in real time.</p>
+  <div class="roi-inner">
+    <div>
+      <div class="roi-ig">
+        <div class="roi-lr"><span class="roi-lbl">Annual Revenue (USD)</span><span class="roi-lv" id="roi-rv-v">$5,000,000</span></div>
+        <input type="range" class="roi-slider" id="roi-rv" min="100000" max="500000000" step="100000" value="5000000" oninput="calcROI()">
+      </div>
+      <div class="roi-ig">
+        <div class="roi-lr"><span class="roi-lbl">Number of Jurisdictions</span><span class="roi-lv" id="roi-j-v">3</span></div>
+        <input type="range" class="roi-slider" id="roi-j" min="1" max="8" step="1" value="3" oninput="calcROI()">
+      </div>
+      <div class="roi-ig">
+        <div class="roi-lr"><span class="roi-lbl">Current Compliance Maturity</span></div>
+        <select class="roi-sel" id="roi-mat" onchange="calcROI()">
+          <option value="0">None — starting from scratch</option>
+          <option value="1" selected>Basic — some policies exist</option>
+          <option value="2">Moderate — partial compliance in place</option>
+          <option value="3">Advanced — most controls implemented</option>
+        </select>
+      </div>
+      <p class="roi-note">* GDPR fines are calculated at 4% of global annual revenue or €20M per violation, whichever is greater. Deloitte / KPMG / PwC pricing is based on published market-rate surveys. All figures are illustrative estimates only.</p>
+    </div>
+    <div>
+      <div class="roi-grid">
+        <div class="roi-card"><div class="roi-cl">Max GDPR Fine Exposure</div><div class="roi-cv" id="roi-fine">$200K</div><div class="roi-cs">4% of global revenue or €20M cap</div></div>
+        <div class="roi-card"><div class="roi-cl">Deloitte / KPMG / PwC Cost</div><div class="roi-cv" id="roi-b4">$85K</div><div class="roi-cs">Published market rate — all three firms</div></div>
+        <div class="roi-card hl"><div class="roi-cl">Benchbrex Cost</div><div class="roi-cv" id="roi-us">$3,500</div><div class="roi-cs">Fixed price, guaranteed 48-hour delivery</div></div>
+        <div class="roi-card"><div class="roi-cl">Savings vs Big 4</div><div class="roi-cv" id="roi-save">$81,500</div><div class="roi-cs">Same regulatory depth, fraction of the cost</div></div>
+      </div>
+      <div style="margin-top:20px"><button class="btn-p magnetic" onclick="openModal('form-modal')">Lock In This Price →</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROBLEM / COMPARE ════════════════════════════ -->
+<section class="s-pad s-border reveal" id="problem">
+  <div class="grid-2">
+    <div>
+      <div class="eyebrow">The Problem</div>
+      <h2 class="section-h">Compliance is blocking your deals, your funding, <em>and your growth.</em></h2>
+      <p class="body-p"><strong>70% of US enterprise buyers now require SOC 2 before signing.</strong> GDPR violations can reach 4% of global annual revenue — or €20M. A single missing certification can collapse a funding round.</p>
+      <p class="body-p">The compliance industry responds with six-week timelines and $80,000 invoices from firms like <strong>Deloitte, KPMG, and PwC</strong>. Benchbrex delivers the same regulatory depth in 48 hours at a fraction of the cost.</p>
+      <div class="h-rule"></div>
+      <p class="body-p" style="font-size:9px;color:var(--fg3)">All reports are for informational purposes and do not constitute legal advice. Verify high-stakes decisions with qualified local counsel.</p>
+    </div>
+    <div>
+      <div class="compare" id="compare-tbl">
+        <div class="c-head"><div class="c-hc">Metric</div><div class="c-hc">Deloitte / KPMG / PwC</div><div class="c-hc">Benchbrex</div></div>
+        <div class="c-row"><div class="c-cell">Delivery time</div><div class="c-cell">4–6 weeks</div><div class="c-cell win">48–72 hours</div></div>
+        <div class="c-row"><div class="c-cell">SOC 2 readiness</div><div class="c-cell">$30K–$80K</div><div class="c-cell win">$5K–$12K</div></div>
+        <div class="c-row"><div class="c-cell">GDPR audit</div><div class="c-cell">€15K–€50K</div><div class="c-cell win">€1.5K–€8K</div></div>
+        <div class="c-row"><div class="c-cell">ISO 27001 preparation</div><div class="c-cell">$30K–$80K</div><div class="c-cell win">$10K–$55K</div></div>
+        <div class="c-row"><div class="c-cell">Market entry pack</div><div class="c-cell">$15K–$50K</div><div class="c-cell win">$400–$3,500</div></div>
+        <div class="c-row"><div class="c-cell">Satisfaction guarantee</div><div class="c-cell">None</div><div class="c-cell win">100% guaranteed</div></div>
+        <div class="c-row"><div class="c-cell">On-time delivery guarantee</div><div class="c-cell">None</div><div class="c-cell win">20% discount if late</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PRICING CALCULATOR ═══════════════════════════ -->
+<section class="s-pad s-border reveal" id="pricing" style="background:var(--bg2)">
+  <div class="eyebrow">Pricing Calculator</div>
+  <h2 class="section-h">Build your custom <em>compliance stack.</em></h2>
+  <p class="body-p" style="max-width:480px">Select the services and jurisdictions you need — your live price estimate updates instantly.</p>
+  <div class="prc-inner">
+    <div>
+      <div class="prc-grp">
+        <div class="prc-gh">// compliance_reports</div>
+        <div id="prc-svc-checks"></div>
+      </div>
+      <div class="prc-grp">
+        <div class="prc-gh">// strategy_&amp;_intelligence</div>
+        <div id="prc-strat-checks"></div>
+      </div>
+      <div class="prc-grp">
+        <div class="prc-gh">// additional_jurisdictions</div>
+        <div id="prc-jur-checks"></div>
+      </div>
+    </div>
+    <div>
+      <div class="prc-result">
+        <div class="prc-tl">Estimated Project Range</div>
+        <div class="prc-total" id="prc-total">$0</div>
+        <div class="prc-rng" id="prc-rng">Select services to see your estimate</div>
+        <ul class="prc-bdown" id="prc-bdown"></ul>
+        <div id="prc-save-blk" style="display:none">
+          <div class="prc-save-blk"><div class="prc-sn" id="prc-sn">$0</div><div class="prc-sl">Saved vs Deloitte / KPMG / PwC</div></div>
+        </div>
+        <label class="prc-exp">
+          <div class="prc-exp-info"><input type="checkbox" id="prc-express" onchange="calcPricing()"><span class="prc-el">Express 24-hour delivery</span></div>
+          <span class="prc-ep">+$300–$500</span>
+        </label>
+        <button class="btn-p" style="width:100%;cursor:none" onclick="openModal('form-modal')">Get Exact Quote →</button>
+        <div id="prc-empty" class="prc-empty">← Select services above to build your estimate</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW IT WORKS ════════════════════════════════ -->
+<section class="s-pad s-border reveal" id="how" style="background:var(--bg)">
+  <div class="eyebrow">The Process</div>
+  <h2 class="section-h">From intake form to <em>polished PDF in four hours.</em></h2>
+  <div class="steps" id="steps-row">
+    <div class="step"><div class="step-n">01</div><div class="step-t">Client Intake</div><p class="step-b">Fill our 10-minute intake form — company details, countries, data types, and specific concerns.</p><div class="step-time">30 min</div></div>
+    <div class="step"><div class="step-n">02</div><div class="step-t">AI Execution</div><p class="step-b">Specialized AI prompts generate a comprehensive structured draft — 70–80% of research completed.</p><div class="step-time">90 min</div></div>
+    <div class="step"><div class="step-n">03</div><div class="step-t">Expert Review</div><p class="step-b">Compliance professionals verify every regulation reference, calibrate risk ratings, and add jurisdictional nuance.</p><div class="step-time">60 min</div></div>
+    <div class="step"><div class="step-n">04</div><div class="step-t">Format &amp; Brand</div><p class="step-b">Benchbrex-branded cover, table of contents, risk heat maps, and professional formatting. Exported as a PDF.</p><div class="step-time">30 min</div></div>
+    <div class="step"><div class="step-n">05</div><div class="step-t">Delivery</div><p class="step-b">Final PDF and two-page executive summary delivered to your inbox. Free 30-minute walkthrough call included.</p><div class="step-time">30 min</div></div>
+  </div>
+</section>
+
+<!-- ══ PROOF NUMBERS ════════════════════════════════ -->
+<section class="s-pad s-border reveal" style="background:var(--bg3)">
+  <div class="eyebrow">By the Numbers</div>
+  <div class="proof-row">
+    <div class="proof-cell"><div class="proof-n"><span class="counter" data-t="20" data-s="+">0+</span></div><div class="proof-l">Reports delivered across compliance, strategy, and risk</div></div>
+    <div class="proof-cell"><div class="proof-n"><span class="counter" data-t="48" data-s="hr">0hr</span></div><div class="proof-l">Guaranteed delivery — or a 20% discount on your project</div></div>
+    <div class="proof-cell"><div class="proof-n"><span class="counter" data-t="6" data-s="">0</span></div><div class="proof-l">Global markets: USA, UK, EU, India, Singapore, and Australia</div></div>
+    <div class="proof-cell"><div class="proof-n"><span class="counter" data-t="15" data-s="">0</span></div><div class="proof-l">Distinct services spanning compliance, strategy, and intelligence</div></div>
+  </div>
+</section>
+
+<!-- ══ SERVICES ═════════════════════════════════════ -->
+<section class="s-pad s-border reveal" id="services">
+  <div class="eyebrow">Full Service Catalog</div>
+  <h2 class="section-h">15 services. <em>One platform.</em></h2>
+  <p class="body-p" style="max-width:480px;margin-bottom:32px">Fixed pricing. Every service includes a free 30-minute consultation and one round of revisions. Hover any card to see a client case study.</p>
+  <div class="tabs-row">
+    <button class="tab-btn active" onclick="showTab('compliance',this)">Compliance</button>
+    <button class="tab-btn" onclick="showTab('strategy',this)">Strategy</button>
+    <button class="tab-btn" onclick="showTab('retainers',this)">Retainers</button>
+    <button class="tab-btn" onclick="showTab('bundles',this)">Bundles</button>
+    <button class="tab-btn" onclick="showTab('addons',this)">Add-Ons</button>
+  </div>
+  <div class="tab-pane active" id="tab-compliance"><div class="svc-grid" id="compliance-grid"></div></div>
+  <div class="tab-pane" id="tab-strategy"><div class="svc-grid" id="strategy-grid"></div></div>
+  <div class="tab-pane" id="tab-retainers">
+    <p class="body-p" style="max-width:500px;margin-bottom:24px">20–30% of one-time clients convert to monthly retainers within 30 days.</p>
+    <div class="ret-grid">
+      <div class="ret-card"><div class="ret-badge">// startup</div><div class="ret-name">Startup</div><div class="ret-price">$1,500–3,000<sub>/mo</sub></div><p class="ret-desc">Single-country monitoring. Monthly reports and email support.</p><ul class="ret-list"><li>1 country monitored</li><li>Monthly compliance reports</li><li>Regulatory deadline management</li><li>Update alerts and notifications</li></ul></div>
+      <div class="ret-card ft"><div class="ret-badge">// growth — most popular</div><div class="ret-name">Growth</div><div class="ret-price">$3,000–6,000<sub>/mo</sub></div><p class="ret-desc">Three-country coverage. Quarterly audits and priority support.</p><ul class="ret-list"><li>3 countries monitored</li><li>Quarterly compliance audits</li><li>Policy updates and documentation</li><li>Priority support response</li><li>Documented compliance evidence</li></ul></div>
+      <div class="ret-card"><div class="ret-badge">// enterprise</div><div class="ret-name">Enterprise</div><div class="ret-price">$6,000–15,000<sub>/mo</sub></div><p class="ret-desc">Five or more countries. Dedicated advisor and unlimited support.</p><ul class="ret-list"><li>5+ countries monitored</li><li>Monthly reports and audit trail</li><li>Dedicated compliance advisor</li><li>Unlimited support</li><li>Board-level reporting</li></ul></div>
+    </div>
+  </div>
+  <div class="tab-pane" id="tab-bundles">
+    <p class="body-p" style="max-width:480px;margin-bottom:24px">Save 20–25% by combining the reports your business needs most.</p>
+    <div class="bdl-grid">
+      <div class="bdl-card"><div class="bdl-name">Startup Launch Bundle</div><p class="bdl-inc">Compliance Gap Analysis + International Market Entry + Sales Strategy</p><div class="bdl-prices"><div class="bdl-new">$2,800</div><div class="bdl-old">$3,500</div><div class="bdl-save">Save 20%</div></div></div>
+      <div class="bdl-card"><div class="bdl-name">Audit Preparation Bundle</div><p class="bdl-inc">SOC 2 Readiness + ISO 27001 Gap Assessment + GDPR Audit</p><div class="bdl-prices"><div class="bdl-new">$7,500</div><div class="bdl-old">$10,000</div><div class="bdl-save">Save 25%</div></div></div>
+      <div class="bdl-card"><div class="bdl-name">Enterprise Suite</div><p class="bdl-inc">Compliance Gap + Enterprise Risk + HR Compliance + GDPR (four reports)</p><div class="bdl-prices"><div class="bdl-new">$9,000</div><div class="bdl-old">$12,000</div><div class="bdl-save">Save 25%</div></div></div>
+    </div>
+  </div>
+  <div class="tab-pane" id="tab-addons">
+    <p class="body-p" style="max-width:480px;margin-bottom:24px">Enhance any report with optional extras, added at the time of order or after delivery.</p>
+    <div class="addon-grid">
+      <div class="addon"><div class="addon-name">Extended Consultation</div><p class="addon-desc">A 60-minute deep-dive instead of the standard 30-minute walkthrough.</p><div class="addon-price">$200 per session</div></div>
+      <div class="addon"><div class="addon-name">Implementation Support</div><p class="addon-desc">30 days of post-delivery email and Slack support for execution.</p><div class="addon-price">$500 flat fee</div></div>
+      <div class="addon"><div class="addon-name">Custom Policy Writing</div><p class="addon-desc">Incident response, access control, and vendor management policies.</p><div class="addon-price">$300–$800 per policy</div></div>
+      <div class="addon"><div class="addon-name">Quarterly Update</div><p class="addon-desc">Refresh your report with new regulations and updated risk ratings.</p><div class="addon-price">$500 per refresh</div></div>
+      <div class="addon"><div class="addon-name">Executive Presentation</div><p class="addon-desc">A custom slide deck summarizing findings for your board or investors.</p><div class="addon-price">$400 per deck</div></div>
+      <div class="addon"><div class="addon-name">Priority Support</div><p class="addon-desc">Four-hour response time instead of the standard 24-hour SLA.</p><div class="addon-price">$300 per month</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WORLD MAP ════════════════════════════════════ -->
+<section class="s-pad s-border reveal" id="markets" style="background:var(--bg2)">
+  <div class="eyebrow">Geographic Reach</div>
+  <h2 class="section-h">Markets we serve. <em>One team. 48 hours.</em></h2>
+  <p class="body-p" style="max-width:480px">Compliance reports across six key markets — delivered at the same speed regardless of jurisdiction.</p>
+  <div class="map-wrap">
+    <div class="wmap-container">
+      <svg class="wmap" viewBox="0 0 960 480" xmlns="http://www.w3.org/2000/svg">
+        <g class="w-grid">
+          <line x1="0" y1="120" x2="960" y2="120"/><line x1="0" y1="240" x2="960" y2="240"/>
+          <line x1="0" y1="360" x2="960" y2="360"/><line x1="240" y1="0" x2="240" y2="480"/>
+          <line x1="480" y1="0" x2="480" y2="480"/><line x1="720" y1="0" x2="720" y2="480"/>
+        </g>
+        <path class="continent" d="M 0,109 L 51,102 L 66,149 L 108,168 L 147,165 L 180,173 L 198,131 L 255,94 L 258,64 L 210,53 L 126,51 L 51,80 Z"/>
+        <path class="continent" d="M 201,29 L 246,18 L 270,34 L 255,64 L 225,70 L 198,53 Z"/>
+        <path class="continent" d="M 183,219 L 222,211 L 258,240 L 270,285 L 258,344 L 228,387 L 201,393 L 180,360 L 168,309 L 165,261 Z"/>
+        <path class="continent" d="M 393,147 L 408,117 L 420,84 L 444,80 L 480,77 L 504,54 L 522,90 L 528,131 L 513,150 L 486,154 L 456,152 L 432,150 Z"/>
+        <path class="continent" d="M 404,93 L 419,84 L 426,96 L 420,114 L 406,117 L 399,105 Z"/>
+        <path class="continent" d="M 372,68 L 390,63 L 396,76 L 387,86 L 372,80 Z"/>
+        <path class="continent" d="M 402,150 L 519,155 L 558,202 L 549,261 L 534,318 L 513,363 L 486,378 L 462,360 L 444,306 L 432,243 L 426,198 Z"/>
+        <path class="continent" d="M 513,279 L 522,264 L 531,276 L 528,309 L 516,318 L 507,309 Z"/>
+        <path class="continent" d="M 525,131 L 561,93 L 600,72 L 678,57 L 762,51 L 840,51 L 903,72 L 894,131 L 843,131 L 804,138 L 774,179 L 741,222 L 720,232 L 693,181 L 648,165 L 603,173 L 567,195 L 552,168 Z"/>
+        <path class="continent" d="M 555,173 L 591,168 L 597,195 L 582,210 L 561,204 Z"/>
+        <path class="continent" d="M 609,165 L 651,160 L 663,197 L 648,224 L 630,229 L 612,213 Z"/>
+        <path class="continent" d="M 717,189 L 753,182 L 759,213 L 738,224 L 717,221 Z"/>
+        <path class="continent" d="M 840,117 L 858,111 L 864,131 L 849,141 L 837,131 Z"/>
+        <path class="continent" d="M 762,293 L 834,267 L 858,267 L 870,299 L 864,348 L 831,357 L 777,360 L 750,345 L 744,315 L 750,299 Z"/>
+        <path class="continent" d="M 795,360 L 804,353 L 810,363 L 800,369 Z"/>
+        <path class="continent" d="M 894,338 L 906,327 L 912,342 L 900,357 L 891,350 Z"/>
+        <line class="m-line" x1="198" y1="131" x2="420" y2="104"/>
+        <line class="m-line" x1="420" y1="104" x2="447" y2="107"/>
+        <line class="m-line" x1="447" y1="107" x2="585" y2="173"/>
+        <line class="m-line" x1="585" y1="173" x2="639" y2="189"/>
+        <line class="m-line" x1="639" y1="189" x2="732" y2="237"/>
+        <line class="m-line" x1="732" y1="237" x2="873" y2="330"/>
+        <g class="market-g" id="m-usa"><circle class="m-pulse1" cx="198" cy="131" r="4"/><circle class="m-pulse2" cx="198" cy="131" r="4"/><circle class="m-core" cx="198" cy="131" r="4"/><text class="m-label" x="208" y="127">USA</text><text class="m-sub" x="208" y="138">Highest Revenue</text></g>
+        <g class="market-g" id="m-uk"><circle class="m-pulse1" cx="420" cy="104" r="4"/><circle class="m-pulse2" cx="420" cy="104" r="4"/><circle class="m-core" cx="420" cy="104" r="4"/><text class="m-label" x="430" y="100">UK</text><text class="m-sub" x="430" y="111">FCA / UK GDPR</text></g>
+        <g class="market-g" id="m-eu"><circle class="m-pulse1" cx="487" cy="128" r="4"/><circle class="m-pulse2" cx="487" cy="128" r="4"/><circle class="m-core" cx="487" cy="128" r="4"/><text class="m-label" x="497" y="124">EU</text><text class="m-sub" x="497" y="135">GDPR Enforcement</text></g>
+        <g class="market-g" id="m-in"><circle class="m-pulse1" cx="639" cy="189" r="4"/><circle class="m-pulse2" cx="639" cy="189" r="4"/><circle class="m-core" cx="639" cy="189" r="4"/><text class="m-label" x="649" y="185">India</text><text class="m-sub" x="649" y="196">RBI / DPDP Act</text></g>
+        <g class="market-g" id="m-sg"><circle class="m-pulse1" cx="732" cy="237" r="4"/><circle class="m-pulse2" cx="732" cy="237" r="4"/><circle class="m-core" cx="732" cy="237" r="4"/><text class="m-label" x="742" y="233">Singapore</text><text class="m-sub" x="742" y="244">MAS / PDPA</text></g>
+        <g class="market-g" id="m-au"><circle class="m-pulse1" cx="840" cy="318" r="4"/><circle class="m-pulse2" cx="840" cy="318" r="4"/><circle class="m-core" cx="840" cy="318" r="4"/><text class="m-label" x="850" y="314">Australia</text><text class="m-sub" x="850" y="325">APRA / Privacy Act</text></g>
+      </svg>
+    </div>
+    <div style="padding:0 28px 24px">
+      <div class="map-legend">
+        <div class="ml-item"><div class="ml-dot"></div>Active market — reports delivered within 48 hours</div>
+        <div class="ml-item" style="font-size:8px;color:var(--fg3)">Animated lines represent live report delivery between jurisdictions</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MARKETS GRID ══════════════════════════════════ -->
+<section class="s-pad s-border reveal">
+  <div class="mkt-grid">
+    <div class="mkt-card"><div class="mkt-flag">🇺🇸</div><div class="mkt-name">United States</div><div class="mkt-sub">Highest Revenue Per Engagement</div><p class="mkt-body">Average project: $20,000–$100,000. VC-backed startups and the highest compliance spend globally.</p><div class="mkt-tags"><span class="mkt-tag">SOC 2</span><span class="mkt-tag">PCI DSS</span><span class="mkt-tag">HIPAA</span><span class="mkt-tag">Fractional CCO</span></div></div>
+    <div class="mkt-card"><div class="mkt-flag">🇬🇧</div><div class="mkt-name">United Kingdom</div><div class="mkt-sub">FCA and UK GDPR Pressure</div><p class="mkt-body">Average project: £10,000–£60,000. FCA-regulated fintech and post-Brexit GDPR enforcement.</p><div class="mkt-tags"><span class="mkt-tag">UK GDPR</span><span class="mkt-tag">FCA</span><span class="mkt-tag">ISO 27001</span></div></div>
+    <div class="mkt-card"><div class="mkt-flag">🇪🇺</div><div class="mkt-name">European Union</div><div class="mkt-sub">Strongest GDPR Enforcement</div><p class="mkt-body">Average project: €8,000–€50,000. Germany, the Netherlands, and France have the heaviest enforcement.</p><div class="mkt-tags"><span class="mkt-tag">GDPR</span><span class="mkt-tag">CE Marking</span><span class="mkt-tag">Data Residency</span></div></div>
+    <div class="mkt-card"><div class="mkt-flag">🇸🇬</div><div class="mkt-name">Singapore</div><div class="mkt-sub">Southeast Asia Fintech Hub</div><p class="mkt-body">Average project: SGD 8,000–30,000. MAS-regulated fintech and Southeast Asia expansion gateway.</p><div class="mkt-tags"><span class="mkt-tag">MAS</span><span class="mkt-tag">PDPA</span><span class="mkt-tag">Market Entry</span></div></div>
+    <div class="mkt-card"><div class="mkt-flag">🇦🇺</div><div class="mkt-name">Australia</div><div class="mkt-sub">Financial and Medical Compliance</div><p class="mkt-body">Average project: AUD 6,000–25,000. APRA-regulated financial institutions and TGA medical devices.</p><div class="mkt-tags"><span class="mkt-tag">APRA</span><span class="mkt-tag">TGA</span><span class="mkt-tag">Privacy Act</span></div></div>
+    <div class="mkt-card"><div class="mkt-flag">🇮🇳</div><div class="mkt-name">India</div><div class="mkt-sub">Fastest-Growing Compliance Market</div><p class="mkt-body">Average project: ₹50,000–₹20,00,000. RBI-regulated fintech and India's new Digital Personal Data Protection Act.</p><div class="mkt-tags"><span class="mkt-tag">DPDP Act</span><span class="mkt-tag">RBI</span><span class="mkt-tag">Market Entry</span></div></div>
+  </div>
+</section>
+
+<!-- ══ ABOUT ════════════════════════════════════════ -->
+<section class="s-pad s-border reveal" id="about" style="background:var(--bg2)">
+  <div class="grid-2">
+    <div>
+      <div class="eyebrow">The Company</div>
+      <h2 class="section-h">Built at the intersection of <em>speed, AI, and expertise.</em></h2>
+      <p class="body-p">Benchbrex LLC is a US-registered compliance and business intelligence firm launched in 2025. We operate <strong>BenchBrex Global</strong> (benchbrex.com) — delivering compliance reports, strategy, and risk assessments across six international markets.</p>
+      <p class="body-p">Our model is productized consulting — fixed deliverables, fixed pricing, and guaranteed timelines. AI handles 70–80% of research and drafting. Compliance professionals verify every regulation reference, calibrate every risk rating, and add the jurisdictional nuance that AI alone cannot provide. You receive a formatted PDF report within 48–72 hours.</p>
+      <p class="body-p">We serve SaaS, fintech, and healthtech companies — primarily startups expanding into new markets, preparing for enterprise sales, or facing regulatory deadlines that cannot wait six weeks.</p>
+      <div class="h-rule"></div>
+      <p class="body-p" style="font-size:9px;color:var(--fg3)">All reports are for informational purposes and do not constitute legal advice.</p>
+    </div>
+    <div>
+      <div class="eyebrow">The Founder</div>
+      <div class="founder-card">
+        <div class="founder-av">PP</div>
+        <blockquote class="founder-q">"Compliance should be a competitive advantage — not a six-week, $80,000 tax on your growth."</blockquote>
+        <div class="founder-name">Parth Patel</div>
+        <div class="founder-role">Founder &amp; CEO, Benchbrex LLC</div>
+        <p class="founder-bio">Benchbrex LLC was founded in 2025 with a conviction that the compliance industry was failing startups — too slow, too expensive, and too disconnected from the pace of modern business. With expertise in multi-jurisdictional regulatory frameworks spanning SaaS, fintech, and healthtech, the company was built to deliver expert compliance reports at startup speed. AI-researched, human-reviewed, and guaranteed on time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DIVISION ══════════════════════════════════════ -->
+<section class="s-pad s-border reveal" id="divisions">
+  <div class="eyebrow">Our Division</div>
+  <h2 class="section-h">One division. <em>Global compliance intelligence.</em></h2>
+  <div class="div-wrap">
+    <div class="div-tag">// benchbrex_global</div>
+    <div class="div-name">BenchBrex Global</div>
+    <div class="div-url">benchbrex.com</div>
+    <p class="div-desc">Multi-country compliance management, strategy, and business intelligence for SaaS, fintech, and healthtech companies expanding internationally across six markets: USA, UK, EU, India, Singapore, and Australia.</p>
+    <ul class="div-list">
+      <li>SOC 2, ISO 27001, GDPR, PCI DSS, and HIPAA compliance reports</li>
+      <li>International market entry packs for six countries</li>
+      <li>Sales strategy, AI readiness, and competitive intelligence</li>
+      <li>Monthly retainer compliance management programs</li>
+      <li>Fractional CCO services for Series A and B companies</li>
+      <li>Compliance training, workshops, and certification programs</li>
+      <li>White-label services for law firms and consultancies</li>
+      <li>Compliance Automation SaaS Platform — launching Q1 2027</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══ SAAS ══════════════════════════════════════════ -->
+<section class="s-pad s-border reveal" style="background:var(--bg2)">
+  <div class="saas-inner">
+    <div>
+      <div class="saas-badge">// launching_q1_2027</div>
+      <div class="eyebrow">The Platform</div>
+      <h2 class="section-h">Compliance Automation <em>SaaS Platform</em></h2>
+      <p class="body-p">Real-time regulatory monitoring, automated deadline tracking, and a multi-jurisdiction dashboard. The first truly global compliance automation platform, targeting 100–1,000 companies at launch.</p>
+      <p class="body-p" style="font-size:9px;color:var(--fg3)">Target: 500 clients at $2,000/month = $12M ARR potential.</p>
+      <div style="margin-top:22px"><button class="btn-o magnetic" onclick="openModal('form-modal')">Join the Early Access Waitlist →</button></div>
+    </div>
+    <div>
+      <div class="saas-feats">
+        <div class="saas-feat"><div class="saas-fn">Real-Time Monitoring</div><p class="saas-fd">Automated tracking of regulatory changes across all jurisdictions.</p></div>
+        <div class="saas-feat"><div class="saas-fn">Deadline Management</div><p class="saas-fd">Never miss a filing or certification renewal in any country.</p></div>
+        <div class="saas-feat"><div class="saas-fn">Evidence Repository</div><p class="saas-fd">Centralized audit trail ready for any inspector, at any time.</p></div>
+        <div class="saas-feat"><div class="saas-fn">Multi-Jurisdiction Dashboard</div><p class="saas-fd">One unified view of your entire global compliance posture.</p></div>
+        <div class="saas-feat"><div class="saas-fn">Regulatory Change Alerts</div><p class="saas-fd">Instant notifications when laws affecting your business change.</p></div>
+        <div class="saas-feat"><div class="saas-fn">Subscription Pricing</div><p class="saas-fd">$500–$5,000 per month based on company size and jurisdictions.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ ════════════════════════════════════════════ -->
+<section class="s-pad s-border reveal" id="faq" style="background:var(--bg3)">
+  <div class="eyebrow">Frequently Asked Questions</div>
+  <h2 class="section-h">Every question you <em>haven't asked yet.</em></h2>
+  <div class="faq-cols">
+    <div>
+      <div class="faq-item"><div class="faq-q" onclick="faqT(this)">Are your reports legally valid?</div><div class="faq-a">Yes. All reports reference actual regulations and are reviewed by compliance professionals. They are for informational purposes and do not constitute legal advice. For high-stakes decisions, always verify with qualified local counsel.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="faqT(this)">How does 48-hour delivery actually work?</div><div class="faq-a">Once your intake form and payment are confirmed, your project enters production. AI handles 70–80% of research in approximately 90 minutes. Compliance professionals review and verify all content in about 60 minutes. We then format and brand the PDF in 30 minutes. You receive a draft for your review before final delivery.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="faqT(this)">How do you compare to Deloitte or KPMG?</div><div class="faq-a">We deliver the same regulatory depth using AI-augmented research, reviewed by compliance experts, at 10% of the cost. The key difference: Deloitte and KPMG charge for brand and overhead. We charge for the output — the report you actually need, on time.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="faqT(this)">Can I request a custom report outside your catalog?</div><div class="faq-a">Yes. Send us your requirements and we will provide a custom quote within 24 hours. If we cannot handle it, we will tell you upfront and recommend a suitable alternative.</div></div>
+    </div>
+    <div>
+      <div class="faq-item"><div class="faq-q" onclick="faqT(this)">What if I am not satisfied with my report?</div><div class="faq-a">One round of revisions is included with every delivery. If you are still not satisfied after revisions, contact us directly. We will work with you until the report meets your requirements — no questions asked.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="faqT(this)">Can you work under an NDA?</div><div class="faq-a">Yes. We sign mutual NDAs for all client engagements upon request. Let us know before your discovery call and we will have the NDA ready before any work begins.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="faqT(this)">What are your payment terms?</div><div class="faq-a">New clients pay 50% upfront and 50% on delivery. Repeat clients may pay 100% upfront or on Net-15 terms. Retainer clients are billed on the first of each month. We accept Stripe, PayPal, bank wire (for invoices over $5,000), and Wise for international payments.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="faqT(this)">Do you offer discounts for nonprofits or early-stage startups?</div><div class="faq-a">Yes. We offer a 20% discount for registered nonprofits and bootstrapped pre-revenue startups. Contact us before placing your order to receive a discount code.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PAYMENT ════════════════════════════════════════ -->
+<section class="s-pad s-border reveal" style="background:var(--bg2)">
+  <div class="eyebrow">Payment and Guarantees</div>
+  <h2 class="section-h" style="font-size:clamp(22px,2.6vw,36px)">Simple terms. <em>Clear guarantees.</em></h2>
+  <div class="pay-grid">
+    <div><div class="pay-h">Payment Methods</div><ul class="pay-list"><li>Stripe (credit and debit cards)</li><li>PayPal</li><li>Bank wire transfer (invoices over $5,000)</li><li>Wise (international clients)</li></ul></div>
+    <div><div class="pay-h">Payment Schedule</div><ul class="pay-list"><li>New clients: 50% upfront, 50% on delivery</li><li>Repeat clients: 100% upfront or Net-15</li><li>Retainer clients: billed on the 1st of each month</li><li>20% discount for nonprofits and bootstrapped startups</li></ul></div>
+    <div><div class="pay-h">Our Guarantees</div><ul class="pay-list"><li>On-time delivery or a 20% discount on your project</li><li>100% satisfaction guaranteed on every report</li><li>24-hour response to all client questions</li><li>4-hour response with the Priority Support add-on</li></ul></div>
+  </div>
+</section>
+
+<!-- ══ CTA ════════════════════════════════════════════ -->
+<section class="cta-sec s-border reveal" id="cta">
+  <div class="cta-gbg"></div>
+  <div class="eyebrow" style="justify-content:center;margin-bottom:14px">// get_started</div>
+  <h2 class="cta-h" data-i18n="cta.h">Your compliance deadline<br>is <em>not waiting.</em></h2>
+  <p class="cta-sub" data-i18n="cta.sub">Book a free 30-minute consultation. We will identify your top three regulatory risks at zero cost and zero obligation. You will leave with a clear action plan.</p>
+  <div class="cta-btns">
+    <button class="btn-p magnetic" onclick="openModal('form-modal')" data-i18n="cta.btn1">Book Free Consultation</button>
+    <button class="btn-o magnetic" onclick="openModal('preview-modal')" data-i18n="cta.btn2">Preview Sample Report</button>
+  </div>
+  <div class="cta-contact">contact@benchbrex.com &nbsp;·&nbsp; www.benchbrex.com &nbsp;·&nbsp; linkedin.com/company/benchbrexcom</div>
+</section>
+
+<footer>
+  <div><div class="ft-logo">BENCHBREX LLC</div><div class="ft-sub">US-Registered · Est. 2025 · Global Operations</div></div>
+  <ul class="ft-links"><li><a href="#services">Services</a></li><li><a href="#roi">ROI Calc</a></li><li><a href="#markets">Markets</a></li><li><a href="#about">About</a></li><li><a href="#faq">FAQ</a></li><li><a href="#cta">Contact</a></li></ul>
+  <div class="ft-r"><div class="ft-copy">© 2026 Benchbrex LLC. All rights reserved.</div><div class="ft-disc">Reports are for informational purposes only and do not constitute legal advice.</div></div>
+</footer>
+
+<!-- ══ INTAKE FORM MODAL ═════════════════════════════ -->
+<div class="overlay" id="form-modal">
+  <div class="modal">
+    <div class="m-hdr"><div class="m-ttl">// book_free_consultation</div><button class="m-x" onclick="closeModal('form-modal')">×</button></div>
+    <div class="m-body">
+      <div class="si-row"><div class="si done" id="si1"></div><div class="si" id="si2"></div><div class="si" id="si3"></div></div>
+      <div id="f-error" class="f-error">Please fill in all required fields before continuing.</div>
+      <div class="fstep active" id="fstep-1">
+        <p style="font-size:10px;color:var(--fg3);margin-bottom:18px">Step 1 of 3 — Contact Information</p>
+        <div class="fgrow">
+          <div class="fg-wrap"><label class="fl">First Name *</label><input class="fi" id="f-fname" placeholder="Jane" type="text"></div>
+          <div class="fg-wrap"><label class="fl">Last Name *</label><input class="fi" id="f-lname" placeholder="Smith" type="text"></div>
+        </div>
+        <div class="fg-wrap"><label class="fl">Company Email *</label><input class="fi" id="f-email" placeholder="jane@company.com" type="email"></div>
+        <div class="fg-wrap"><label class="fl">Company Name *</label><input class="fi" id="f-co" placeholder="Acme SaaS Inc." type="text"></div>
+        <div class="fgrow">
+          <div class="fg-wrap"><label class="fl">Job Title</label><input class="fi" id="f-title" placeholder="CTO" type="text"></div>
+          <div class="fg-wrap"><label class="fl">Company Size</label>
+            <select class="fsel" id="f-size"><option>1–10 employees</option><option>11–50 employees</option><option>51–200 employees</option><option>201–500 employees</option><option>500+ employees</option></select>
+          </div>
+        </div>
+        <div class="f-nav"><div></div><button class="btn-p" onclick="formNext(1)">Next: Project Scope →</button></div>
+      </div>
+      <div class="fstep" id="fstep-2">
+        <p style="font-size:10px;color:var(--fg3);margin-bottom:18px">Step 2 of 3 — Project Scope</p>
+        <div class="fg-wrap"><label class="fl">Primary Service Needed *</label>
+          <select class="fsel" id="f-svc"><option>Compliance Gap Analysis</option><option>SOC 2 Audit Readiness</option><option>ISO 27001 Certification Prep</option><option>GDPR &amp; Data Privacy Audit</option><option>International Market Entry</option><option>HR &amp; Employment Compliance</option><option>Enterprise Risk Assessment</option><option>Sales Strategy &amp; GTM</option><option>AI Readiness Assessment</option><option>Competitive Intelligence</option><option>Investor-Ready Business Plan</option><option>Compliance Automation SaaS Waitlist</option><option>Other / Custom</option></select>
+        </div>
+        <div class="fg-wrap"><label class="fl">Target Jurisdiction(s) *</label>
+          <select class="fsel" id="f-jur"><option>United States</option><option>United Kingdom</option><option>European Union</option><option>India</option><option>Singapore</option><option>Australia</option><option>Multiple (3 or more)</option></select>
+        </div>
+        <div class="fg-wrap"><label class="fl">Preferred Delivery Timeline</label>
+          <select class="fsel" id="f-timeline"><option>Standard (48–72 hours)</option><option>Express (24 hours, +$300–$500)</option><option>No rush — within one week</option><option>I have a specific deadline</option></select>
+        </div>
+        <div class="fg-wrap"><label class="fl">Key Compliance Concerns</label><textarea class="fta" id="f-notes" placeholder="Describe your specific compliance challenges, regulatory deadlines, or questions…"></textarea></div>
+        <div class="f-nav"><button class="btn-ghost" onclick="formBack(2)">← Back</button><button class="btn-p" onclick="formNext(2)">Next: Budget →</button></div>
+      </div>
+      <div class="fstep" id="fstep-3">
+        <p style="font-size:10px;color:var(--fg3);margin-bottom:18px">Step 3 of 3 — Budget and Preferences</p>
+        <div class="fg-wrap"><label class="fl">Project Budget Range *</label>
+          <select class="fsel" id="f-budget"><option>Under $1,000</option><option>$1,000–$5,000</option><option>$5,000–$15,000</option><option>$15,000–$50,000</option><option>$50,000+</option><option>Flexible — show me what's right</option></select>
+        </div>
+        <div class="fg-wrap"><label class="fl">How Did You Hear About Us?</label>
+          <select class="fsel" id="f-src"><option>Google Search</option><option>LinkedIn</option><option>Referral</option><option>Product Hunt</option><option>Other</option></select>
+        </div>
+        <div class="fg-wrap"><label class="fl">NDA Required?</label>
+          <select class="fsel" id="f-nda"><option value="false">No NDA needed</option><option value="true">Yes — please send a mutual NDA before the discovery call</option></select>
+        </div>
+        <div class="fg-wrap"><label class="fl">Anything Else?</label><textarea class="fta" id="f-extra" placeholder="Any additional context, specific deadlines, or questions…"></textarea></div>
+        <div id="f-loading" class="f-loading">Submitting… please wait</div>
+        <div class="f-nav"><button class="btn-ghost" onclick="formBack(3)">← Back</button><button class="btn-p" id="f-submit-btn" onclick="formSubmit()">Submit and Book Call →</button></div>
+      </div>
+      <div class="fstep" id="fstep-success">
+        <div class="f-success">
+          <div class="f-success-icon">✓</div>
+          <div class="f-success-h">Consultation Booked</div>
+          <p class="f-success-s">Thank you! You will receive a calendar invite within two hours. We have also sent a confirmation to your email with our 10-minute intake questionnaire.<br><br><strong>Next step:</strong> Complete the intake form to move your report into production immediately.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ REPORT PREVIEW MODAL ══════════════════════════ -->
+<div class="overlay" id="preview-modal">
+  <div class="modal modal-wide">
+    <div class="m-hdr"><div class="m-ttl">// sample_report — SOC 2 Readiness (redacted)</div><button class="m-x" onclick="closeModal('preview-modal')">×</button></div>
+    <div class="rp-layout">
+      <div class="rp-nav">
+        <div class="rp-ni active" onclick="showRPPage('cover',this)"><span class="rp-nn">00</span>Cover Page</div>
+        <div class="rp-ni" onclick="showRPPage('toc',this)"><span class="rp-nn">01</span>Table of Contents</div>
+        <div class="rp-ni" onclick="showRPPage('exec',this)"><span class="rp-nn">02</span>Executive Summary</div>
+        <div class="rp-ni" onclick="showRPPage('matrix',this)"><span class="rp-nn">03</span>Risk Matrix</div>
+        <div class="rp-ni" onclick="showRPPage('findings',this)"><span class="rp-nn">04</span>Key Findings</div>
+        <div class="rp-ni" onclick="showRPPage('action',this)"><span class="rp-nn">05</span>Action Plan</div>
+      </div>
+      <div class="rp-content">
+        <div class="rp-page active" id="rp-cover">
+          <div class="rp-cover">
+            <div>
+              <div class="rp-clogo">BENCHBREX LLC</div>
+              <div class="rp-ctag">Compliance Intelligence · benchbrex.com</div>
+              <div class="rp-ch">SOC 2 Type I Audit<br>Readiness Report</div>
+              <div style="font-size:10px;font-weight:300;color:var(--fg2);margin-bottom:14px">Prepared for: [Client Company Name] — Confidential</div>
+            </div>
+            <div>
+              <div class="rp-cmeta">
+                <div class="rp-cmi">Report Date<div class="rp-cmv">February 2026</div></div>
+                <div class="rp-cmi">Delivery Time<div class="rp-cmv">47 hours</div></div>
+                <div class="rp-cmi">Scope<div class="rp-cmv">All 5 TSC Criteria</div></div>
+                <div class="rp-cmi">Overall Risk<div class="rp-cmv">HIGH — Action Required</div></div>
+              </div>
+              <div class="rp-cbar"></div>
+            </div>
+          </div>
+        </div>
+        <div class="rp-page" id="rp-toc">
+          <div class="toc-h">Table of Contents</div>
+          <div class="toc-item"><span>Executive Summary</span><span class="toc-n">pg 3</span></div>
+          <div class="toc-item"><span>Methodology and Scope</span><span class="toc-n">pg 5</span></div>
+          <div class="toc-item"><span>Trust Service Criteria Analysis</span><span class="toc-n">pg 7</span></div>
+          <div class="toc-item"><span>Risk Matrix and Heat Map</span><span class="toc-n">pg 12</span></div>
+          <div class="toc-item"><span>Key Findings — 17 gaps identified</span><span class="toc-n">pg 15</span></div>
+          <div class="toc-item"><span>Evidence Requirements Checklist</span><span class="toc-n">pg 24</span></div>
+          <div class="toc-item"><span>Policy and Procedure Templates (8)</span><span class="toc-n">pg 28</span></div>
+          <div class="toc-item"><span>90-Day Remediation Roadmap</span><span class="toc-n">pg 38</span></div>
+          <div class="toc-item"><span>Appendix: Regulation References</span><span class="toc-n">pg 44</span></div>
+        </div>
+        <div class="rp-page" id="rp-exec">
+          <div class="toc-h">Executive Summary</div>
+          <p style="font-size:11px;font-weight:300;color:var(--fg2);line-height:1.85;margin-bottom:14px">This SOC 2 Type I Readiness Assessment was conducted for [Client Company] to evaluate current posture against all five Trust Service Criteria: Security, Availability, Processing Integrity, Confidentiality, and Privacy.</p>
+          <p style="font-size:11px;font-weight:300;color:var(--fg2);line-height:1.85;margin-bottom:14px"><strong style="color:var(--fg)">Overall Readiness: 41% — HIGH RISK.</strong> Seventeen control gaps were identified, of which six are classified as high severity. At the current state, [Client Company] would not pass a SOC 2 Type I audit. With the remediation roadmap in this report, audit-readiness is achievable within 90 days.</p>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin:20px 0">
+            <div style="background:var(--bg3);padding:14px;text-align:center"><div style="font-size:28px;font-weight:700;color:var(--fg)">17</div><div style="font-size:7px;color:var(--fg3);margin-top:3px;text-transform:uppercase;letter-spacing:.1em">Gaps Found</div></div>
+            <div style="background:var(--bg3);padding:14px;text-align:center"><div style="font-size:28px;font-weight:700;color:var(--fg)">41%</div><div style="font-size:7px;color:var(--fg3);margin-top:3px;text-transform:uppercase;letter-spacing:.1em">Current Readiness</div></div>
+            <div style="background:var(--fg);padding:14px;text-align:center"><div style="font-size:28px;font-weight:700;color:var(--bg)">90d</div><div style="font-size:7px;color:var(--bg);opacity:.55;margin-top:3px;text-transform:uppercase;letter-spacing:.1em">To Audit-Ready</div></div>
+          </div>
+        </div>
+        <div class="rp-page" id="rp-matrix">
+          <div class="toc-h" style="margin-bottom:8px">Risk Matrix</div>
+          <p style="font-size:10px;font-weight:300;color:var(--fg2);margin-bottom:14px">Across all Trust Service Criteria — categorized by severity and likelihood.</p>
+          <div class="risk-matrix">
+            <div class="rc rh">Control Area</div><div class="rc rh">Severity</div><div class="rc rh">Likelihood</div><div class="rc rh">Status</div>
+            <div class="rc">Access Control</div><div class="rc rhigh">HIGH</div><div class="rc rhigh">Likely</div><div class="rc rhigh">Gap Identified</div>
+            <div class="rc">Encryption at Rest</div><div class="rc rhigh">HIGH</div><div class="rc rmed">Possible</div><div class="rc rhigh">Not Implemented</div>
+            <div class="rc">Incident Response</div><div class="rc rmed">MED</div><div class="rc rmed">Possible</div><div class="rc rmed">Partially In Place</div>
+            <div class="rc">Vendor Management</div><div class="rc rmed">MED</div><div class="rc rlow">Unlikely</div><div class="rc rmed">Partially In Place</div>
+            <div class="rc">Change Management</div><div class="rc rlow">LOW</div><div class="rc rlow">Unlikely</div><div class="rc rlow">In Place</div>
+          </div>
+        </div>
+        <div class="rp-page" id="rp-findings">
+          <div class="toc-h">Key Findings</div>
+          <div class="fi-wrap"><div class="fi-hd"><span class="fb fh">HIGH</span><span class="fi-title">No formal Access Control Policy documented</span></div><div class="fi-body">SOC 2 CC6.1 requires documented access control policies with defined roles and privileges. Currently, access is managed informally without documented procedures, posing a critical audit failure risk. <strong>Remediation:</strong> Draft and approve an Access Control Policy using the template in Appendix B. Timeline: two weeks.</div></div>
+          <div class="fi-wrap"><div class="fi-hd"><span class="fb fh">HIGH</span><span class="fi-title">Database backups are not encrypted at rest</span></div><div class="fi-body">CC9.2 requires data to be protected during storage. Production database backups stored in S3 use the default unencrypted storage class. <strong>Remediation:</strong> Enable AES-256 server-side encryption on all S3 backup buckets. Timeline: three days.</div></div>
+          <div class="fi-wrap"><div class="fi-hd"><span class="fb fm">MED</span><span class="fi-title">Incident Response Plan has not been tested in the past 12 months</span></div><div class="fi-body">CC7.3 requires incident response procedures to be tested annually. The last tabletop exercise has no record. <strong>Remediation:</strong> Conduct a tabletop exercise with engineering and leadership. Timeline: four weeks.</div></div>
+        </div>
+        <div class="rp-page" id="rp-action">
+          <div class="toc-h">90-Day Action Plan</div>
+          <div class="ac-item"><div class="ac-n">01</div><div><div class="ac-t">Implement the Access Control Policy</div><div class="ac-d">Draft, approve, and communicate a formal Access Control Policy covering role definitions, least-privilege enforcement, and access review schedules.</div><span class="ac-tag">Days 1–14</span></div></div>
+          <div class="ac-item"><div class="ac-n">02</div><div><div class="ac-t">Enable Encryption at Rest on All Storage</div><div class="ac-d">Enable AES-256 server-side encryption on all S3 buckets, RDS instances, and backup storage. Document encryption key management procedures.</div><span class="ac-tag">Days 1–7</span></div></div>
+          <div class="ac-item"><div class="ac-n">03</div><div><div class="ac-t">Conduct an Incident Response Tabletop Exercise</div><div class="ac-d">Run a two-hour tabletop simulation with engineering and leadership. Document outcomes and update the Incident Response Plan accordingly.</div><span class="ac-tag">Days 15–30</span></div></div>
+          <div class="ac-item"><div class="ac-n">04</div><div><div class="ac-t">Complete the Evidence Collection Checklist</div><div class="ac-d">Systematically gather all 47 evidence items required for the Type I audit, using the checklist in Appendix C to track completeness.</div><span class="ac-tag">Days 30–60</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FAB ════════════════════════════════════════════ -->
+<div class="fab">
+  <button class="fab-sec" onclick="openModal('preview-modal')">↗ Preview Report</button>
+  <button class="fab-main" onclick="openModal('form-modal')">Free Snapshot</button>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   ⚙  CONFIG — REPLACE WITH YOUR SUPABASE DETAILS
+════════════════════════════════════════════════ */
+const CFG = {
+  SUPABASE_URL: 'https://zowbwgzslqxrqdpoimac.supabase.co',
+  SUPABASE_KEY: 'sb_publishable_I7_Xi25VO1-xaDjpi7VDsA_l5938yBC',
+};
+
+/* ═══════════════════════════════════════════════
+   DATA
+════════════════════════════════════════════════ */
+const TICKS = ['SOC 2 Readiness','GDPR Audit','ISO 27001 Gap Analysis','Market Entry Compliance','PCI DSS Readiness','Fractional CCO','HIPAA Compliance','AI Readiness Assessment','Enterprise Risk Assessment','Sales Strategy Report','Investor Business Plan','HR Employment Compliance','Competitive Intelligence','Compliance Training','White-Label Services'];
+const RF_DATA = [
+  {dt:'Jan 2026',co:'Meta Ireland',reg:'GDPR',amt:'€251M',d:'Inadequate consent mechanisms'},
+  {dt:'Dec 2025',co:'LinkedIn US',reg:'CCPA',amt:'$68.5M',d:'Unauthorized data sharing'},
+  {dt:'Nov 2025',co:'H&M Germany',reg:'GDPR',amt:'€35M',d:'Unlawful employee monitoring'},
+  {dt:'Oct 2025',co:'Clearview AI',reg:'GDPR',amt:'€20M',d:'Illegal biometric data processing'},
+  {dt:'Sep 2025',co:'Amazon EU',reg:'GDPR',amt:'€746M',d:'Advertising tracking violations'},
+  {dt:'Aug 2025',co:'Criteo France',reg:'GDPR',amt:'€40M',d:'Cookie consent failures'},
+  {dt:'Jul 2025',co:'Uber Netherlands',reg:'GDPR',amt:'€290M',d:'Cross-border data transfer breach'},
+  {dt:'Jun 2025',co:'TikTok UK',reg:'ICO',amt:'£12.7M',d:'Children\'s data misuse'},
+];
+const SVCS = [
+  {n:'01',t:'Compliance Gap Analysis',d:'Full audit across all jurisdictions — GDPR, CCPA, DPDP, and cybersecurity frameworks. Risk matrix with a 30-60-90 day remediation roadmap.',p:'$499–$12,000',dels:['15–25 page compliance audit','Country-specific gap identification','Risk matrix: High, Medium, Low','Remediation roadmap with timelines'],cs:{co:'TechFlow SaaS',type:'Series A · $8M raised',ch:'Compliance gaps blocked a $600K enterprise deal during due diligence.',res:'<strong>$600K contract closed</strong> within six weeks of report delivery.',time:'Delivered in 52 hours'}},
+  {n:'02',t:'SOC 2 Audit Readiness',d:'Complete audit preparation in five days instead of three months. Unlocks enterprise contracts worth $100K–$1M annually for Series A and B SaaS companies.',p:'$2,500–$12,000',dels:['30–50 page readiness report','All 5 Trust Service Criteria mapped','Evidence requirement checklist','8 policy and procedure templates'],cs:{co:'Qovery Cloud',type:'Series B · $22M raised',ch:'Three enterprise deals lost in 90 days due to lack of SOC 2 proof.',res:'<strong>$1.2M ARR unlocked</strong> — auditor review passed in 90 days.',time:'Delivered in 5 days'}},
+  {n:'03',t:'ISO 27001 Certification Prep',d:'The gold standard for information security management. Required by enterprise buyers in finance, healthcare, and B2B SaaS.',p:'$5,000–$55,000',dels:['Full ISO 27001 gap assessment','Implementation documentation package','Policy and control templates','Evidence collection framework'],cs:{co:'MediRoute Health',type:'HealthTech · Pre-IPO',ch:'ISO 27001 required by NHS procurement within a six-week window.',res:'<strong>NHS contract awarded</strong> — £2.4M annual contract value.',time:'Delivered in 5 days'}},
+  {n:'04',t:'GDPR & Data Privacy Audit',d:'GDPR fines can reach 4% of global annual revenue or €20M. Full data flow mapping, vendor reviews, cross-border transfers, and breach response protocols.',p:'€499–€8,000',dels:['Data flow mapping and RoPA creation','Legal basis assessment for all processing','Privacy policy red-line edits','Data breach response protocol'],cs:{co:'DataVault EU',type:'Fintech · €15M ARR',ch:'A DPA investigation was triggered after a customer complaint, with a 30-day response window.',res:'<strong>Investigation closed</strong> with no fine issued. Full GDPR compliance achieved.',time:'Delivered in 72 hours'}},
+  {n:'05',t:'International Market Entry',d:'Complete legal and regulatory roadmap for entering the USA, UK, EU, Singapore, India, or Australia — covering entity registration, tax obligations, and employment law.',p:'$400–$3,500',dels:['Full legal and regulatory roadmap','Entity registration checklist','Tax obligation summary (VAT/GST)','90-day market entry action timeline'],cs:{co:'Zeno Analytics',type:'India → USA expansion',ch:'Needed a US entity and compliance framework before acquiring the first American customer.',res:'<strong>Delaware C-Corp formed</strong> and SOC 2 started — first US customer signed in month three.',time:'Delivered in 72 hours'}},
+  {n:'06',t:'HR & Employment Compliance',d:'Country-specific employment law guidance covering contracts, payroll, leave entitlements, contractor classification, and termination procedures.',p:'$400–$8,000',dels:['Country-specific employment law summary','Employment contract templates and review','Contractor vs employee classification guide','Termination and severance calculations'],cs:{co:'FleetOps Global',type:'UK-India remote team · 40 staff',ch:'Twelve contractors were misclassified in India, creating a ₹40L liability exposure.',res:'<strong>Reclassification completed</strong> — liability avoided and new contracts implemented.',time:'Delivered in 72 hours'}},
+  {n:'07',t:'Enterprise Risk Assessment',d:'Comprehensive risk framework covering operational, regulatory, financial, cyber, and reputational risks — with a full risk register and KPI monitoring design.',p:'$1,000–$15,000',dels:['Risk register with 30+ identified risks','5×5 risk heat map','Mitigation strategies for critical risks','Business continuity plan outline'],cs:{co:'ScaleOps Platform',type:'Series C · $45M raised',ch:'The board requested an enterprise risk assessment before a Series D fundraise.',res:'<strong>Series D closed at $80M</strong> — the risk framework was cited in investor due diligence.',time:'Delivered in 7 days'}},
+  {n:'08',t:'Industry-Specific Compliance',d:'Fintech, healthtech, and SaaS carry unique regulatory obligations — PCI DSS, FCA, RBI, MAS, HIPAA, ISO 13485, CE marking, and FDA pathways.',p:'$2,000–$70,000',dels:['Sector-specific regulatory mapping','PCI DSS and HIPAA readiness','License requirements analysis','Regulatory liaison strategy'],cs:{co:'PayRoute Fintech',type:'Payments · MAS licensed',ch:'A full MAS compliance stack was required before the Singapore market launch.',res:'<strong>MAS license granted</strong> — SGD 12M processed in the first month.',time:'Delivered in 5 days'}},
+  {n:'09',t:'Compliance Training & Workshops',d:'Live and recorded training sessions on GDPR, SOC 2, ISO 27001, and data privacy. Certification is issued upon completion.',p:'$1,500–$40,000',dels:['Live or recorded workshop format','Compliance certification issued on completion','Custom content tailored to your technology stack','Team assessment and results report'],cs:{co:'NorthBridge Capital',type:'Private Equity Fund · 120 staff',ch:'GDPR training was required for all staff before the annual FCA review.',res:'<strong>100% of staff certified</strong> — FCA review passed with zero findings.',time:'Completed in 2 weeks'}},
+];
+const STRATS = [
+  {n:'10',t:'Sales Strategy & Go-to-Market',d:'Custom 20–30 page playbook covering ICP, three buyer personas, five cold email templates, LinkedIn scripts, objection handling, and a 90-day KPI plan.',p:'$499–$3,000',dels:['Ideal customer profile definition','3 buyer personas','5 cold email and LinkedIn templates','90-day KPI framework'],cs:{co:'SynthWave AI',type:'AI SaaS · Pre-revenue',ch:'Needed an ICP and outbound strategy before hiring the first SDR.',res:'<strong>First $100K ARR generated</strong> using the GTM playbook within four months.',time:'Delivered in 48 hours'}},
+  {n:'11',t:'AI Readiness Assessment',d:'Identifies your top automation opportunities, prioritizes AI use cases by ROI, provides specific tool recommendations, cost-benefit projections, and a 90-day implementation roadmap.',p:'$499–$6,000',dels:['AI opportunity mapping and scoring','ROI projections per use case','Specific tool recommendations','90-day implementation plan'],cs:{co:'Operata Logistics',type:'Operations SaaS · $3M ARR',ch:'The CEO wanted to identify where AI would have the highest ROI before committing investment.',res:'<strong>$280K per year in savings identified</strong> — three AI tools deployed in 60 days.',time:'Delivered in 48 hours'}},
+  {n:'12',t:'Competitive Intelligence',d:'Deep-dive analysis of five to ten competitors covering product features, pricing, customer sentiment, white-space opportunities, and battle cards for your sales team.',p:'$500–$5,000',dels:['5–10 competitor deep-dives','Pricing and feature comparison matrix','Customer sentiment analysis','Sales battle card templates'],cs:{co:'Callisto CRM',type:'B2B SaaS · $1.2M ARR',ch:'Losing deals to Salesforce and HubSpot — needed a differentiated positioning strategy.',res:'<strong>Win rate vs Salesforce increased 38%</strong> within 60 days of using the battle cards.',time:'Delivered in 72 hours'}},
+  {n:'13',t:'Investor-Ready Business Plan',d:'Complete business plan with three-year financial projections, market analysis, go-to-market strategy, and an optional 15-slide pitch deck for pre-seed through Series A.',p:'$800–$10,000',dels:['3-year financial projections','Market size and competitive analysis','GTM strategy and traction roadmap','Optional 15-slide pitch deck'],cs:{co:'GreenGrid Energy',type:'CleanTech · Pre-seed',ch:'Needed a credible business plan before approaching venture capital firms.',res:'<strong>$2.5M pre-seed round closed</strong> — three of four investors cited the plan quality.',time:'Delivered in 7 days'}},
+  {n:'14',t:'Fractional CCO Service',d:'Embedded part-time Chief Compliance Officer providing board-level reporting, regulatory relationship management, and compliance program oversight. Six-month minimum commitment.',p:'$3,000–$10,000/mo',dels:['Board-level compliance reporting','Regulatory relationship management','Compliance program oversight','Monthly compliance status updates'],cs:{co:'Vantage Wealth Management',type:'RIA · $400M AUM',ch:'An SEC examination was scheduled with no internal compliance lead in place.',res:'<strong>SEC examination passed</strong> — zero deficiencies noted.',time:'6-month engagement'}},
+  {n:'15',t:'White-Label Compliance',d:'Compliance execution delivered under your firm\'s brand. Generates 30–50% margin for law firms and consulting firms handling overflow or expanding their compliance offering.',p:'30–50% project margin',dels:['Fully white-labeled report output','Your branding on all deliverables','Partner referral fee structure','Capacity overflow program'],cs:{co:'Ashford & Partners LLP',type:'UK Law Firm · 45 solicitors',ch:'Compliance demand exceeded in-house capacity by 40% during a peak period.',res:'<strong>£180K in additional revenue</strong> generated via white-label overflow in six months.',time:'Ongoing partnership'}},
+];
+const PRC_SVCS = [
+  {id:'gap',n:'Compliance Gap Analysis',lo:499,hi:2500,b4:15000},
+  {id:'soc2',n:'SOC 2 Readiness',lo:2500,hi:5000,b4:50000},
+  {id:'iso',n:'ISO 27001 Preparation',lo:5000,hi:12000,b4:40000},
+  {id:'gdpr',n:'GDPR Audit',lo:1500,hi:3500,b4:20000},
+  {id:'risk',n:'Enterprise Risk Assessment',lo:1000,hi:3000,b4:12000},
+  {id:'hr',n:'HR & Employment Compliance',lo:400,hi:1200,b4:6000},
+];
+const PRC_STRATS = [
+  {id:'sales',n:'Sales Strategy & GTM',lo:499,hi:1500,b4:8000},
+  {id:'ai',n:'AI Readiness Assessment',lo:499,hi:999,b4:5000},
+  {id:'ci',n:'Competitive Intelligence',lo:500,hi:1500,b4:6000},
+  {id:'biz',n:'Investor Business Plan',lo:800,hi:2000,b4:10000},
+];
+const PRC_JURS = [
+  {id:'usa',n:'+ USA (CCPA / SEC)',lo:500,hi:800},
+  {id:'eu',n:'+ EU (GDPR)',lo:400,hi:700},
+  {id:'uk',n:'+ UK (ICO / FCA)',lo:400,hi:650},
+  {id:'in',n:'+ India (DPDP / RBI)',lo:200,hi:400},
+  {id:'sg',n:'+ Singapore (MAS / PDPA)',lo:300,hi:500},
+];
+const LANGS = {
+  en:{'nav.svc':'Services','nav.roi':'ROI Calc','nav.mkt':'Markets','nav.about':'About','nav.faq':'FAQ','nav.contact':'Contact','nav.cta':'Free Snapshot','hero.l1':'Compliance reports.','hero.l2':'48 hours.','hero.l3':'Big 4 depth.','hero.sub':'AI-powered compliance, strategy, and risk reports that replace 4–6 weeks of consulting — delivered in 48 hours at 10% of traditional costs. Built for startups moving fast in regulated markets.','hero.btn1':'Book Free Consultation','hero.btn2':'Preview Sample Report ↗','gb.1a':'On-time delivery','gb.1b':'or 20% discount — guaranteed','gb.2a':'100% satisfaction','gb.2b':'guaranteed on every report','gb.3a':'Mutual NDA','gb.3b':'available for all engagements','gb.4a':'Free 30-min consultation','gb.4b':'with every report','roi.h':'Calculate your compliance ROI.','roi.sub':'See your potential GDPR fine exposure, what Deloitte and KPMG charge, and exactly how much Benchbrex saves you — in real time.','cta.h':'Your compliance deadline<br>is not waiting.','cta.sub':'Book a free 30-minute consultation. We will identify your top three regulatory risks at zero cost and zero obligation.','cta.btn1':'Book Free Consultation','cta.btn2':'Preview Sample Report'},
+  de:{'nav.svc':'Leistungen','nav.roi':'ROI Rechner','nav.mkt':'Märkte','nav.about':'Über uns','nav.faq':'FAQ','nav.contact':'Kontakt','nav.cta':'Gratis Analyse','hero.l1':'Compliance-Berichte.','hero.l2':'48 Stunden.','hero.l3':'Big-4-Tiefe.','hero.sub':'KI-gestützte Compliance-, Strategie- und Risikoberichte — in 48 Stunden geliefert zu 10% der traditionellen Kosten.','hero.btn1':'Kostenloses Erstgespräch','hero.btn2':'Beispielbericht ansehen ↗','gb.1a':'Pünktliche Lieferung','gb.1b':'oder 20% Rabatt — garantiert','gb.2a':'100% Zufriedenheitsgarantie','gb.2b':'auf jeden Bericht','gb.3a':'Gegenseitige NDA','gb.3b':'für alle Projekte verfügbar','gb.4a':'Kostenloses 30-min-Gespräch','gb.4b':'bei jedem Bericht inklusive','roi.h':'Berechnen Sie Ihren Compliance-ROI.','roi.sub':'Sehen Sie Ihr DSGVO-Bußgeldrisiko, die Deloitte- und KPMG-Preise und wie viel Benchbrex spart.','cta.h':'Ihre Compliance-Frist wartet nicht.','cta.sub':'Kostenloses 30-Minuten-Erstgespräch. Wir identifizieren Ihre drei größten regulatorischen Risiken.','cta.btn1':'Erstgespräch buchen','cta.btn2':'Beispielbericht ansehen'},
+  fr:{'nav.svc':'Services','nav.roi':'Calculateur ROI','nav.mkt':'Marchés','nav.about':'À propos','nav.faq':'FAQ','nav.contact':'Contact','nav.cta':'Analyse gratuite','hero.l1':'Rapports de conformité.','hero.l2':'48 heures.','hero.l3':'Profondeur Big 4.','hero.sub':'Rapports de conformité et de risques alimentés par l\'IA — livrés en 48 heures à 10% des coûts traditionnels.','hero.btn1':'Réserver une consultation gratuite','hero.btn2':'Aperçu d\'un rapport ↗','gb.1a':'Livraison dans les délais','gb.1b':'ou remise de 20% — garanti','gb.2a':'Satisfaction 100%','gb.2b':'garantie sur chaque rapport','gb.3a':'NDA mutuel','gb.3b':'disponible pour tous les projets','gb.4a':'Consultation gratuite 30 min','gb.4b':'incluse avec chaque rapport','roi.h':'Calculez votre ROI de conformité.','roi.sub':'Voyez votre exposition aux amendes RGPD, les tarifs Deloitte et KPMG, et ce que Benchbrex vous fait économiser.','cta.h':'Votre délai de conformité n\'attend pas.','cta.sub':'Consultation gratuite de 30 minutes. Nous identifions vos trois principaux risques réglementaires.','cta.btn1':'Réserver une consultation','cta.btn2':'Aperçu d\'un rapport'},
+};
+
+/* ═══════════════════════════════════════════════
+   CURSOR
+════════════════════════════════════════════════ */
+const CD=document.getElementById('cd'),CR=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;CD.style.left=mx+'px';CD.style.top=my+'px'});
+(function anim(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;CR.style.left=rx+'px';CR.style.top=ry+'px';requestAnimationFrame(anim)})();
+function addHover(sel){document.querySelectorAll(sel).forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'))})}
+addHover('a,button,.svc-card,.faq-q,.tab-btn,.prc-chk,.rp-ni,.market-g,.ctrl-btn');
+
+/* ═══════════════════════════════════════════════
+   PROGRESS BAR
+════════════════════════════════════════════════ */
+window.addEventListener('scroll',()=>{
+  const pct=scrollY/(document.body.scrollHeight-innerHeight)*100;
+  document.getElementById('pf').style.width=pct+'%';
+});
+
+/* ═══════════════════════════════════════════════
+   BUILD TICKER
+════════════════════════════════════════════════ */
+(()=>{
+  const t=document.getElementById('tick-inner');
+  let h='';[...TICKS,...TICKS].forEach(s=>{h+=`<div class="tick-i">${s}</div>`});
+  t.innerHTML=h;
+})();
+
+/* ═══════════════════════════════════════════════
+   BUILD REGULATORY FEED
+════════════════════════════════════════════════ */
+(()=>{
+  const r=document.getElementById('rf-track');
+  let h='';[...RF_DATA,...RF_DATA].forEach(it=>{h+=`<div class="rf-item"><span class="dt">${it.dt}</span><span>${it.co}</span><span style="color:var(--fg3)">·</span><span>${it.reg} Fine:</span><span class="amt">${it.amt}</span><span style="color:var(--fg4)">|</span><span style="font-size:8px;color:var(--fg3)">${it.d}</span></div>`});
+  r.innerHTML=h;
+})();
+
+/* ═══════════════════════════════════════════════
+   BUILD SERVICE CARDS
+════════════════════════════════════════════════ */
+function mkCard(s){
+  const cs=s.cs;
+  return`<div class="svc-card">
+    <div class="svc-num">// ${s.n}</div>
+    <div class="svc-title sc-target">${s.t}</div>
+    <p class="svc-desc">${s.d}</p>
+    <ul class="svc-dels">${s.dels.map(d=>`<li>${d}</li>`).join('')}</ul>
+    <div class="del-tag">${s.p}</div>
+    <div class="cs-panel">
+      <div class="cs-tag">// case_study</div>
+      <div class="cs-co">${cs.co}</div>
+      <div class="cs-type">${cs.type}</div>
+      <div class="cs-row"><div class="cs-k">Challenge</div><div class="cs-v">${cs.ch}</div></div>
+      <div class="cs-row"><div class="cs-k">Result</div><div class="cs-v">${cs.res}</div></div>
+      <div class="cs-row"><div class="cs-k">Timeline</div><div class="cs-v">${cs.time}</div></div>
+    </div>
+  </div>`;
+}
+document.getElementById('compliance-grid').innerHTML=SVCS.map(mkCard).join('');
+document.getElementById('strategy-grid').innerHTML=STRATS.map(mkCard).join('');
+addHover('.svc-card');
+
+/* ═══════════════════════════════════════════════
+   BUILD PRICING CHECKS
+════════════════════════════════════════════════ */
+function mkCheck(s){
+  return`<label class="prc-chk"><input type="checkbox" data-id="${s.id}" data-lo="${s.lo}" data-hi="${s.hi}" data-b4="${s.b4||0}" onchange="calcPricing()"><span class="prc-cn">${s.n}</span><span class="prc-cp">$${s.lo.toLocaleString()}+</span></label>`;
+}
+document.getElementById('prc-svc-checks').innerHTML=PRC_SVCS.map(mkCheck).join('');
+document.getElementById('prc-strat-checks').innerHTML=PRC_STRATS.map(mkCheck).join('');
+document.getElementById('prc-jur-checks').innerHTML=PRC_JURS.map(s=>`<label class="prc-chk"><input type="checkbox" data-id="${s.id}" data-lo="${s.lo}" data-hi="${s.hi}" data-b4="0" onchange="calcPricing()"><span class="prc-cn">${s.n}</span><span class="prc-cp">$${s.lo}+</span></label>`).join('');
+addHover('.prc-chk');
+
+/* ═══════════════════════════════════════════════
+   ROI CALCULATOR
+════════════════════════════════════════════════ */
+function fmtM(n){if(n>=1e6)return`$${(n/1e6).toFixed(1)}M`;if(n>=1e3)return`$${Math.round(n/1e3)}K`;return`$${n}`}
+function calcROI(){
+  const rev=+document.getElementById('roi-rv').value;
+  const jurs=+document.getElementById('roi-j').value;
+  const mat=+document.getElementById('roi-mat').value;
+  document.getElementById('roi-rv-v').textContent=rev>=1e6?`$${(rev/1e6).toFixed(1)}M`:`$${(rev/1e3).toFixed(0)}K`;
+  document.getElementById('roi-j-v').textContent=jurs;
+  const fine=Math.min(rev*.04,20e6);
+  const b4=Math.min(80000+jurs*12000,180000);
+  const us=Math.max(499,Math.min(499+jurs*700+(1-mat*.25)*1800,12000));
+  const save=b4-us;
+  document.getElementById('roi-fine').textContent=fmtM(fine);
+  document.getElementById('roi-b4').textContent=fmtM(b4);
+  document.getElementById('roi-us').textContent=fmtM(us);
+  document.getElementById('roi-save').textContent=fmtM(save);
+}
+calcROI();
+
+/* ═══════════════════════════════════════════════
+   PRICING CALCULATOR
+════════════════════════════════════════════════ */
+function calcPricing(){
+  const boxes=[...document.querySelectorAll('.prc-chk input:checked')];
+  const express=document.getElementById('prc-express').checked;
+  let lo=0,hi=0,b4=0,items=[];
+  boxes.forEach(b=>{lo+=+b.dataset.lo;hi+=+b.dataset.hi;b4+=+b.dataset.b4;const lbl=b.parentElement.querySelector('.prc-cn')?.textContent||'Service';items.push({n:lbl,p:`$${(+b.dataset.lo).toLocaleString()}–$${(+b.dataset.hi).toLocaleString()}`})});
+  if(express){lo+=300;hi+=500;items.push({n:'Express 24-hour delivery',p:'$300–$500'})}
+  const save=b4-hi;
+  const el=id=>document.getElementById(id);
+  el('prc-total').textContent=boxes.length?`$${lo.toLocaleString()}`:'$0';
+  el('prc-rng').textContent=boxes.length?`Estimated range: $${lo.toLocaleString()} – $${hi.toLocaleString()}`:'Select services to see your estimate';
+  const bd=el('prc-bdown');bd.innerHTML=items.map(i=>`<li><span class="bname">${i.n}</span><span class="bprice">${i.p}</span></li>`).join('');
+  const sb=el('prc-save-blk');
+  if(boxes.length&&save>0){sb.style.display='block';el('prc-sn').textContent=`$${save.toLocaleString()}`}else{sb.style.display='none'}
+  el('prc-empty').style.display=boxes.length?'none':'block';
+}
+
+/* ═══════════════════════════════════════════════
+   COUNTERS
+════════════════════════════════════════════════ */
+const SC='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&';
+function animCounter(el){
+  const t=+el.dataset.t,s=el.dataset.s||'',dur=900,st=performance.now();
+  (function u(now){
+    const p=Math.min((now-st)/dur,1),ease=1-Math.pow(1-p,3),c=Math.floor(ease*t);
+    el.textContent=(p<.8?c+SC[Math.floor(Math.random()*SC.length)]:c)+s;
+    if(p<1)requestAnimationFrame(u);else el.textContent=t+s;
+  })(st);
+}
+const cObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){animCounter(e.target);cObs.unobserve(e.target)}})},{threshold:.5});
+document.querySelectorAll('.counter').forEach(el=>cObs.observe(el));
+
+/* ═══════════════════════════════════════════════
+   SCROLL REVEAL
+════════════════════════════════════════════════ */
+const revObs=new IntersectionObserver(es=>{es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('on'),i*40);revObs.unobserve(e.target)}})},{threshold:.04});
+document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+/* ═══════════════════════════════════════════════
+   HERO LINE REVEAL
+════════════════════════════════════════════════ */
+window.addEventListener('load',()=>document.querySelectorAll('.h1-line').forEach((l,i)=>setTimeout(()=>l.classList.add('vis'),180+i*130)));
+
+/* ═══════════════════════════════════════════════
+   STEPS ANIMATION
+════════════════════════════════════════════════ */
+const stepsEl=document.getElementById('steps-row');
+new IntersectionObserver(([e])=>{
+  if(e.isIntersecting)[...stepsEl.querySelectorAll('.step')].forEach((s,i)=>setTimeout(()=>s.classList.add('lit'),i*200));
+},{threshold:.08}).observe(stepsEl);
+
+/* ═══════════════════════════════════════════════
+   COMPARE TABLE ROW REVEAL
+════════════════════════════════════════════════ */
+new IntersectionObserver(([e])=>{
+  if(e.isIntersecting)document.querySelectorAll('.c-row').forEach((r,i)=>setTimeout(()=>r.classList.add('on'),i*90));
+},{threshold:.15}).observe(document.getElementById('compare-tbl'));
+
+/* ═══════════════════════════════════════════════
+   3D CARD TILT
+════════════════════════════════════════════════ */
+document.addEventListener('mousemove',e=>{
+  const c=e.target.closest('.svc-card');
+  if(!c)return;
+  const r=c.getBoundingClientRect();
+  const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+  c.style.transform=`perspective(700px) rotateY(${x*7}deg) rotateX(${-y*7}deg) scale(1.015)`;
+  c.style.transition='transform .07s';
+});
+document.addEventListener('mouseleave',e=>{
+  const c=e.target.closest?.('.svc-card');
+  if(c){c.style.transform='perspective(700px) rotateX(0) rotateY(0) scale(1)';c.style.transition='transform .5s cubic-bezier(.16,1,.3,1)'}
+},true);
+
+/* ═══════════════════════════════════════════════
+   TEXT SCRAMBLE
+════════════════════════════════════════════════ */
+document.querySelectorAll('.sc-target').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{
+    const orig=el.dataset.orig||(el.dataset.orig=el.textContent);
+    let i=0;const iv=setInterval(()=>{
+      el.textContent=orig.split('').map((c,idx)=>idx<i?orig[idx]:c===' '?' ':SC[Math.floor(Math.random()*SC.length)]).join('');
+      i+=.65;if(i>=orig.length){el.textContent=orig;clearInterval(iv)}
+    },22);
+  });
+});
+
+/* ═══════════════════════════════════════════════
+   MAGNETIC BUTTONS
+════════════════════════════════════════════════ */
+document.querySelectorAll('.magnetic').forEach(el=>{
+  el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect();const x=(e.clientX-r.left-r.width/2)*.28,y=(e.clientY-r.top-r.height/2)*.28;el.style.transform=`translate(${x}px,${y}px)`;el.style.transition='transform .1s'});
+  el.addEventListener('mouseleave',()=>{el.style.transform='translate(0,0)';el.style.transition='transform .5s cubic-bezier(.16,1,.3,1)'});
+});
+
+/* ═══════════════════════════════════════════════
+   TABS
+════════════════════════════════════════════════ */
+function showTab(n,btn){
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+n).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ═══════════════════════════════════════════════
+   FAQ
+════════════════════════════════════════════════ */
+function faqT(el){const item=el.parentElement,was=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!was)item.classList.add('open')}
+
+/* ═══════════════════════════════════════════════
+   THEME TOGGLE
+════════════════════════════════════════════════ */
+function toggleTheme(){
+  const h=document.documentElement,light=h.dataset.theme==='light';
+  h.dataset.theme=light?'dark':'light';
+  document.getElementById('theme-btn').textContent=light?'◑ LIGHT':'◑ DARK';
+}
+
+/* ═══════════════════════════════════════════════
+   LANGUAGE
+════════════════════════════════════════════════ */
+function setLang(lang,btn){
+  document.querySelectorAll('.ctrl-g .ctrl-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  const map=LANGS[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const v=map[el.dataset.i18n];
+    if(!v)return;
+    if(['H1','H2','BUTTON','A'].includes(el.tagName)||el.classList.contains('cta-h'))el.innerHTML=v;
+    else el.textContent=v;
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   MOBILE NAV
+════════════════════════════════════════════════ */
+function toggleNav(){
+  const ham=document.getElementById('ham'),drawer=document.getElementById('mob-drawer');
+  ham.classList.toggle('open');drawer.classList.toggle('open');
+  document.body.classList.toggle('no-scroll',drawer.classList.contains('open'));
+}
+
+/* ═══════════════════════════════════════════════
+   MODALS
+════════════════════════════════════════════════ */
+function openModal(id){document.getElementById(id).classList.add('open');document.body.classList.add('no-scroll')}
+function closeModal(id){document.getElementById(id).classList.remove('open');document.body.classList.remove('no-scroll')}
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)closeModal(o.id)}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.overlay.open').forEach(o=>closeModal(o.id))});
+
+/* ═══════════════════════════════════════════════
+   REPORT PREVIEW PAGES
+════════════════════════════════════════════════ */
+function showRPPage(id,btn){
+  document.querySelectorAll('.rp-page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.rp-ni').forEach(b=>b.classList.remove('active'));
+  document.getElementById('rp-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ═══════════════════════════════════════════════
+   INTAKE FORM — STEP NAVIGATION
+════════════════════════════════════════════════ */
+let curStep=1;
+function showStep(n){
+  document.querySelectorAll('.fstep').forEach(s=>s.classList.remove('active'));
+  document.getElementById('fstep-'+n).classList.add('active');
+  for(let i=1;i<=3;i++)document.getElementById('si'+i).classList.toggle('done',i<=n);
+}
+function validateStep(n){
+  const step=document.getElementById('fstep-'+n);
+  const required=step.querySelectorAll('input[type=text][id], input[type=email][id]');
+  let valid=true;
+  required.forEach(f=>{
+    const required_ids=['f-fname','f-lname','f-email','f-co'];
+    if(required_ids.includes(f.id)&&!f.value.trim())valid=false;
+  });
+  if(n===1&&document.getElementById('f-email').value&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(document.getElementById('f-email').value))valid=false;
+  return valid;
+}
+function formNext(n){
+  const err=document.getElementById('f-error');
+  if(!validateStep(n)){err.style.display='block';err.textContent=n===1?'Please fill in your name, email, and company name.':'Please fill in all required fields.';return}
+  err.style.display='none';curStep=n+1;showStep(curStep);
+}
+function formBack(n){curStep=n-1;showStep(curStep)}
+
+/* ═══════════════════════════════════════════════
+   FORM SUBMISSION → SUPABASE REST API
+════════════════════════════════════════════════ */
+async function formSubmit(){
+  const btn=document.getElementById('f-submit-btn');
+  const loading=document.getElementById('f-loading');
+  const err=document.getElementById('f-error');
+
+  // Capture pricing calculator selections
+  const selectedServices=[];
+  document.querySelectorAll('.prc-chk input:checked').forEach(b=>{
+    const label=b.parentElement.querySelector('.prc-cn')?.textContent||'';
+    const lo=+b.dataset.lo, hi=+b.dataset.hi;
+    selectedServices.push({name:label, range:`$${lo.toLocaleString()}–$${hi.toLocaleString()}`});
+  });
+  const expressDelivery=document.getElementById('prc-express')?.checked||false;
+  const quoteLow=selectedServices.reduce((s,i)=>s+(+i.range.replace(/\$|,|–.*/g,'')),0)+(expressDelivery?300:0);
+  const quoteHigh=selectedServices.reduce((s,i)=>s+(+i.range.replace(/.*–\$/,'').replace(/,/g,'')),0)+(expressDelivery?500:0);
+  const quoteTotal=selectedServices.length?`$${quoteLow.toLocaleString()} – $${quoteHigh.toLocaleString()}`:'No services selected in calculator';
+
+  const data={
+    first_name:document.getElementById('f-fname').value.trim(),
+    last_name:document.getElementById('f-lname').value.trim(),
+    email:document.getElementById('f-email').value.trim(),
+    company:document.getElementById('f-co').value.trim(),
+    job_title:document.getElementById('f-title').value.trim(),
+    company_size:document.getElementById('f-size').value,
+    service:document.getElementById('f-svc').value,
+    jurisdiction:document.getElementById('f-jur').value,
+    timeline:document.getElementById('f-timeline').value,
+    notes:document.getElementById('f-notes').value.trim(),
+    budget:document.getElementById('f-budget').value,
+    source:document.getElementById('f-src').value,
+    nda_required:document.getElementById('f-nda').value==='true',
+    extra:document.getElementById('f-extra').value.trim(),
+    // Quote data
+    quote_services: selectedServices,
+    quote_total: quoteTotal,
+    quote_express: expressDelivery,
+  };
+  btn.style.display='none';loading.style.display='block';err.style.display='none';
+
+  // Fire Supabase in background — don't await, don't block
+  fetch(`${CFG.SUPABASE_URL}/rest/v1/leads`,{
+    method:'POST',
+    headers:{'apikey':CFG.SUPABASE_KEY,'Authorization':`Bearer ${CFG.SUPABASE_KEY}`,'Content-Type':'application/json','Prefer':'return=minimal'},
+    body:JSON.stringify(data)
+  }).catch(e=>console.warn('Supabase (background):', e));
+
+  // Send email via Resend — only awaited call
+  try{
+    const res = await fetch('/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if(!res.ok) throw new Error(`Email API ${res.status}`);
+    document.querySelectorAll('.fstep').forEach(s=>s.classList.remove('active'));
+    document.getElementById('fstep-success').classList.add('active');
+  }catch(e){
+    loading.style.display='none';btn.style.display='block';
+    err.style.display='block';err.textContent='Submission failed. Please email us directly at contact@benchbrex.co';
+    console.error('Send error:', e);
+  }
+}
+</script>
+</body>
+</html>
