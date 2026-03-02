@@ -2133,12 +2133,7 @@ async function formSubmit(){
   };
   btn.style.display='none';loading.style.display='block';err.style.display='none';
 
-  // Fire Supabase in background — never blocks
-  fetch(`${CFG.SUPABASE_URL}/rest/v1/leads`,{
-    method:'POST',
-    headers:{'apikey':CFG.SUPABASE_KEY,'Authorization':`Bearer ${CFG.SUPABASE_KEY}`,'Content-Type':'application/json','Prefer':'return=minimal'},
-    body:JSON.stringify(data)
-  }).catch(e=>console.warn('Supabase:', e));
+  // Supabase save handled server-side in /api/send-email to bypass India ISP block
 
   // Fire email in background — never blocks, never shows error to user
   fetch('/api/send-email',{
