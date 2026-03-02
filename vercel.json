@@ -1,11 +1,11 @@
 {
   "functions": {
-    "api/send-email.js": {
-      "maxDuration": 10
-    }
+    "api/send-email.js": { "maxDuration": 10 },
+    "api/leads.js": { "maxDuration": 10 }
   },
   "rewrites": [
     { "source": "/crm", "destination": "/crm.html" },
-    { "source": "/api/send-email", "destination": "/api/send-email.js" }
+    { "source": "/api/send-email", "destination": "/api/send-email.js" },
+    { "source": "/api/leads", "destination": "/api/leads.js" }
   ]
 }
