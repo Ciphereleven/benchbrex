@@ -3,7 +3,33 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  const SUPABASE_URL = 'https://zowbwgzslqxrqdpoimac.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_I7_Xi25VO1-xaDjpi7VDsA_l5938yBC';
   const d = req.body;
+
+  // Save to Supabase from Vercel — bypasses India ISP block
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        first_name: d.first_name, last_name: d.last_name, email: d.email,
+        company: d.company, job_title: d.job_title, company_size: d.company_size,
+        service: d.service, jurisdiction: d.jurisdiction, timeline: d.timeline,
+        notes: d.notes, budget: d.budget, source: d.source,
+        nda_required: d.nda_required, extra: d.extra,
+        quote_services: d.quote_services ? JSON.stringify(d.quote_services) : null,
+        quote_total: d.quote_total, quote_express: d.quote_express || false,
+        status: 'new'
+      })
+    });
+  } catch(e) { console.warn('Supabase save:', e); }
+
   const hasQuote = d.quote_services && d.quote_services.length > 0;
 
   const quoteRows = hasQuote
