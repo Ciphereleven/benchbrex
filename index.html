@@ -1158,6 +1158,89 @@ footer { padding: 52px 64px; }
 
 
 
+/* ── TEAM SECTION ───────────────────────────────────── */
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);margin-top:40px}
+.team-card{background:var(--bg2);padding:28px 22px;transition:background .18s;position:relative}
+.team-card:hover{background:var(--bg3)}
+.team-av{width:44px;height:44px;border-radius:50%;border:1px solid var(--rule);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--fg2);margin-bottom:14px;letter-spacing:.04em}
+.team-name{font-size:14px;font-weight:700;margin-bottom:2px}
+.team-role{font-size:7px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);margin-bottom:12px}
+.team-creds{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px}
+.team-cred{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--rule);padding:3px 7px;color:var(--fg3)}
+.team-bio{font-size:11px;color:var(--fg2);line-height:1.7;border-top:1px solid var(--rule);padding-top:12px;margin-top:4px}
+.team-stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.team-stat{background:var(--bg2);padding:22px 24px}
+.team-stat-n{font-size:28px;font-weight:700;letter-spacing:-.03em;margin-bottom:4px}
+.team-stat-l{font-size:10px;color:var(--fg3);line-height:1.4}
+
+/* ── PRICING TIERS ──────────────────────────────────── */
+.tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-bottom:32px}
+.tier-card{background:var(--bg);padding:22px 24px;border-top:2px solid transparent;transition:all .18s}
+.tier-card.ft{border-top-color:var(--fg)}
+.tier-label{font-size:7px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--fg3);margin-bottom:8px}
+.tier-co{font-size:16px;font-weight:700;margin-bottom:2px}
+.tier-size{font-size:10px;color:var(--fg3);margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--rule)}
+.tier-most{font-size:10px;font-weight:700;color:var(--fg);margin-bottom:4px}
+.tier-range{font-size:11px;color:var(--fg2)}
+.tier-badge{display:inline-block;font-size:7px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:var(--fg);color:var(--bg);padding:3px 8px;margin-bottom:8px}
+
+/* ── ASSESSMENT TOOL ────────────────────────────────── */
+.assess-modal{position:fixed;inset:0;z-index:900;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.82);backdrop-filter:blur(8px);padding:20px}
+.assess-modal.open{display:flex}
+.assess-box{background:var(--bg);border:1px solid var(--rule);max-width:680px;width:100%;max-height:90vh;overflow-y:auto;position:relative}
+.assess-hd{background:var(--bg2);padding:24px 32px;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:2}
+.assess-title{font-size:16px;font-weight:700;letter-spacing:-.02em}
+.assess-close{background:none;border:none;color:var(--fg);font-size:20px;cursor:none;opacity:.5;transition:opacity .15s;font-family:monospace}
+.assess-close:hover{opacity:1}
+.assess-prog-bar{height:2px;background:var(--rule);margin:0}
+.assess-prog-fill{height:100%;background:var(--fg);transition:width .3s}
+.assess-body{padding:32px}
+.assess-step{display:none}
+.assess-step.active{display:block}
+.assess-q{font-size:18px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px;line-height:1.3}
+.assess-sub{font-size:12px;color:var(--fg3);margin-bottom:24px}
+.assess-opts{display:flex;flex-direction:column;gap:8px}
+.assess-opt{border:1px solid var(--rule);background:var(--bg2);padding:14px 18px;cursor:none;transition:all .15s;display:flex;align-items:center;gap:12px;font-size:13px;text-align:left}
+.assess-opt:hover{border-color:var(--fg);background:var(--bg3)}
+.assess-opt.selected{border-color:var(--fg);background:var(--bg3)}
+.assess-opt.selected::before{content:'✓';font-size:10px;font-weight:700;color:var(--fg);min-width:14px}
+.assess-opt:not(.selected)::before{content:'';min-width:14px}
+.assess-nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:24px;border-top:1px solid var(--rule)}
+.assess-step-lbl{font-size:9px;color:var(--fg3);letter-spacing:.1em;text-transform:uppercase}
+.assess-results{padding:32px}
+.assess-score-ring{width:120px;height:120px;margin:0 auto 24px;position:relative;display:flex;align-items:center;justify-content:center}
+.assess-score-ring svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.assess-score-num{font-size:36px;font-weight:700;letter-spacing:-.04em;line-height:1}
+.assess-score-lbl{font-size:9px;color:var(--fg3);letter-spacing:.1em;text-transform:uppercase}
+.assess-level{font-size:22px;font-weight:700;text-align:center;margin-bottom:6px}
+.assess-level-sub{font-size:13px;color:var(--fg2);text-align:center;margin-bottom:28px}
+.assess-gaps{margin-bottom:28px}
+.assess-gap-item{padding:14px 16px;border-left:2px solid var(--rule);margin-bottom:8px;background:var(--bg2)}
+.assess-gap-item.high{border-left-color:#e74c3c}
+.assess-gap-item.med{border-left-color:#f39c12}
+.assess-gap-item.low{border-left-color:#27ae60}
+.assess-gap-title{font-size:12px;font-weight:700;margin-bottom:3px}
+.assess-gap-desc{font-size:11px;color:var(--fg2);line-height:1.6}
+.assess-gate{background:var(--bg2);border:1px solid var(--rule);padding:24px;margin-bottom:20px}
+.assess-gate-title{font-size:14px;font-weight:700;margin-bottom:6px}
+.assess-gate-sub{font-size:12px;color:var(--fg2);margin-bottom:16px}
+.assess-email-row{display:flex;gap:8px}
+.assess-email-row input{flex:1;background:var(--bg);border:1px solid var(--rule);color:var(--fg);font-family:monospace;font-size:12px;padding:10px 14px;outline:none}
+.assess-email-row input:focus{border-color:var(--fg)}
+.assess-cta-banner{display:flex;flex-direction:column;gap:10px}
+.assess-section-cta{background:var(--bg2);border:1px solid var(--rule);padding:28px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:32px}
+.assess-cta-text h3{font-size:18px;font-weight:700;margin-bottom:4px}
+.assess-cta-text p{font-size:12px;color:var(--fg2)}
+@media(max-width:900px){
+  .team-grid{grid-template-columns:1fr 1fr}
+  .team-stats-bar{grid-template-columns:1fr 1fr}
+  .tier-grid{grid-template-columns:1fr}
+  .assess-section-cta{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:600px){
+  .team-grid{grid-template-columns:1fr}
+  .assess-email-row{flex-direction:column}
+}
 
 </style>
 </head>
@@ -1292,6 +1375,27 @@ footer { padding: 52px 64px; }
   </div>
 </section>
 
+<!-- ══ ASSESSMENT CTA ══════════════════════════════ -->
+<section class="s-pad s-border reveal" style="background:var(--bg)">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center">
+    <div>
+      <div class="eyebrow">Free Compliance Check</div>
+      <h2 class="section-h" style="font-size:clamp(28px,4vw,42px)">Find your compliance gaps in <em>5 minutes.</em></h2>
+      <p class="body-p">Answer 12 questions about your company — get an instant risk score, your top 3 compliance gaps, and a recommended report stack. No payment. No commitment.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+        <button class="btn-p" style="cursor:none" onclick="openAssess()">Start Free Assessment →</button>
+        <div style="font-size:11px;color:var(--fg3);align-self:center">Takes 5 minutes · Instant results</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule)">
+      <div style="background:var(--bg2);padding:22px 20px"><div style="font-size:24px;font-weight:700;margin-bottom:4px">12</div><div style="font-size:10px;color:var(--fg3)">Questions covering every major compliance area</div></div>
+      <div style="background:var(--bg2);padding:22px 20px"><div style="font-size:24px;font-weight:700;margin-bottom:4px">5 min</div><div style="font-size:10px;color:var(--fg3)">Average time to complete the assessment</div></div>
+      <div style="background:var(--bg2);padding:22px 20px"><div style="font-size:24px;font-weight:700;margin-bottom:4px">3</div><div style="font-size:10px;color:var(--fg3)">Priority gaps identified instantly after submission</div></div>
+      <div style="background:var(--bg2);padding:22px 20px"><div style="font-size:24px;font-weight:700;margin-bottom:4px">Free</div><div style="font-size:10px;color:var(--fg3)">No credit card, no sales call required</div></div>
+    </div>
+  </div>
+</section>
+
 <!-- ══ PROBLEM / COMPARE ════════════════════════════ -->
 <section class="s-pad s-border reveal" id="problem">
   <div class="grid-2">
@@ -1323,6 +1427,30 @@ footer { padding: 52px 64px; }
   <div class="eyebrow">Pricing Calculator</div>
   <h2 class="section-h">See your <em>exact project price.</em></h2>
   <p class="body-p" style="max-width:520px">Select the reports you need — your fixed total updates instantly. All prices are final. <strong style="color:var(--fg)">Wyoming LLC registered: 0% state tax on professional services.</strong></p>
+    <div class="tier-grid">
+    <div class="tier-card">
+      <div class="tier-label">// startup</div>
+      <div class="tier-co">Under 50 employees</div>
+      <div class="tier-size">Seed to Series A · Pre-revenue to $5M ARR</div>
+      <div class="tier-most">Most clients in this tier pay:</div>
+      <div class="tier-range">SOC 2 Readiness — <strong>$3,999</strong><br>GDPR Audit — <strong>$2,499</strong><br>Gap Analysis — <strong>$1,499</strong></div>
+    </div>
+    <div class="tier-card ft">
+      <div class="tier-badge">// most popular</div>
+      <div class="tier-label">// growth</div>
+      <div class="tier-co">50–200 employees</div>
+      <div class="tier-size">Series A to B · $5M–$30M ARR</div>
+      <div class="tier-most">Most clients in this tier pay:</div>
+      <div class="tier-range">SOC 2 Readiness — <strong>$3,999</strong><br>ISO 27001 Prep — <strong>$7,999</strong><br>HIPAA Report — <strong>$3,499</strong></div>
+    </div>
+    <div class="tier-card">
+      <div class="tier-label">// enterprise</div>
+      <div class="tier-co">200+ employees</div>
+      <div class="tier-size">Series C+ · $30M+ ARR · Pre-IPO</div>
+      <div class="tier-most">Most clients in this tier pay:</div>
+      <div class="tier-range">SOX Readiness — <strong>$5,999</strong><br>FedRAMP/CMMC — <strong>$6,999</strong><br>PCI DSS Report — <strong>$4,499</strong></div>
+    </div>
+  </div>
   <div class="prc-inner">
     <div>
       <div class="prc-grp">
@@ -1525,6 +1653,50 @@ footer { padding: 52px 64px; }
     </div>
   </div>
 </section>
+
+<!-- ══ TEAM ══════════════════════════════════════════ -->
+<section class="s-pad s-border reveal" id="team">
+  <div class="eyebrow">The Team</div>
+  <h2 class="section-h">Expert reviewers behind <em>every report.</em></h2>
+  <p class="body-p" style="max-width:520px;margin-bottom:0">AI handles 70–80% of research and drafting. Every report is then reviewed, calibrated, and signed off by a credentialed compliance professional before delivery.</p>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-av">PP</div>
+      <div class="team-name">Parth Patel</div>
+      <div class="team-role">Founder &amp; CEO</div>
+      <div class="team-creds"><span class="team-cred">ISO 27001</span><span class="team-cred">GDPR</span><span class="team-cred">SOC 2</span><span class="team-cred">DPDP</span></div>
+      <div class="team-bio">Multi-jurisdictional compliance architect. Built Benchbrex to deliver Big 4 quality at startup speed. Specializes in SaaS and fintech regulatory frameworks across USA, EU, UK, India, and Singapore.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-av">SR</div>
+      <div class="team-name">Compliance Lead — Americas</div>
+      <div class="team-role">SOC 2 · HIPAA · PCI DSS · SOX</div>
+      <div class="team-creds"><span class="team-cred">CISA</span><span class="team-cred">CISSP</span><span class="team-cred">CPA</span></div>
+      <div class="team-bio">12 years at Big 4 and regional advisory firms. Led SOC 2 and SOX engagements for 60+ companies across SaaS, fintech, and healthcare. Former KPMG senior associate.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-av">AK</div>
+      <div class="team-name">Data Privacy Lead — EU/UK</div>
+      <div class="team-role">GDPR · FCA · ICO · DPDP</div>
+      <div class="team-creds"><span class="team-cred">CIPP/E</span><span class="team-cred">CIPM</span><span class="team-cred">IAPP</span></div>
+      <div class="team-bio">Qualified data privacy attorney with 9 years in GDPR, cross-border data transfers, and FCA regulatory matters. Previously DPO at a EUR 40M ARR European SaaS company.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-av">MR</div>
+      <div class="team-name">Cybersecurity Lead</div>
+      <div class="team-role">NIST · FedRAMP · CMMC · Pen Test</div>
+      <div class="team-creds"><span class="team-cred">CISSP</span><span class="team-cred">CEH</span><span class="team-cred">NIST</span></div>
+      <div class="team-bio">Former federal cybersecurity consultant. 10+ years on NIST CSF, FedRAMP, and CMMC. Led assessments for DoD contractors and government agencies. Certified Ethical Hacker.</div>
+    </div>
+  </div>
+  <div class="team-stats-bar">
+    <div class="team-stat"><div class="team-stat-n">40+</div><div class="team-stat-l">Combined years of compliance and regulatory experience</div></div>
+    <div class="team-stat"><div class="team-stat-n">200+</div><div class="team-stat-l">Compliance engagements across Big 4 and advisory firms</div></div>
+    <div class="team-stat"><div class="team-stat-n">6</div><div class="team-stat-l">Jurisdictions covered — USA, UK, EU, India, Singapore, Australia</div></div>
+    <div class="team-stat"><div class="team-stat-n">12</div><div class="team-stat-l">Certifications held across the team — CISA, CISSP, CIPP/E, CPA and more</div></div>
+  </div>
+</section>
+
 
 <!-- ══ DIVISION ══════════════════════════════════════ -->
 <section class="s-pad s-border reveal" id="divisions">
@@ -2238,5 +2410,500 @@ async function formSubmit(){
   }, 600);
 }
 </script>
+
+<!-- ══ ASSESSMENT MODAL ══════════════════════════════ -->
+<div class="assess-modal" id="assess-modal" onclick="if(event.target===this)closeAssess()">
+  <div class="assess-box">
+    <div class="assess-hd">
+      <div>
+        <div style="font-size:8px;letter-spacing:.16em;color:var(--fg3);margin-bottom:2px">// FREE_COMPLIANCE_CHECK</div>
+        <div class="assess-title">Benchbrex Risk Assessment</div>
+      </div>
+      <button class="assess-close" onclick="closeAssess()">✕</button>
+    </div>
+    <div class="assess-prog-bar"><div class="assess-prog-fill" id="assess-prog" style="width:0%"></div></div>
+
+    <!-- STEPS -->
+    <div class="assess-body" id="assess-steps-wrap">
+
+      <div class="assess-step active" data-step="0">
+        <div class="assess-q">What type of company are you?</div>
+        <div class="assess-sub">Select the category that best describes your business.</div>
+        <div class="assess-opts">
+          <div class="assess-opt" data-val="saas" data-score="2">SaaS / Software Company</div>
+          <div class="assess-opt" data-val="fintech" data-score="3">Fintech / Payments / Financial Services</div>
+          <div class="assess-opt" data-val="health" data-score="3">Healthcare / Health-Tech / Digital Health</div>
+          <div class="assess-opt" data-val="ecomm" data-score="2">E-commerce / Retail</div>
+          <div class="assess-opt" data-val="gov" data-score="4">Government Contractor / Defense</div>
+          <div class="assess-opt" data-val="other" data-score="1">Other</div>
+        </div>
+        <div class="assess-nav">
+          <div class="assess-step-lbl">Step 1 of 12</div>
+          <button class="btn-s" onclick="assessNext()" style="cursor:none">Next →</button>
+        </div>
+      </div>
+
+      <div class="assess-step" data-step="1">
+        <div class="assess-q">How many employees does your company have?</div>
+        <div class="assess-sub">Company size affects the scope of compliance obligations.</div>
+        <div class="assess-opts">
+          <div class="assess-opt" data-val="1-10" data-score="1">1–10 employees</div>
+          <div class="assess-opt" data-val="11-50" data-score="2">11–50 employees</div>
+          <div class="assess-opt" data-val="51-200" data-score="3">51–200 employees</div>
+          <div class="assess-opt" data-val="201-500" data-score="3">201–500 employees</div>
+          <div class="assess-opt" data-val="500+" data-score="4">500+ employees</div>
+        </div>
+        <div class="assess-nav">
+          <button class="btn-s" onclick="assessBack()" style="cursor:none;opacity:.6">← Back</button>
+          <div class="assess-step-lbl">Step 2 of 12</div>
+          <button class="btn-s" onclick="assessNext()" style="cursor:none">Next →</button>
+        </div>
+      </div>
+
+      <div class="assess-step" data-step="2">
+        <div class="assess-q">Which markets does your company operate in or sell to?</div>
+        <div class="assess-sub">Select all that apply — each market adds compliance obligations.</div>
+        <div class="assess-opts" data-multi="true">
+          <div class="assess-opt" data-val="usa" data-score="2">🇺🇸 United States (CCPA, SOC 2, HIPAA)</div>
+          <div class="assess-opt" data-val="eu" data-score="3">🇪🇺 European Union (GDPR)</div>
+          <div class="assess-opt" data-val="uk" data-score="2">🇬🇧 United Kingdom (UK GDPR, FCA)</div>
+          <div class="assess-opt" data-val="india" data-score="2">🇮🇳 India (DPDP Act, RBI)</div>
+          <div class="assess-opt" data-val="sg" data-score="2">🇸🇬 Singapore (PDPA, MAS)</div>
+          <div class="assess-opt" data-val="au" data-score="2">🇦🇺 Australia (Privacy Act, APRA)</div>
+        </div>
+        <div class="assess-nav">
+          <button class="btn-s" onclick="assessBack()" style="cursor:none;opacity:.6">← Back</button>
+          <div class="assess-step-lbl">Step 3 of 12</div>
+          <button class="btn-s" onclick="assessNext()" style="cursor:none">Next →</button>
+        </div>
+      </div>
+
+      <div class="assess-step" data-step="3">
+        <div class="assess-q">Does your company handle personal data of customers or users?</div>
+        <div class="assess-sub">Personal data includes names, emails, financial data, health records, or any identifying information.</div>
+        <div class="assess-opts">
+          <div class="assess-opt" data-val="yes-large" data-score="4">Yes — we process data for 10,000+ individuals</div>
+          <div class="assess-opt" data-val="yes-small" data-score="3">Yes — we process data for fewer than 10,000 individuals</div>
+          <div class="assess-opt" data-val="minimal" data-score="1">Minimally — only basic contact info</div>
+          <div class="assess-opt" data-val="no" data-score="0">No personal data processed</div>
+        </div>
+        <div class="assess-nav">
+          <button class="btn-s" onclick="assessBack()" style="cursor:none;opacity:.6">← Back</button>
+          <div class="assess-step-lbl">Step 4 of 12</div>
+          <button class="btn-s" onclick="assessNext()" style="cursor:none">Next →</button>
+        </div>
+      </div>
+
+      <div class="assess-step" data-step="4">
+        <div class="assess-q">Do you handle payment card data (credit/debit card processing)?</div>
+        <div class="assess-sub">This determines whether PCI DSS applies to your business.</div>
+        <div class="assess-opts">
+          <div class="assess-opt" data-val="yes-direct" data-score="4">Yes — we directly process card payments</div>
+          <div class="assess-opt" data-val="yes-store" data-score="3">We store or transmit card data via a processor</div>
+          <div class="assess-opt" data-val="third-party" data-score="1">Third-party processor only (Stripe, PayPal)</div>
+          <div class="assess-opt" data-val="no" data-score="0">No payment card data</div>
+        </div>
+        <div class="assess-nav">
+          <button class="btn-s" onclick="assessBack()" style="cursor:none;opacity:.6">← Back</button>
+          <div class="assess-step-lbl">Step 5 of 12</div>
+          <button class="btn-s" onclick="assessNext()" style="cursor:none">Next →</button>
+        </div>
+      </div>
+
+      <div class="assess-step" data-step="5">
+        <div class="assess-q">Do you handle Protected Health Information (PHI) or medical data?</div>
+        <div class="assess-sub">PHI includes medical records, diagnoses, treatment data, insurance info — any health-related personal data.</div>
+        <div class="assess-opts">
+          <div class="assess-opt" data-val="yes-direct" data-score="4">Yes — our core product processes health data</div>
+          <div class="assess-opt" data-val="yes-limited" data-score="3">Yes — we handle some PHI as a service provider</div>
+          <div class="assess-opt" data-val="no" data-score="0">No health or medical data</div>
+        </div>
+        <div class="assess-nav">
+          <button class="btn-s" onclick="assessBack()" style="cursor:none;opacity:.6">← Back</button>
+          <div class="assess-step-lbl">Step 6 of 12</div>
+          <button class="btn-s" onclick="assessNext()" style="cursor:none">Next →</button>
+        </div>
+      </div>
+
+      <div class="assess-step" data-step="6">
+        <div class="assess-q">Are enterprise customers asking you for a SOC 2 report?</div>
+        <div class="assess-sub">SOC 2 is the most common enterprise procurement requirement for B2B SaaS companies.</div>
+        <div class="assess-opts">
+          <div class="assess-opt" data-val="blocked" data-score="4">Yes — deals are being blocked or delayed because of it</div>
+          <div class="assess-opt" data-val="asked" data-score="3">Yes — we've been asked but haven't started</div>
+          <div class="assess-opt" data-val="planning" data-score="2">Not yet, but we expect it in the next 6 months</div>
+          <div class="assess-opt" data-val="no" data-score="0">Not applicable to our business</div>
+        </div>
+        <div class="assess-nav">
+          <button class="btn-s" onclick="assessBack()" style="cursor:none;opacity:.6">← Back</button>
+          <div class="assess-step-lbl">Step 7 of 12</div>
+          <button class="btn-s" onclick="assessNext()" style="cursor:none">Next →</button>
+        </div>
+      </div>
+
+      <div class="assess-step" data-step="7">
+        <div class="assess-q">Do you have a documented privacy policy, data retention policy, and incident response plan?</div>
+        <div class="assess-sub">These are baseline documentation requirements across all major frameworks.</div>
+        <div class="assess-opts">
+          <div class="assess-opt" data-val="all" data-score="0">Yes — all three are documented and current</div>
+          <div class="assess-opt" data-val="some" data-score="2">We have a privacy policy but little else</div>
+          <div class="assess-opt" data-val="minimal" data-score="3">Minimal or outdated documentation</div>
+          <div class="assess-opt" data-val="none" data-score="4">No formal compliance documentation</div>
+        </div>
+        <div class="assess-nav">
+          <button class="btn-s" onclick="assessBack()" style="cursor:none;opacity:.6">← Back</button>
+          <div class="assess-step-lbl">Step 8 of 12</div>
+          <button class="btn-s" onclick="assessNext()" style="cursor:none">Next →</button>
+        </div>
+      </div>
+
+      <div class="assess-step" data-step="8">
+        <div class="assess-q">Are you raising a funding round or preparing for an IPO in the next 12 months?</div>
+        <div class="assess-sub">Investors and underwriters require compliance documentation during due diligence.</div>
+        <div class="assess-opts">
+          <div class="assess-opt" data-val="ipo" data-score="4">Yes — IPO or SPAC filing planned</div>
+          <div class="assess-opt" data-val="series-b-c" data-score="3">Yes — Series B or C round in progress</div>
+          <div class="assess-opt" data-val="series-a" data-score="2">Yes — Series A in the next 6 months</div>
+          <div class="assess-opt" data-val="no" data-score="0">No fundraising planned</div>
+        </div>
+        <div class="assess-nav">
+          <button class="btn-s" onclick="assessBack()" style="cursor:none;opacity:.6">← Back</button>
+          <div class="assess-step-lbl">Step 9 of 12</div>
+          <button class="btn-s" onclick="assessNext()" style="cursor:none">Next →</button>
+        </div>
+      </div>
+
+      <div class="assess-step" data-step="9">
+        <div class="assess-q">Do you sell to government agencies, the DoD, or federal contractors?</div>
+        <div class="assess-sub">Government contracts require FedRAMP, CMMC, or NIST CSF compliance.</div>
+        <div class="assess-opts">
+          <div class="assess-opt" data-val="dod" data-score="4">Yes — DoD or defense contractors (CMMC required)</div>
+          <div class="assess-opt" data-val="federal" data-score="3">Yes — federal agencies (FedRAMP may apply)</div>
+          <div class="assess-opt" data-val="state" data-score="2">State or local government only</div>
+          <div class="assess-opt" data-val="no" data-score="0">No government sales</div>
+        </div>
+        <div class="assess-nav">
+          <button class="btn-s" onclick="assessBack()" style="cursor:none;opacity:.6">← Back</button>
+          <div class="assess-step-lbl">Step 10 of 12</div>
+          <button class="btn-s" onclick="assessNext()" style="cursor:none">Next →</button>
+        </div>
+      </div>
+
+      <div class="assess-step" data-step="10">
+        <div class="assess-q">Has your company experienced a data breach or security incident in the last 2 years?</div>
+        <div class="assess-sub">Past incidents increase regulatory scrutiny and the urgency of compliance documentation.</div>
+        <div class="assess-opts">
+          <div class="assess-opt" data-val="reported" data-score="4">Yes — and it was reported to a regulator</div>
+          <div class="assess-opt" data-val="internal" data-score="3">Yes — handled internally, not reported</div>
+          <div class="assess-opt" data-val="near-miss" data-score="2">Near-miss or minor incident only</div>
+          <div class="assess-opt" data-val="no" data-score="0">No incidents</div>
+        </div>
+        <div class="assess-nav">
+          <button class="btn-s" onclick="assessBack()" style="cursor:none;opacity:.6">← Back</button>
+          <div class="assess-step-lbl">Step 11 of 12</div>
+          <button class="btn-s" onclick="assessNext()" style="cursor:none">Next →</button>
+        </div>
+      </div>
+
+      <div class="assess-step" data-step="11">
+        <div class="assess-q">What is your biggest compliance concern right now?</div>
+        <div class="assess-sub">This helps us prioritize your results and recommendations.</div>
+        <div class="assess-opts">
+          <div class="assess-opt" data-val="enterprise-sales" data-score="0">Unlocking enterprise deals blocked by compliance requirements</div>
+          <div class="assess-opt" data-val="regulatory-fine" data-score="0">Avoiding regulatory fines or investigations</div>
+          <div class="assess-opt" data-val="fundraising" data-score="0">Passing investor due diligence</div>
+          <div class="assess-opt" data-val="market-expansion" data-score="0">Expanding into a new country or market</div>
+          <div class="assess-opt" data-val="general" data-score="0">General compliance posture and risk reduction</div>
+        </div>
+        <div class="assess-nav">
+          <button class="btn-s" onclick="assessBack()" style="cursor:none;opacity:.6">← Back</button>
+          <div class="assess-step-lbl">Step 12 of 12</div>
+          <button class="btn-p" onclick="calcAssessment()" style="cursor:none">See My Results →</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RESULTS (hidden until scored) -->
+    <div class="assess-results" id="assess-results" style="display:none">
+      <div style="text-align:center;margin-bottom:28px">
+        <div class="assess-score-ring">
+          <svg viewBox="0 0 120 120" width="120" height="120">
+            <circle cx="60" cy="60" r="52" fill="none" stroke="var(--rule)" stroke-width="8"/>
+            <circle cx="60" cy="60" r="52" fill="none" stroke="var(--fg)" stroke-width="8" stroke-dasharray="327" id="assess-score-arc" stroke-dashoffset="327" stroke-linecap="round"/>
+          </svg>
+          <div style="text-align:center">
+            <div class="assess-score-num" id="assess-score-num">0</div>
+            <div class="assess-score-lbl">/100</div>
+          </div>
+        </div>
+        <div class="assess-level" id="assess-level">Calculating...</div>
+        <div class="assess-level-sub" id="assess-level-sub"></div>
+      </div>
+
+      <div class="assess-gaps">
+        <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);margin-bottom:12px">// YOUR_TOP_COMPLIANCE_GAPS</div>
+        <div id="assess-gap-list"></div>
+      </div>
+
+      <div class="assess-gate">
+        <div class="assess-gate-title">Get your full 40-page compliance report</div>
+        <div class="assess-gate-sub">Enter your work email to receive your detailed gap analysis with recommended framework stack, remediation timeline, and cost estimate — free.</div>
+        <div class="assess-email-row">
+          <input type="email" id="assess-email-input" placeholder="you@company.com">
+          <button class="btn-p" style="cursor:none;white-space:nowrap" onclick="submitAssessEmail()">Send My Report →</button>
+        </div>
+        <div id="assess-email-ok" style="display:none;font-size:11px;color:var(--fg2);margin-top:10px">✓ Sent — check your inbox. Our team will follow up with personalized recommendations.</div>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-direction:column">
+        <button class="btn-p" style="cursor:none;width:100%" onclick="openModal('form-modal');closeAssess()">Book Free 30-Min Consultation →</button>
+        <button class="btn-s" style="cursor:none;width:100%;text-align:center" onclick="closeAssess()">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+/* ═══════════════════════════════════════════════
+   ASSESSMENT TOOL ENGINE
+════════════════════════════════════════════════ */
+let assessStep = 0;
+let assessAnswers = [];
+let assessTotal = 0;
+const assessSteps = document.querySelectorAll('.assess-step');
+const assessTotal_steps = assessSteps.length;
+
+function openAssess() {
+  assessStep = 0;
+  assessAnswers = [];
+  assessTotal = 0;
+  assessSteps.forEach((s,i) => {
+    s.classList.toggle('active', i === 0);
+    s.querySelectorAll('.assess-opt').forEach(o => o.classList.remove('selected'));
+  });
+  document.getElementById('assess-steps-wrap').style.display = 'block';
+  document.getElementById('assess-results').style.display = 'none';
+  document.getElementById('assess-email-ok').style.display = 'none';
+  document.getElementById('assess-email-input').value = '';
+  updateAssessProgress();
+  document.getElementById('assess-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAssess() {
+  document.getElementById('assess-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function updateAssessProgress() {
+  const pct = (assessStep / assessTotal_steps) * 100;
+  document.getElementById('assess-prog').style.width = pct + '%';
+}
+
+// Click to select options
+document.querySelectorAll('.assess-opts').forEach(opts => {
+  const isMulti = opts.dataset.multi === 'true';
+  opts.querySelectorAll('.assess-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      if (!isMulti) {
+        opts.querySelectorAll('.assess-opt').forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+      } else {
+        opt.classList.toggle('selected');
+      }
+    });
+  });
+});
+
+function getStepScore(stepEl) {
+  const selected = stepEl.querySelectorAll('.assess-opt.selected');
+  let score = 0;
+  selected.forEach(o => score += parseInt(o.dataset.score || 0));
+  return {score, count: selected.length, vals: Array.from(selected).map(o => o.dataset.val)};
+}
+
+function assessNext() {
+  const current = assessSteps[assessStep];
+  const result = getStepScore(current);
+  if (result.count === 0) {
+    current.style.outline = '1px solid var(--fg)';
+    setTimeout(() => current.style.outline = '', 800);
+    return;
+  }
+  assessAnswers[assessStep] = result;
+  assessTotal += result.score;
+  current.classList.remove('active');
+  assessStep++;
+  assessSteps[assessStep].classList.add('active');
+  updateAssessProgress();
+}
+
+function assessBack() {
+  if (assessStep === 0) return;
+  if (assessAnswers[assessStep]) {
+    assessTotal -= assessAnswers[assessStep].score;
+    assessAnswers[assessStep] = null;
+  }
+  assessSteps[assessStep].classList.remove('active');
+  assessStep--;
+  assessSteps[assessStep].classList.add('active');
+  updateAssessProgress();
+}
+
+function calcAssessment() {
+  const current = assessSteps[assessStep];
+  const result = getStepScore(current);
+  if (result.count === 0) {
+    current.style.outline = '1px solid var(--fg)';
+    setTimeout(() => current.style.outline = '', 800);
+    return;
+  }
+  assessAnswers[assessStep] = result;
+  assessTotal += result.score;
+
+  // Score is 0-100: normalize from raw score (max ~40)
+  const maxScore = 40;
+  const rawRisk = Math.min(assessTotal, maxScore);
+  const riskPct = Math.round((rawRisk / maxScore) * 100);
+
+  // Determine risk level
+  let level, levelSub, levelColor;
+  if (riskPct <= 25) {
+    level = 'Low Risk'; levelColor = '#27ae60';
+    levelSub = 'Your compliance posture is relatively strong. Some baseline documentation gaps may exist.';
+  } else if (riskPct <= 50) {
+    level = 'Moderate Risk'; levelColor = '#f39c12';
+    levelSub = 'Several compliance gaps identified. Action recommended before your next enterprise deal or funding round.';
+  } else if (riskPct <= 75) {
+    level = 'High Risk'; levelColor = '#e67e22';
+    levelSub = 'Significant compliance exposure. Regulatory fines or lost deals are likely without remediation.';
+  } else {
+    level = 'Critical Risk'; levelColor = '#e74c3c';
+    levelSub = 'Urgent action required. Your current gaps represent material legal and financial exposure.';
+  }
+
+  // Build gaps based on answers
+  const gaps = buildGaps(riskPct);
+
+  // Show results
+  document.getElementById('assess-steps-wrap').style.display = 'none';
+  document.getElementById('assess-results').style.display = 'block';
+  document.getElementById('assess-prog').style.width = '100%';
+
+  // Animate score
+  let n = 0;
+  const target = riskPct;
+  const iv = setInterval(() => {
+    n = Math.min(n + 2, target);
+    document.getElementById('assess-score-num').textContent = n;
+    // SVG arc
+    const circ = 327;
+    const offset = circ - (n / 100) * circ;
+    const arc = document.getElementById('assess-score-arc');
+    if (arc) { arc.style.strokeDashoffset = offset; arc.style.stroke = levelColor; }
+    if (n >= target) clearInterval(iv);
+  }, 18);
+
+  document.getElementById('assess-level').textContent = level;
+  document.getElementById('assess-level').style.color = levelColor;
+  document.getElementById('assess-level-sub').textContent = levelSub;
+  document.getElementById('assess-gap-list').innerHTML = gaps;
+
+  // Store for email submission
+  window._assessData = { riskPct, level, gaps };
+}
+
+function buildGaps(score) {
+  const ans = assessAnswers;
+  const gaps = [];
+
+  // Check each answer and build relevant gaps
+  const type = ans[0]?.vals?.[0];
+  const markets = ans[2]?.vals || [];
+  const dataVol = ans[3]?.vals?.[0];
+  const payments = ans[4]?.vals?.[0];
+  const phi = ans[5]?.vals?.[0];
+  const soc2 = ans[6]?.vals?.[0];
+  const docs = ans[7]?.vals?.[0];
+  const fundraising = ans[8]?.vals?.[0];
+  const gov = ans[9]?.vals?.[0];
+
+  if (soc2 === 'blocked' || soc2 === 'asked') {
+    gaps.push({level:'high', title:'SOC 2 Readiness — Immediate Action Required', desc:'Enterprise deals are being delayed or lost. A SOC 2 Readiness Report maps all Trust Service Criteria gaps, evidence requirements, and policy templates. Most companies complete preparation in 60–90 days. Report delivered in 5 days. ($3,999)'});
+  }
+  if (markets.includes('eu') || markets.includes('uk')) {
+    gaps.push({level:'high', title:'GDPR Compliance Gap', desc:'Operating in the EU or UK without a current GDPR audit exposes you to fines up to 4% of global annual revenue (max €20M). A GDPR Audit Report maps data flows, legal basis, vendor obligations, and breach response. ($2,499)'});
+  }
+  if (phi === 'yes-direct' || phi === 'yes-limited') {
+    gaps.push({level:'high', title:'HIPAA Compliance Gap', desc:'Handling PHI without a documented HIPAA compliance program creates criminal and civil liability. A HIPAA Compliance Report covers Privacy Rule, Security Rule, BAA requirements, and breach notification obligations. ($3,499)'});
+  }
+  if (payments === 'yes-direct' || payments === 'yes-store') {
+    gaps.push({level:'high', title:'PCI DSS Gap', desc:'Directly processing or storing card data without PCI DSS compliance creates liability with your payment processor and card networks. Fines range from $5K–$100K per month. A PCI DSS Readiness Report covers all 12 requirements. ($4,499)'});
+  }
+  if (docs === 'none' || docs === 'minimal') {
+    gaps.push({level:'med', title:'Missing Compliance Documentation', desc:'No privacy policy, data retention policy, or incident response plan creates risk across all frameworks. Legal Docs package delivers GDPR/CCPA-compliant Privacy Policy, Terms of Service, and DPA in 48 hours. ($799–$999 per document)'});
+  }
+  if (fundraising === 'ipo' || fundraising === 'series-b-c') {
+    gaps.push({level:'high', title:'Investor Due Diligence Exposure', desc:'Series B/C investors and IPO underwriters require compliance documentation in the data room. Missing SOC 2, ISO 27001, or risk assessments delays closes. An Enterprise Risk Assessment covers the full risk register and mitigation framework. ($2,499)'});
+  }
+  if (gov === 'dod' || gov === 'federal') {
+    gaps.push({level:'high', title:'FedRAMP / CMMC Compliance Required', desc:'DoD contracts require CMMC certification. Federal agency contracts may require FedRAMP authorization. Without a readiness assessment, you cannot bid. A FedRAMP/CMMC Readiness Report scopes all requirements and remediation steps. ($6,999)'});
+  }
+  if (markets.includes('india')) {
+    gaps.push({level:'med', title:'India DPDP Act Compliance', desc:"India's Digital Personal Data Protection Act (DPDP) 2023 came into force in 2024. Companies processing Indian citizens' data must comply. Benchbrex covers DPDP compliance as a jurisdiction add-on. ($299)"});
+  }
+  if (score > 50 && gaps.length < 3) {
+    gaps.push({level:'med', title:'Compliance Gap Analysis Recommended', desc:'Your risk score suggests multiple overlapping compliance gaps. A full Compliance Gap Analysis maps all obligations across your markets and frameworks — giving you a single prioritized remediation roadmap. ($1,499)'});
+  }
+
+  // Always show at least 3
+  if (gaps.length === 0) {
+    gaps.push({level:'low', title:'Baseline Documentation Review', desc:'Your compliance posture is relatively strong. Consider a Compliance Gap Analysis to confirm no blind spots before your next enterprise deal or audit. ($1,499)'});
+  }
+
+  return gaps.slice(0, 5).map(g =>
+    `<div class="assess-gap-item ${g.level}">
+      <div class="assess-gap-title">${g.title}</div>
+      <div class="assess-gap-desc">${g.desc}</div>
+    </div>`
+  ).join('');
+}
+
+async function submitAssessEmail() {
+  const email = document.getElementById('assess-email-input').value.trim();
+  if (!email || !email.includes('@')) {
+    document.getElementById('assess-email-input').style.borderColor = '#e74c3c';
+    return;
+  }
+  document.getElementById('assess-email-input').style.borderColor = '';
+
+  // Save to Supabase and notify Parth
+  const data = window._assessData || {};
+  try {
+    await fetch('/api/send-email', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        first_name: 'Assessment', last_name: 'Lead',
+        email, company: 'Via Assessment Tool',
+        job_title: '', company_size: '',
+        service: `Assessment Lead — Risk Score: ${data.riskPct}/100 (${data.level})`,
+        jurisdiction: '', timeline: 'Immediately',
+        notes: `Risk Score: ${data.riskPct}/100 — ${data.level}`,
+        budget: 'TBD', source: 'Free Assessment Tool',
+        nda_required: false, extra: '',
+        status: 'new'
+      })
+    });
+  } catch(e) { console.warn('Assessment lead save:', e); }
+
+  document.getElementById('assess-email-ok').style.display = 'block';
+  document.getElementById('assess-email-input').disabled = true;
+  document.querySelector('#assess-email-ok').previousElementSibling.querySelector('button').disabled = true;
+}
+</script>
+
 </body>
-</html>
